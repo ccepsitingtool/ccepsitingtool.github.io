@@ -1,0 +1,8 @@
+layer,source,url
+AFFGEOID, 2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+GEOID, 2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+NAME,2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+LSAD,2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+ALAND,2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+AWATER,2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs
+FAKE_POP,2011-2015 ACS,http://factfinder2.census.gov/faces/nav/jsf/pages/programs.xhtml?program=acs

@@ -1,0 +1,10 @@
+id,name,type,category,new
+LSAD,LSAD,neighborhood,test category,p
+ALAND,ALAND,neighborhood,test category,t
+AWATER,AWATER,neighborhood,test category,x
+FAKE_POP,FAKE_POP,neighborhood,test category,b2
+three_day_ID,3 Day Sites,models,z
+ten_day_ID,10 Day Sites,models,z
+all_points_ID,All Sites,models,z
+dropoff_ID, Dropoff Sites,models,z
+top_points_ID, Top Center Points, models, z
