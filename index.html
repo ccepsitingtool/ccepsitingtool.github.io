@@ -7,7 +7,9 @@
 
   <title>CCEP | Voting Facility Siting Tools</title>
   
-  <link href='//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+  integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+  crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -37,39 +39,6 @@
 
   </div>
 </div>
-
-<!--<div id="narrative-row" class="row">
-  <div class="col-md-12">
-      <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
-        <button data-filter="children_in_poverty_perc" type="button" class="btn btn-default btn-block one" data-rel="one">
-          <img class="hidden-xs" src="assets/button-poverty.jpg"/>
-          <h4>Children in Poverty</h4>
-          <span class="subhead visible-sm">Among 25% of the poorest neighborhoods, more than 1 in 2 children live in poverty.</span>
-        </button>
-      </div>
-      <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
-        <button data-filter="single_mother_families_perc" type="button" class="btn btn-default btn-block two" data-rel="two">
-          <img class="hidden-xs" src="assets/button-singlemother.jpg"/>
-          <h4>Children in Single Mother Families</h4>
-          <span class="subhead visible-sm">Approximately 48% (almost 1 in 2) DC children live in families headed by single mothers.</span>
-        </button>
-      </div>
-      <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
-        <button data-filter="reading_perc" type="button" class="btn btn-default btn-block three" data-rel="three">
-          <img class="hidden-xs" src="assets/button-reading.jpg"/>
-          <h4>Students Proficient in Reading</h4>
-          <span class="subhead visible-sm">40% of DC neighborhoods have less than half of their students scoring proficient in reading.</span>
-        </button>
-      </div>
-      <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
-        <button data-filter="math_perc" type="button" class="btn btn-default btn-block four" data-rel="four">
-        <img class="hidden-xs" src="assets/button-math.jpg"/>
-          <h4>Students Proficient in Math</h4>
-          <span class="subhead visible-sm">Half of all DC neighborhoods have less than 55% of their students proficient in math.</span>
-        </button>
-      </div>
-  </div> 
-</div>-->
 
 <div class="posrel" style="width: 100%; overflow-x: hidden;">
   <div id="nav-panel" class="posabs">
@@ -105,10 +74,12 @@
           </div>
         </div> <!-- narrative cards here -->
   <div id="main-container" class="posabs" style="position:relative;">
+    
     <div class="menu-toggle posabs btn-danger">
       <strong class="closed">Choose a dataset</strong>
       <strong class="open">Hide menu</strong>
     </div>
+
       <div id="content-wrapper" class="col-lg-12 col-md-12 col-sm-12">
         <div id="content"></div> <!-- d3 viz written in here -->
         <div class="panel panel-default" id="legend-panel">
@@ -123,113 +94,53 @@
           <input id="zoom-box" type="checkbox" checked></input> <label for="zoom-box">Enable Zoom</label>
         </div>
       </div>
-  </div><!-- /#main-container -->
-<!--   <div id="details" class="panel panel-default">
-    <div class="panel-body">
-      <p class="lead">
-        <span id="visualized-metric">Total population</span><br />
-        <span id="visualized-measure">605,759</span>
-      </p>
-      <h4 class="neighborhood">Sacremento County</h4>
-      <table id="pop-info" class="table table-hover">
-        <tr data-type="LSAD">
-          <td>LSAD</td>
-          <td class="count align-right"></td>
-        </tr>
-        <tr data-type="ALAND">
-          <td>ALAND</td>
-          <td class="count align-right"></td>
-        </tr>
-        <tr data-type="AWATER">
-          <td>AWATER</td>
-          <td class="count align-right"></td>
-        </tr>
-        <tr data-type="FAKE_POP">
-          <td>FAKE_POP</td>
-          <td class="count align-right"></td>
-        </tr>
-      </table>
-      <h4 class="chart">Demographic Breakdown</h4>
-      <div class="chart"></div>
-    </div>
-  </div>  --><!-- narrative cards here -->
-  <div id="schools_panel" class="panel panel-default hide">
-    <button class="btn-danger btn-xs btn-panel-close" id="btnPanelClose">X Close</button>
-    <div class="panel-body">
-        <div class="hide" id="school_data">
-            <h4 class="school-name"></h4>
-            <table class="table table-hover">
-                <tbody>
-                <tr>
-                    <td>Enrollment</td>
-                    <td class="school-enrollment">getDisplayValue(school.NAME10, 'Name')</td>
-                </tr>
-                <tr>
-                    <td>TANF/SNAP eligible</td>
-                    <td class="school-tanfsnap">getDisplayValue(school.tanfsnap_perc, 'tanfsnap_perc')</td>
-                </tr>
-                <tr>
-                    <td>In-Seat attendance</td>
-                    <td class="school-attendance">getDisplayValue(school.isa_perc, 'isa_perc')</td>
-                </tr>
-                <tr>
-                    <td>Percent proficient at math</td>
-                    <td class="school-math">getDisplayValue(school.math_perc, 'math_perc')</td>
-                </tr>
-                <tr>
-                    <td>Percent proficient at reading</td>
-                    <td class="school-reading">getDisplayValue(school.reading_perc, 'reading_perc')</td>
-                </tr>
-                <tr>
-                    <td>Graduation rate</td>
-                    <td class="school-grad">getDisplayValue(school.grad_perc, 'grad_perc')</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-  </div>  
-</div>
-<div class="footer" style="position:relative;top:10px;">
-  <small class="col-md-10 col-lg-10 col-sm-10 col-md-offset-1 col-lg-offset-1 col-sm-offset-1" style="text-align:center;clear:both;">
-    <a href="http://www.dcactionforchildren.org/dc-kids-count-data-tools-acknowledgements">Credits &amp; acknowledgements</a> | <a href="http://www.dcactionforchildren.org/dc-kids-count-data-tools-methodology" target="_blank">Data &amp; Methodology</a> 
-  </small>
-  <div class="clearfix"></div>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">How To Use This Tool</h2>
-      </div>
-      <div id="how-to" class="modal-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="one" style="position:relative;">
-              <h3>Click menu, select data layer</h3>
-            </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="two" style="position:relative;">
-              <h3>Select school points for data</h3>
-            </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="three" style="position:relative;">
-              <h3>Click neighborhood to freeze data</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
   </div>
 </div>
 
+<div class="footer" style="position:relative;top:10px;">
+  <center>Add some footer text</center>
+
+  <!-- TODO: We need to move this out of the footter area. -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h2 class="modal-title" id="myModalLabel">How To Use This Tool</h2>
+        </div>
+        <div id="how-to" class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="one" style="position:relative;">
+                <h3>Click menu, select data layer</h3>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="two" style="position:relative;">
+                <h3>Select school points for data</h3>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="three" style="position:relative;">
+                <h3>Click neighborhood to freeze data</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
   <!-- Libraries needed -->
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  crossorigin=""></script>
+
   <script src="js/jquery.min.js" type="text/javascript"></script>
   <script src="js/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
   <script src="js/d3.geo.projection.v0.min.js" type="text/javascript"></script>
