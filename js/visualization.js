@@ -513,9 +513,15 @@ function changeNeighborhoodData(new_data_column) {
 }
 
 function redrawPoints() {
+  console.log('this clicked')
   $('.points-menu').children('li.selected').each(function () {
     drawPoints($(this).children('a').attr('id'));
   });
+}
+
+function populateMapWithPoints() {
+  console.log('hey')
+
 }
 
 function drawPoints(type) {
@@ -546,13 +552,21 @@ function drawPoints(type) {
         .attr("transform", function(d) {
           return "translate(" + gmapProjection([d.lon, d.lat]) + ")";})
         .append("title").text(function(d){return d.name;});
+    
     } else {
-      poi.enter().append("circle")
-        .attr("class", "poi " + type + (isModel ? " school" : ""))
-        .attr("r", 8)
-        .attr("transform", function(d) {
-          return "translate(" + gmapProjection([d.lon, d.lat]) + ")";})
-        .append("title").text(function(d){return d.name;});
+      console.log('here', map)
+      var allPoints = poi.enter();
+      var len = allPoints[0].length;
+      for (var i; i < len; i++) {
+        var point = allPoints[0][i];
+        var lat = point.__data__.lat;
+        var lon = point.__data__.lon;
+
+        var loc = [lat, lon]
+        var opts = {fillColor: '#f76e18', color: 'black'}
+        var marker = new L.CircleMarker(loc, opts)
+        marker.setRadius(12).addTo(mainMap)
+      }
     }
 
     if (isModel) { poi.on("click", displayPointsData); }
