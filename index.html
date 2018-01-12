@@ -23,7 +23,9 @@
       <img src="assets/ccep.png" alt="California Civic Engagement Project (CCEP)">
     </a>
 
-    <button class="btn btn-danger pull-right hidden-xs" data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-danger pull-right hidden-xs"
+            data-toggle="modal"
+            data-target="#myModal">
       How To Use This Tool
     </button>
 
@@ -99,8 +101,6 @@
     </div>
 
       <div id="content-wrapper" class="col-lg-12 col-md-12 col-sm-12">
-        
-        <!-- <div id="content"></div> d3 viz written in here -->
 
         <div id="leaflet_map"></div>
 
@@ -121,62 +121,32 @@
 
 <div class="footer" style="position:relative;top:10px;">
   <center>Add some footer text</center>
-
-  <!-- TODO: We need to move this out of the footer area. -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h2 class="modal-title" id="myModalLabel">How To Use This Tool</h2>
-        </div>
-        <div id="how-to" class="modal-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="one" style="position:relative;">
-                <h3>Click menu, select data layer</h3>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="two" style="position:relative;">
-                <h3>Select school points for data</h3>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="three" style="position:relative;">
-                <h3>Click neighborhood to freeze data</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
   <!-- Libraries needed -->
-  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/jquery.min.js"
+          type="text/javascript"></script>
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-  crossorigin=""></script>
-  <script src="data/tracts.js"></script>
-    <script src="data/county.js"></script>
+          integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+          crossorigin=""></script>
+  <script src="js/simple_statistics.js"
+          type="text/javascript"></script>
 
+  <!-- Global variables -->
+  <script type="text/javascript">
+    var mainMap = L.map('leaflet_map').setView([38.576, -121.490], 13);
+    var layerManager = { choropleth: null };
+  </script>
+
+  <!-- TODO: This data loading should happen async -->
+  <script src="data/tracts.js"></script>
+  
+  <!-- Initialization library -->
+  <script src="js/initializer.js" type="text/javascript"></script>
+  <script src="js/mapUtils.js" type="text/javascript"></script>
 
   <!-- Custom code on initialization -->
   <script type="text/javascript">
-    // Global
-    var mainMap = L.map('leaflet_map').setView([38.576, -121.490], 13);
-    var layerManager = {};
-    layerManager['choropleth'] = null;
-    var geojsonLayer;
-
-
-
     // We will need to replace the accessToken before releasing (since
     // you are just using mine right now)
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q', {
@@ -186,339 +156,9 @@
         accessToken: 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q'
     }).addTo(mainMap);
 
-
-
-    var countyLayer = county.addTo(mainMap);
-
-    // Page operations
-    $(".menu-toggle").on("click", toggleMenu);
-
-    function toggleMenu() {
-      var toggleMenu = $(".menu-toggle");
-      var isToggled = toggleMenu.parent().hasClass("toggled")
-      if (isToggled) {
-        var animDir = { "left" : 0 };
-        toggleMenu.parent().animate(animDir, 350, function() {
-          $("#main-container").removeClass("toggled"); 
-        });
-      } else {
-        var navWidth = $("#nav-panel").width();
-        var animDir = { "left" : navWidth };
-        toggleMenu.parent().animate(animDir, 350, function() {
-          $("#main-container").addClass("toggled");
-        });
-      }
-    }
-
-    // Rendering data
-    function clearLayerManager () {
-      console.log('In Clear Layer Manager')
-      // First check if this layer is already on the map
-      var keys = Object.keys(layerManager);
-      console.log(keys)
-      keys.forEach(function(key) {
-        if (key != 'choropleth') {
-          layerManager[key].forEach(function (ea) {
-          // Remove each addition to the map
-          mainMap.removeLayer(ea);
-          });
-
-          // Remove the layer entirely from the reference JSON
-          delete layerManager[key]
-        }
-
-
-        //Remove the GeoJson Layer Too
-       if (layerManager['choropleth'] != null ) mainMap.removeLayer(geojsonLayer)
-
-      });
-    }
-
-    function processCSV(data) {
-       var allTextLines = data.split(/\r\n|\n/);
-            var headers = allTextLines[0].split(',');
-            var lines = [];
-
-            for (var i=1; i<allTextLines.length; i++) {
-              var data = allTextLines[i].split(',');
-              if (data.length == headers.length) {
-
-                // Create an object for each row
-                var tarr = {};
-                for (var j = 0; j < headers.length; j++) {
-                  var h = headers[j].replace(/"/g, '');
-                  var v = data[j].replace(/"/g, '');
-                  tarr[h] = v;
-                }
-
-                // Push each JSON to a list
-                lines.push(tarr);
-              }
-            }
-            return lines
-    }
-
-
-    function populateMapWithPoints(fileName) {
-      $(document).ready(function() {
-        $.ajax({
-          type: 'GET',
-          url: `data/${fileName}`,
-          dataType: 'text',
-          success: function(data) {
-            // First check if this layer is already on the map
-            var keys = Object.keys(layerManager);
-            var pos = keys.indexOf(fileName);
-
-            // If it is, then go ahead and iterate through each item
-            // and remove it
-            if (pos > -1) {
-              console.log('already loaded')
-              layerManager[fileName].forEach(function (ea) {
-                // Remove each addition to the map
-                mainMap.removeLayer(ea);
-              });
-              delete layerManager[fileName]
-            }
-
-            if (pos === -1 ) {
-              // Now override all the old items in the list (or create a 
-              // fresh list entirely)
-              layerManager[fileName] = [];
-
-              lines = processCSV(data)
-
-
-              function styleCircle(fileName, line){
-                var circleStyleLookup = {
-                  'all_test_points.csv': {
-                      color: 'red',
-                      fillColor: '#f03',
-                      fillOpacity: 0.25,
-                      radius: 800        
-                  },
-                  'three_d_centers.csv': {
-                      color: 'blue',
-                      fillColor: 'blue',
-                      fillOpacity: 0.25,
-                      radius: 800  
-                  },
-                  'ten_d_centers.csv': {
-                      color: 'orange',
-                      fillColor: 'orange',
-                      fillOpacity: 0.25,
-                      radius: 800  
-                  },
-                  'dropoff_d_centers.csv': {
-                      color: 'green',
-                      fillColor: 'green',
-                      fillOpacity: 0.25,
-                      radius: 800  
-                  }
-
-              }
-                // At some point we may have variable sizing within a group
-                // So now that it is in a function we can do that
-                return circleStyleLookup[fileName]
-              } 
-              
-              lines.forEach(function(line) {
-                var loc = [line.lat, line.lon]
-                
-                // Add a new circle shape to the map
-                var circle = L.circle(loc, styleCircle(fileName,line)).addTo(mainMap);
-
-                // As well as to our layer management object
-                layerManager[fileName].push(circle);
-              });
-
-          }
-          }
-         });
-      });
-    }
-
-    function populateNavBarIndicators(){
-      $(document).ready(function() {
-        $.ajax({
-          type: 'GET',
-          url: `data/dowd_fields.csv`,
-          dataType: 'text',
-          success: function(data) {
-
-            lines = processCSV(data)
-            
-            lines.forEach(function(line) {
-              var li = '<li><a onclick=' + '"populateMapWithChoropleth(\''+ line['basename']  +'\')">' + line['cleanname']  + '</a></li>'
-              $('.indicator-menu').append(li)
-            });
-
-          
-          }
-         });
-      });
-    }
-
-  // Coloring the Maps - Start
-  function chloroQuantile(data, k, brkOrJenk){
-      data = data.sort(function(a,b) {return a-b});
-      var quants = [];
-      if (brkOrJenk === "jenks"){
-          quants = ss.jenks(data, k);
-          quants[quants.length-1]+= .00000001;
-          return quants
-      }
-
-      var p = .99999999/k;
-
-      for (var i=1; i<k+1; i++){
-          if (i===k){
-              quants.push(ss.quantile(data, p*i) +.0000001)
-          } else {
-              quants.push(ss.quantile(data, p*i))}
-      }
-      return quants
-
-  }
-
- function getColor(d , classify, colorObject) {
-
-        return d >= classify[7] ? colorObject[1] :
-            d >= classify[6]  ? colorObject[2] :
-                d >= classify[5]  ? colorObject[3] :
-                    d >= classify[4]  ? colorObject[4] :
-                        d >= classify[3]   ? colorObject[5] :
-                            d >= classify[2]   ? colorObject[6] :
-                                d >= classify[1]   ? colorObject[7] :
-                                    colorObject[0];
-    }
-
-
-  var bluish = {8:"rgb(222,235,247)",
-      7:"rgb(198,219,239)",
-      6:"rgb(158,202,225)",
-      5:"rgb(107,174,214)",
-      4:"rgb(66,146,198)",
-      3:"rgb(33,113,181)",
-      2:"rgb(8,81,156)",
-      1:"rgb(8,48,107)",
-      0:'white'};
-
-  // Coloring the Maps - End
-
-
-    function populateMapWithChoropleth(fieldName){
-
-
-      $(document).ready(function() {
-        $.ajax({
-          type: 'GET',
-          url: 'data/indicator_files/' + fieldName + '.csv',
-          dataType: 'text',
-          success: function(data) {
-
-            // If Clicking on the Already Selected Layer Just Remoev the Layer
-            if ((layerManager['choropleth']  != null) && (layerManager['choropleth'] === fieldName )) {
-              console.log('Already Present')
-              layerManager['choropleth']  = null
-              mainMap.removeLayer(geojsonLayer)
-
-            } else  {
-              // Swithiching Layers or Selecting a Layer to Begin With
-              // Process Data
-              lines = processCSV(data)
-
-              // Remove Pre-Existing Layer
-              if (layerManager['choropleth']  != null) {
-                mainMap.removeLayer(geojsonLayer)
-              }
-
-              // Pull the Values - and put in a loojup 
-              var all_vals = []
-              var geoid_lookup = {}
-              lines.forEach(function(line) {
-                  all_vals.push(+line[fieldName])
-                  geoid_lookup[+line['GEOID']] = +line[fieldName]
-              });
-
-              // Get the Quantile Breaks
-              dataQuants = chloroQuantile(all_vals, 8, 'jenks')
-
-
-              // Leaflet Styling and Things
-              function style (feature) {
-                  var val = geoid_lookup[+feature.properties['GEOID']];
-                  var q_color = getColor(val,dataQuants,bluish)
-                        return {
-                            fillColor : q_color,
-                            weight: 1,
-                            opacity: .25,
-                            color: 'black',
-                            fillOpacity: .6
-
-                        }
-                    }
-
-              function highlightFeature(e) {
-                  var layer = e.target;
-
-                  layer.setStyle({
-                      weight: 2,
-                      color: 'yellow',
-                      dashArray: '',
-                      fillOpacity: 0.6
-                  });
-
-                  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                      layer.bringToFront();
-                  }
-              }
-
-              function resetHighlight(e) {
-                  var layer = e.target;
-        
-                  layer.setStyle({
-                      weight: 1,
-                      color: 'black',
-                      dashArray: '',
-                      fillOpacity: 0.45
-                  });
-              }
-
-              function whenClicked(e) {
-                // TODO Create a Popup
-                console.log(e.target)
-              }
-
-              function updateLegend(){
-                //TODO we need legend for the choropleth
-              }
-
-              function onEachFeature (feature, layer) {
-                  layer.on({
-                      mouseover: highlightFeature,
-                      mouseout: resetHighlight,
-                      click: whenClicked
-                  });
-              }
-
-
-                // Add the polygon layers
-                geojsonLayer = L.geoJson(tracts, {style: style, onEachFeature:onEachFeature}).addTo(mainMap);
-                layerManager['choropleth'] = fieldName
-
-            }
-          
-          }
-         });
-      });
-    }
-
-    populateNavBarIndicators()
-
+    // Add the county to the map
+    addCountyToMap(mainMap);
   </script>
-<!-- Keep -->
-    <script src="js/simple_statistics.js" type="text/javascript"></script>
 
 
   <!-- Old libraries -->
