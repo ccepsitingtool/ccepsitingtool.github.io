@@ -61,14 +61,32 @@
         <a onclick="populateMapWithPoints('all_test_points.csv')">Consistent Grid Thing</a>
       </li>
       <li>
-        <a onclick="populateMapWithPoints('ten_d_centers.csv')">Ten D Centers</a>
+        <a onclick="populateMapWithPoints('three_d_centers.csv')">Three Day Centers</a>
+      </li>
+      <li>
+        <a onclick="populateMapWithPoints('ten_d_centers.csv')">Ten Day Centers</a>
+      </li>
+        <li>
+        <a onclick="populateMapWithPoints('dropoff_d_centers.csv')">Dropoff Locations</a>
       </li>
     </ul>
 
     <h4 class="hidden-xs">Points of interest</h4>
-    <ul class="nav nav-pills nav-stacked poi-menu points-menu hidden-xs"></ul>
+    <ul class="nav nav-pills nav-stacked poi-menu points-menu hidden-xs">
+      <li>
+        <a onclick="populateMapWithPoints('poi_edit.csv')">Points of Interest</a>
+      </li>
+      <li>
+        <a onclick="populateMapWithPoints('transit.csv')">Transit Stops</a>
+      </li>
+
+      <li>
+        <a onclick="populateMapWithPoints('ten_d_centers.csv')">Ten Day Centers</a>
+      </li>
+
+    </ul>
     <h4>Indicator Data</h4>
-    <ul class="nav nav-pills nav-stacked layer-toggle-menu neighborhood-menu"></ul>
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu indicator-menu"></ul>
   </div>
 
   <div id="main-container" class="posabs" style="position:relative;">
@@ -145,13 +163,20 @@
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
   integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
   crossorigin=""></script>
+  <script src="data/tracts.js"></script>
+    <script src="data/county.js"></script>
+
 
   <!-- Custom code on initialization -->
   <script type="text/javascript">
     // Global
     var mainMap = L.map('leaflet_map').setView([38.576, -121.490], 13);
     var layerManager = {};
-    
+    layerManager['choropleth'] = null;
+    var geojsonLayer;
+
+
+
     // We will need to replace the accessToken before releasing (since
     // you are just using mine right now)
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q', {
@@ -160,6 +185,10 @@
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q'
     }).addTo(mainMap);
+
+
+
+    var countyLayer = county.addTo(mainMap);
 
     // Page operations
     $(".menu-toggle").on("click", toggleMenu);
@@ -183,45 +212,30 @@
 
     // Rendering data
     function clearLayerManager () {
+      console.log('In Clear Layer Manager')
       // First check if this layer is already on the map
       var keys = Object.keys(layerManager);
-
+      console.log(keys)
       keys.forEach(function(key) {
-        layerManager[key].forEach(function (ea) {
+        if (key != 'choropleth') {
+          layerManager[key].forEach(function (ea) {
           // Remove each addition to the map
           mainMap.removeLayer(ea);
-        });
+          });
 
-        // Remove the layer entirely from the reference JSON
-        delete layerManager[key]
+          // Remove the layer entirely from the reference JSON
+          delete layerManager[key]
+        }
+
+
+        //Remove the GeoJson Layer Too
+       if (layerManager['choropleth'] != null ) mainMap.removeLayer(geojsonLayer)
+
       });
     }
 
-    function populateMapWithPoints(fileName) {
-      $(document).ready(function() {
-        $.ajax({
-          type: 'GET',
-          url: `data/${fileName}`,
-          dataType: 'text',
-          success: function(data) {
-            // First check if this layer is already on the map
-            var keys = Object.keys(layerManager);
-            var pos = keys.indexOf(fileName);
-
-            // If it is, then go ahead and iterate through each item
-            // and remove it
-            if (pos > -1) {
-              layerManager[fileName].forEach(function (ea) {
-                // Remove each addition to the map
-                mainMap.removeLayer(ea);
-              });
-            }
-
-            // Now override all the old items in the list (or create a 
-            // fresh list entirely)
-            layerManager[fileName] = [];
-
-            var allTextLines = data.split(/\r\n|\n/);
+    function processCSV(data) {
+       var allTextLines = data.split(/\r\n|\n/);
             var headers = allTextLines[0].split(',');
             var lines = [];
 
@@ -241,29 +255,271 @@
                 lines.push(tarr);
               }
             }
+            return lines
+    }
 
-            lines.forEach(function(line) {
-              var loc = [line.lat, line.lon]
-              var opts = {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.25,
-                radius: 800
+
+    function populateMapWithPoints(fileName) {
+      $(document).ready(function() {
+        $.ajax({
+          type: 'GET',
+          url: `data/${fileName}`,
+          dataType: 'text',
+          success: function(data) {
+            // First check if this layer is already on the map
+            var keys = Object.keys(layerManager);
+            var pos = keys.indexOf(fileName);
+
+            // If it is, then go ahead and iterate through each item
+            // and remove it
+            if (pos > -1) {
+              console.log('already loaded')
+              layerManager[fileName].forEach(function (ea) {
+                // Remove each addition to the map
+                mainMap.removeLayer(ea);
+              });
+              delete layerManager[fileName]
+            }
+
+            if (pos === -1 ) {
+              // Now override all the old items in the list (or create a 
+              // fresh list entirely)
+              layerManager[fileName] = [];
+
+              lines = processCSV(data)
+
+
+              function styleCircle(fileName, line){
+                var circleStyleLookup = {
+                  'all_test_points.csv': {
+                      color: 'red',
+                      fillColor: '#f03',
+                      fillOpacity: 0.25,
+                      radius: 800        
+                  },
+                  'three_d_centers.csv': {
+                      color: 'blue',
+                      fillColor: 'blue',
+                      fillOpacity: 0.25,
+                      radius: 800  
+                  },
+                  'ten_d_centers.csv': {
+                      color: 'orange',
+                      fillColor: 'orange',
+                      fillOpacity: 0.25,
+                      radius: 800  
+                  },
+                  'dropoff_d_centers.csv': {
+                      color: 'green',
+                      fillColor: 'green',
+                      fillOpacity: 0.25,
+                      radius: 800  
+                  }
+
               }
+                // At some point we may have variable sizing within a group
+                // So now that it is in a function we can do that
+                return circleStyleLookup[fileName]
+              } 
               
-              // Add a new circle shape to the map
-              var circle = L.circle(loc, opts).addTo(mainMap);
+              lines.forEach(function(line) {
+                var loc = [line.lat, line.lon]
+                
+                // Add a new circle shape to the map
+                var circle = L.circle(loc, styleCircle(fileName,line)).addTo(mainMap);
 
-              // As well as to our layer management object
-              layerManager[fileName].push(circle);
-            });
+                // As well as to our layer management object
+                layerManager[fileName].push(circle);
+              });
 
+          }
           }
          });
       });
     }
 
+    function populateNavBarIndicators(){
+      $(document).ready(function() {
+        $.ajax({
+          type: 'GET',
+          url: `data/dowd_fields.csv`,
+          dataType: 'text',
+          success: function(data) {
+
+            lines = processCSV(data)
+            
+            lines.forEach(function(line) {
+              var li = '<li><a onclick=' + '"populateMapWithChoropleth(\''+ line['basename']  +'\')">' + line['cleanname']  + '</a></li>'
+              $('.indicator-menu').append(li)
+            });
+
+          
+          }
+         });
+      });
+    }
+
+  // Coloring the Maps - Start
+  function chloroQuantile(data, k, brkOrJenk){
+      data = data.sort(function(a,b) {return a-b});
+      var quants = [];
+      if (brkOrJenk === "jenks"){
+          quants = ss.jenks(data, k);
+          quants[quants.length-1]+= .00000001;
+          return quants
+      }
+
+      var p = .99999999/k;
+
+      for (var i=1; i<k+1; i++){
+          if (i===k){
+              quants.push(ss.quantile(data, p*i) +.0000001)
+          } else {
+              quants.push(ss.quantile(data, p*i))}
+      }
+      return quants
+
+  }
+
+ function getColor(d , classify, colorObject) {
+
+        return d >= classify[7] ? colorObject[1] :
+            d >= classify[6]  ? colorObject[2] :
+                d >= classify[5]  ? colorObject[3] :
+                    d >= classify[4]  ? colorObject[4] :
+                        d >= classify[3]   ? colorObject[5] :
+                            d >= classify[2]   ? colorObject[6] :
+                                d >= classify[1]   ? colorObject[7] :
+                                    colorObject[0];
+    }
+
+
+  var bluish = {8:"rgb(222,235,247)",
+      7:"rgb(198,219,239)",
+      6:"rgb(158,202,225)",
+      5:"rgb(107,174,214)",
+      4:"rgb(66,146,198)",
+      3:"rgb(33,113,181)",
+      2:"rgb(8,81,156)",
+      1:"rgb(8,48,107)",
+      0:'white'};
+
+  // Coloring the Maps - End
+
+
+    function populateMapWithChoropleth(fieldName){
+
+
+      $(document).ready(function() {
+        $.ajax({
+          type: 'GET',
+          url: 'data/indicator_files/' + fieldName + '.csv',
+          dataType: 'text',
+          success: function(data) {
+
+            // If Clicking on the Already Selected Layer Just Remoev the Layer
+            if ((layerManager['choropleth']  != null) && (layerManager['choropleth'] === fieldName )) {
+              console.log('Already Present')
+              layerManager['choropleth']  = null
+              mainMap.removeLayer(geojsonLayer)
+
+            } else  {
+              // Swithiching Layers or Selecting a Layer to Begin With
+              // Process Data
+              lines = processCSV(data)
+
+              // Remove Pre-Existing Layer
+              if (layerManager['choropleth']  != null) {
+                mainMap.removeLayer(geojsonLayer)
+              }
+
+              // Pull the Values - and put in a loojup 
+              var all_vals = []
+              var geoid_lookup = {}
+              lines.forEach(function(line) {
+                  all_vals.push(+line[fieldName])
+                  geoid_lookup[+line['GEOID']] = +line[fieldName]
+              });
+
+              // Get the Quantile Breaks
+              dataQuants = chloroQuantile(all_vals, 8, 'jenks')
+
+
+              // Leaflet Styling and Things
+              function style (feature) {
+                  var val = geoid_lookup[+feature.properties['GEOID']];
+                  var q_color = getColor(val,dataQuants,bluish)
+                        return {
+                            fillColor : q_color,
+                            weight: 1,
+                            opacity: .25,
+                            color: 'black',
+                            fillOpacity: .6
+
+                        }
+                    }
+
+              function highlightFeature(e) {
+                  var layer = e.target;
+
+                  layer.setStyle({
+                      weight: 2,
+                      color: 'yellow',
+                      dashArray: '',
+                      fillOpacity: 0.6
+                  });
+
+                  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                      layer.bringToFront();
+                  }
+              }
+
+              function resetHighlight(e) {
+                  var layer = e.target;
+        
+                  layer.setStyle({
+                      weight: 1,
+                      color: 'black',
+                      dashArray: '',
+                      fillOpacity: 0.45
+                  });
+              }
+
+              function whenClicked(e) {
+                // TODO Create a Popup
+                console.log(e.target)
+              }
+
+              function updateLegend(){
+                //TODO we need legend for the choropleth
+              }
+
+              function onEachFeature (feature, layer) {
+                  layer.on({
+                      mouseover: highlightFeature,
+                      mouseout: resetHighlight,
+                      click: whenClicked
+                  });
+              }
+
+
+                // Add the polygon layers
+                geojsonLayer = L.geoJson(tracts, {style: style, onEachFeature:onEachFeature}).addTo(mainMap);
+                layerManager['choropleth'] = fieldName
+
+            }
+          
+          }
+         });
+      });
+    }
+
+    populateNavBarIndicators()
+
   </script>
+<!-- Keep -->
+    <script src="js/simple_statistics.js" type="text/javascript"></script>
+
 
   <!-- Old libraries -->
   <script src="js/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
@@ -271,10 +527,9 @@
   <script src="js/topojson.v1.min.js" type="text/javascript"></script>
   <script src="js/queue.v1.min.js"></script>
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="js/underscore-min.js" type="text/javascript"></script>
-  <script src="js/simple_statistics.js" type="text/javascript"></script>
-  <script src="js/labeler.js" type="text/javascript"></script>
-  <script src="//maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+  <!-- <script src="js/underscore-min.js" type="text/javascript"></script> -->
+  <!-- <script src="js/labeler.js" type="text/javascript"></script> -->
+  <!-- <script src="//maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script> -->
 
   <!-- Project scripts -->
   <script src="js/circle_packer_movers.js" type="text/javascript"></script>
