@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.indicator-menu > li {
+  cursor: pointer;
+}
+
 
 /* Stuff from before */
 body {
@@ -182,7 +186,7 @@ circle.poi:hover {
 }
 
 #nav-panel {
-  height: 600px;
+  /*height: 600px;*/
   overflow: scroll;
 }
 

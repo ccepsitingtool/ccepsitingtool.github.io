@@ -21,22 +21,22 @@ function populateNavBarIndicators(){
 }
 
 function toggleMenu() {
-  var toggleMenu = $(".menu-toggle");
-  var isToggled = toggleMenu.parent().hasClass("toggled")
+  var toggleMenu = $('.menu-toggle');
+  var isToggled = toggleMenu.parent().hasClass('toggled')
   if (isToggled) {
-    var animDir = { "left" : 0 };
+    var animDir = { 'left' : 0 };
     toggleMenu.parent().animate(animDir, 350, function() {
-      $("#main-container").removeClass("toggled"); 
+      $('#main-container').removeClass('toggled'); 
     });
   } else {
-    var navWidth = $("#nav-panel").width();
-    var animDir = { "left" : navWidth };
+    var navWidth = $('#nav-panel').width();
+    var animDir = { 'left' : navWidth };
     toggleMenu.parent().animate(animDir, 350, function() {
-      $("#main-container").addClass("toggled");
+      $('#main-container').addClass('toggled');
     });
   }
 }
 
 // Initializing these functions
-$(".menu-toggle").on("click", toggleMenu);
+$('.menu-toggle').on('click', toggleMenu);
 populateNavBarIndicators();

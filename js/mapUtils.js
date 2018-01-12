@@ -14,8 +14,11 @@ function clearLayerManager() {
     }
 
     //Remove the GeoJson Layer Too
-   if (layerManager['choropleth'] != null ) mainMap.removeLayer(geojsonLayer)
-
+    var geoJsonLayer = layerManager['choropleth'];
+    if (geoJsonLayer) {
+      mainMap.removeLayer(geoJsonLayer);
+      layerManager['choropleth'] = null;
+    }
   });
 }
 
@@ -134,7 +137,7 @@ function getColor(d , classify) {
     1 : 'rgb(8,48,107)',
     0 : 'white'};
 
-  return d >= classify[7] ? colorObject[1] :
+  var result = d >= classify[7] ? colorObject[1] :
       d >= classify[6]  ? colorObject[2] :
           d >= classify[5]  ? colorObject[3] :
               d >= classify[4]  ? colorObject[4] :
@@ -142,6 +145,8 @@ function getColor(d , classify) {
                       d >= classify[2]   ? colorObject[6] :
                           d >= classify[1]   ? colorObject[7] :
                               colorObject[0];
+
+  return result;
 }
 
 // Helps in getting colors for the maps
@@ -152,13 +157,13 @@ function chloroQuantile(data, breaks, useJenks=false){
 
   var quants = [];
   if (useJenks) {
-      quants = ss.jenks(sorted, k);
-      var index = (quants.length - 1);
+    quants = ss.jenks(sorted, breaks);
+    var index = (quants.length - 1);
 
-      // TODO: @mdgis this seems hacky let's see if we 
-      // can revisit this and improve it
-      quants[index] += .00000001;
-      return quants
+    // TODO: @mdgis this seems hacky let's see if we 
+    // can revisit this and improve it
+    quants[index] += .00000001;
+    return quants
   }
 
   // TODO: @mdgis it would help to add more comments
@@ -183,6 +188,10 @@ function chloroQuantile(data, breaks, useJenks=false){
 
 function populateMapWithChoropleth(fieldName) {
   var loc = 'data/indicator_files/' + fieldName + '.csv';
+  // We need to create a local variable of fieldName to keep and
+  // be able to access in the success callback function
+  var targetCol = fieldName;
+
   $.ajax({
     type: 'GET',
     url: loc,
@@ -194,25 +203,34 @@ function populateMapWithChoropleth(fieldName) {
       // one that is currently on the map
       if (geoJsonLayer) {
         mainMap.removeLayer(geoJsonLayer);
+
+        // Exit out early if we are clicking on the same
+        // item twice in a row
+        if (geoJsonLayer.targetCol == targetCol) {
+          return null;
+        }
       }
+
+      // Generate all the variables that will be used
+      // in the following functions that are bound to the
+      // chloropleth layer
+      var allVals = []
+      var geoIdLookup = {}
+      processCSV(data).forEach(function(line) {
+        var targetField = Number(line[targetCol]);
+        var geoId = Number(line['GEOID']);
+
+        allVals.push(targetField);
+        geoIdLookup[geoId] = targetField;
+      });
+
+      // Get the quantile breaks
+      var dataQuants = chloroQuantile(allVals, 8, useJenks=true);
 
       // Leaflet Styling and Things
       function generateLeafletStyle(feature) {
-        var all_vals = []
-        var geoIdLookup = {}
-        processCSV(data).forEach(function(line) {
-          var fieldName = line[fieldName];
-          var geoId = line['GEOID'];
-
-          all_vals.push(fieldName);
-          geoIdLookup[geoId] = fieldName;
-        });
-
-        // Get the quantile breaks
-        var dataQuants = chloroQuantile(all_vals, breaks=8, useJenks=true);
-
-        var geoId = feature.properties['GEOID'];
-        var val = geoIdLookup[geoId];
+        var geoId = Number(feature.properties['GEOID']);
+        var val = Number(geoIdLookup[geoId]);
         var qColor = getColor(val, dataQuants);
         return {
           fillColor: qColor,
@@ -280,6 +298,7 @@ function populateMapWithChoropleth(fieldName) {
       geoJsonLayer = L.geoJson(tracts, options);
       geoJsonLayer.addTo(mainMap);
 
+      geoJsonLayer.targetCol = targetCol;
       layerManager['choropleth'] = geoJsonLayer;
     }
   });
