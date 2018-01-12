@@ -12,6 +12,9 @@
   cursor: pointer;
 }
 
+.sharp-edges {
+  border-radius: 0px;
+}
 
 /* Stuff from before */
 body {
