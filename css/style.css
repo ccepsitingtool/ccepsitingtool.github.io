@@ -17,6 +17,21 @@
   border-radius: 0px;
 }
 
+.footer {
+  padding: 10px;
+  background-color: #ff9200;
+  color: white;
+  line-height: 30px;
+}
+
+.footer img {
+  height: 20px;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
 /* Stuff from before */
 body {
   overflow-x: hidden;
