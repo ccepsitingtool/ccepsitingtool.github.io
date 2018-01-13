@@ -183,9 +183,17 @@
         type="text/javascript"></script>
 
 <script type="text/javascript">
-  var wdh = $(window).height();
-  var nbh = $('.navbar').height();
-  $('#leaflet_map').height(wdh - nbh);
+  function adjustSizing() {
+    var wdh = $(window).height();
+    var nbh = $('.navbar').height();
+    $('#leaflet_map').height(wdh - nbh);
+  }
+
+  // First call it once on page load
+  adjustSizing();
+
+  // Then bind it to be called every time the page window is changed in size
+  $(window).resize(adjustSizing);
 </script>
 
 <!-- Global variables -->
