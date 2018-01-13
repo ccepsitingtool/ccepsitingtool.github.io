@@ -1,6 +1,6 @@
-
-
 # CCEP Project New Repo
+
+![screen_cap](https://github.com/datakind/ccep-new-year/blob/master/assets/screencap.png?raw=true "screen_cap")
 
 # Requirements
 1. Address bar that will zoom to location on the map (would be nice to add a point to indicate the location)
