@@ -1,10 +1,12 @@
 basename,cleanname
-prc_nonEngProf_Final,Percentile Non English
-prc_CarAccess_Final,Percentile Car Access
-prcDisabled_Final,Percentile Disabled
-prc_popAmInd_Final,Percentile American Indian
-prc_popAsian_Final,Percentile Asian
-prc_popLatino_Final,Percentile Latino
-prc_Pov_Final,Percentile Poverty
-prc_Youth_Final, Percentile Youth
+prc_nonEngProf_Final,Percent Non English
+prc_CarAccess_Final,Percent Car Access
+prcDisabled_Final,Percent Disabled
+VBM,Percent Vote By Mail 
+Tot_EligNonReg_prc,Percent Eligble Non Registered
+prc_popLatino_Final,Percent Latino
+prc_Youth_Final,Percent Youth
+prc_CarAccess_Final,Percent Car Access
+prc_Pov_Final,Percent Poverty
+inCounty_JobSum,Worker Total
 cvapDens,Eligible Voter Density

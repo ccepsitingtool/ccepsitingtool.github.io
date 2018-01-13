@@ -4,6 +4,7 @@ function clearLayerManager() {
   var keys = Object.keys(layerManager);
   keys.forEach(function(key) {
     if (key != 'choropleth') {
+      $('#'+key.slice(0, key.length-4)).removeClass('selected')
       layerManager[key].forEach(function (ea) {
       // Remove each addition to the map
       mainMap.removeLayer(ea);
@@ -13,10 +14,13 @@ function clearLayerManager() {
       delete layerManager[key]
     }
 
+
     //Remove the GeoJson Layer Too
     var geoJsonLayer = layerManager['choropleth'];
     if (geoJsonLayer) {
+      $('#' + geoJsonLayer.targetCol).removeClass('selected')
       mainMap.removeLayer(geoJsonLayer);
+      mainMap.removeControl(legend)
       layerManager['choropleth'] = null;
     }
   });
@@ -80,6 +84,8 @@ function styleCircle(fileName, line){
 };
 
 function populateMapWithPoints(fileName) {
+  //Indicate the Layer is Selected
+  $('#'+fileName.slice(0, fileName.length-4)).toggleClass('selected')
   $.ajax({
     type: 'GET',
     url: `data/${fileName}`,
@@ -124,27 +130,32 @@ function populateMapWithPoints(fileName) {
 // TODO: This code is totally not legible and needs to be refactored
 //       asap - can't a simple lookup dictionary work here?
 function getColor(d , classify) {
-  // I moved blueish here because we were only using one object and
-  // I am trying to consolidate all of these methods
-  var colorObject = {
-    8 : 'rgb(222,235,247)',
-    7 : 'rgb(198,219,239)',
-    6 : 'rgb(158,202,225)',
-    5 : 'rgb(107,174,214)',
-    4 : 'rgb(66,146,198)',
-    3 : 'rgb(33,113,181)',
-    2 : 'rgb(8,81,156)',
-    1 : 'rgb(8,48,107)',
-    0 : 'white'};
+  // Function takes in d - a specific value and classify - a list of break points
+  // We then pick the appropriate color relating the break points
+  // var colorObject = {
+  //   8 : 'rgb(222,235,247)',
+  //   7 : 'rgb(198,219,239)',
+  //   6 : 'rgb(158,202,225)',
+  //   5 : 'rgb(107,174,214)',
+  //   4 : 'rgb(66,146,198)',
+  //   3 : 'rgb(33,113,181)',
+  //   2 : 'rgb(8,81,156)',
+  //   1 : 'rgb(8,48,107)',
+  //   0 : 'white'};
 
-  var result = d >= classify[7] ? colorObject[1] :
-      d >= classify[6]  ? colorObject[2] :
-          d >= classify[5]  ? colorObject[3] :
-              d >= classify[4]  ? colorObject[4] :
-                  d >= classify[3]   ? colorObject[5] :
-                      d >= classify[2]   ? colorObject[6] :
-                          d >= classify[1]   ? colorObject[7] :
-                              colorObject[0];
+  var colorObject = {
+          0: '#ffffcc',
+          1: '#a1dab4',
+          2: '#41b6c4',
+          3: '#2c7fb8',
+          4: '#253494'
+  }
+
+  var result =  d >= classify[4]  ? colorObject[4] :
+                d >= classify[3]  ? colorObject[3] :
+                d >= classify[2]  ? colorObject[2] :
+                d >= classify[1]  ? colorObject[1] :
+             colorObject[0] 
 
   return result;
 }
@@ -158,35 +169,42 @@ function chloroQuantile(data, breaks, useJenks=false){
   var quants = [];
   if (useJenks) {
     quants = ss.jenks(sorted, breaks);
-    var index = (quants.length - 1);
-
+    var lastindex = (quants.length - 1);
     // TODO: @mdgis this seems hacky let's see if we 
     // can revisit this and improve it
-    quants[index] += .00000001;
+    quants[lastindex] += .00000001;
     return quants
-  }
-
-  // TODO: @mdgis it would help to add more comments
-  var p = .99999999/k;
-
-  for (var i=1; i < (breaks + 1); i++) {
-    var qVal = ss.quantile(sorted, p*i);
-
-    // TODO: @mdgis it would help to add more comments, it seems like there's
-    //       a lot of adjusting going on that is circumventing the underlying
-    //       problem
-    if (i === breaks) {
-      var adjustment = .0000001;
-      qVal = qVal + adjustment;
+  } else {
+    // Doing Quantile Instead
+    // TODO: @mdgis it would help to add more comments
+    var p = .99999999/k;
+  
+    for (var i=1; i < (breaks + 1); i++) {
+      var qVal = ss.quantile(sorted, p*i);
+  
+      // TODO: @mdgis it would help to add more comments, it seems like there's
+      //       a lot of adjusting going on that is circumventing the underlying
+      //       problem
+      if (i === breaks) {
+        var adjustment = .0000001;
+        qVal = qVal + adjustment;
+      }
+      quants.push(qVal);
     }
-
-    quants.push(qVal);
+  
+    return quants;
   }
-
-  return quants;
 }
 
 function populateMapWithChoropleth(fieldName) {
+  // Controls for Adding Selection Indicator to the Button
+  if (layerManager['choropleth'] != null ) {
+    if (layerManager['choropleth']['targetCol'] != fieldName) {
+        $('#'+layerManager['choropleth']['targetCol']).toggleClass('selected')
+  }
+}
+  $('#'+fieldName).toggleClass('selected')
+
   var loc = 'data/indicator_files/' + fieldName + '.csv';
   // We need to create a local variable of fieldName to keep and
   // be able to access in the success callback function
@@ -203,6 +221,8 @@ function populateMapWithChoropleth(fieldName) {
       // one that is currently on the map
       if (geoJsonLayer) {
         mainMap.removeLayer(geoJsonLayer);
+        mainMap.removeControl(legend)
+        layerManager['choropleth'] = null
 
         // Exit out early if we are clicking on the same
         // item twice in a row
@@ -224,9 +244,8 @@ function populateMapWithChoropleth(fieldName) {
         geoIdLookup[geoId] = targetField;
       });
 
-      // Get the quantile breaks
-      var dataQuants = chloroQuantile(allVals, 8, useJenks=true);
-
+      // Get the Jenks breaks
+      var dataQuants = chloroQuantile(allVals, 4, useJenks=true);
       // Leaflet Styling and Things
       function generateLeafletStyle(feature) {
         var geoId = Number(feature.properties['GEOID']);
@@ -237,7 +256,7 @@ function populateMapWithChoropleth(fieldName) {
           weight: 1,
           opacity: .25,
           color: 'black',
-          fillOpacity: .6
+          fillOpacity: .75
 
         }
       }
@@ -249,7 +268,7 @@ function populateMapWithChoropleth(fieldName) {
           weight: 2,
           color: 'yellow',
           dashArray: '',
-          fillOpacity: 0.6
+          fillOpacity: 0.75
         });
 
         var browserOk = (!L.Browser.ie &&
@@ -267,7 +286,7 @@ function populateMapWithChoropleth(fieldName) {
             weight: 1,
             color: 'black',
             dashArray: '',
-            fillOpacity: 0.45
+            fillOpacity: 0.75
         });
       }
 
@@ -276,10 +295,34 @@ function populateMapWithChoropleth(fieldName) {
         console.log(e.target)
       }
 
-      // TOOD: @mdgis where do you assign this to
-      function updateLegend(){
-        //TODO we need legend for the choropleth
-      }
+
+      legend.onAdd = function (map) {
+        console.log('in on add legend')
+        var div = L.DomUtil.create('div', 'info legend'),
+           labels = [];
+        var limits = dataQuants;
+
+        if (limits[0] == limits[1]) { 
+          console.log('is less')
+          limits[0] = 0.0
+        }
+        limits = limits.map(function(l) {return l==null ? 0: l});
+
+        // // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < limits.length; i++) {
+            div.innerHTML +=  '<i style="background:' + getColor(limits[i],limits) + '"></i> '
+            if (i == limits.length -1) {
+                div.innerHTML += limits[i].toFixed(3) +'+'
+            } else {
+                div.innerHTML += limits[i].toFixed(3)+' &ndash; '+limits[i+1].toFixed(3)
+
+            }
+            div.innerHTML+= '<br>';
+        }
+
+        return div;
+    };
+
 
       function onEachFeature (feature, layer) {
         layer.on({
@@ -300,6 +343,16 @@ function populateMapWithChoropleth(fieldName) {
 
       geoJsonLayer.targetCol = targetCol;
       layerManager['choropleth'] = geoJsonLayer;
+      legend.addTo(mainMap);
+
+      //Bring Circles to Front if They Are Present
+      Object.keys(layerManager).forEach(function(layer) {
+        if (layer != 'choropleth') {
+          layerManager[layer].forEach(function(d) {d.bringToFront()})
+        }
+      })
+      
+
     }
   });
 }
