@@ -3,11 +3,25 @@ function clearLayerManager() {
   // First check if this layer is already on the map
   var keys = Object.keys(layerManager);
   keys.forEach(function(key) {
-    if (key != 'choropleth') {
-      $('#'+key.slice(0, key.length-4)).removeClass('selected')
+    // Currently, the chloropleth layers are being treated differently
+    // that the other datsets, so we are skipping them in this operation
+    var keyIsOkay = (key != 'choropleth');
+    
+    if (keyIsOkay) {
+      // This is a safer way to make sure that the .csv end
+      // is not in the name
+      var trimmedKey = key.replace('.csv', '');
+      var divId = ('#' + trimmedKey);
+
+      // Now drop the selected tag for this div
+      $(divId).removeClass('selected');
+      
+      // Next, go ahead and remove everything that was
+      // added to the Leaflet map in this reference list
+      // of layers
       layerManager[key].forEach(function (ea) {
-      // Remove each addition to the map
-      mainMap.removeLayer(ea);
+        // Remove each addition to the map
+        mainMap.removeLayer(ea);
       });
 
       // Remove the layer entirely from the reference JSON
@@ -130,8 +144,10 @@ function populateMapWithPoints(fileName) {
 // TODO: This code is totally not legible and needs to be refactored
 //       asap - can't a simple lookup dictionary work here?
 function getColor(d , classify) {
-  // Function takes in d - a specific value and classify - a list of break points
-  // We then pick the appropriate color relating the break points
+  // Function takes in d - a specific value and
+  // classify - a list of break points
+
+  // This appears to be preserved from an older set of breaks
   // var colorObject = {
   //   8 : 'rgb(222,235,247)',
   //   7 : 'rgb(198,219,239)',
@@ -143,6 +159,7 @@ function getColor(d , classify) {
   //   1 : 'rgb(8,48,107)',
   //   0 : 'white'};
 
+  // We then pick the appropriate color relating the break points
   var colorObject = {
           0: '#ffffcc',
           1: '#a1dab4',
@@ -299,6 +316,8 @@ function populateMapWithChoropleth(fieldName) {
       legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info legend');
         var labels = [];
+
+        // Copy data quants (color bins) over from parent scope
         var limits = dataQuants;
 
         // This appears to be a hack adjustment to the
@@ -308,20 +327,40 @@ function populateMapWithChoropleth(fieldName) {
         if (limits[0] == limits[1]) { 
           limits[0] = 0.0
         }
-        limits = limits.map(function(l) {return l==null ? 0: l});
 
-        // // loop through our density intervals and generate a label with a colored square for each interval
+        // Update all null values limits to be 0
+        limits = limits.map(function(l) {
+          return l == null ? 0 : l
+        });
+
+        // Loop through our density intervals to generate a label
+        // with a colored square for each interval
         for (var i = 0; i < limits.length; i++) {
-            div.innerHTML +=  '<i style="background:' + getColor(limits[i],limits) + '"></i> '
-            if (i == limits.length -1) {
-                div.innerHTML += limits[i].toFixed(3) +'+'
-            } else {
-                div.innerHTML += limits[i].toFixed(3)+' &ndash; '+limits[i+1].toFixed(3)
+          // This basically ties each break to its exact color value for
+          // that level
+          var col = getColor(limits[i], limits);
 
-            }
-            div.innerHTML+= '<br>';
+          // Add a new layer inside of the legend
+          div.innerHTML +=  '<i style="background:' + col + '"></i> ';
+
+          var thisLimVal = limits[i].toFixed(3);
+
+          // Now, for each, format one way if not the last, otherwise
+          // the last one is that one value "and up", hence the plus sign
+          if (i == (limits.length - 1)) {
+            div.innerHTML += (thisLimVal + '+');
+          } else {
+            // We can only create this if there is a "next" (this is
+            // not the last value)
+            var nextLimVal = limits[i + 1].toFixed(3);
+            div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
+            
+            // Finally, add a break no matter what
+            div.innerHTML += '<br>';
+          }
         }
 
+        // Return the newly created div
         return div;
     };
 
