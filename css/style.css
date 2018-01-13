@@ -187,6 +187,9 @@ circle.poi:hover {
   left: 0;
 }
 
+/* TODO: This is the wrong way to have these images in that pop
+         up modal; these should be moved into the HTML and this should
+         just be one style rule for all of them */
 #how-to .one {
   background: url("../assets/one.png") center no-repeat;
   height: 200px;

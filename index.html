@@ -61,6 +61,40 @@
   </div>
 </div>
 
+<!-- Pop up modal (#2) -->
+<div class="modal fade"
+     id="downloadModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="downloadModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+
+        <h3 class="modal-title" id="downloadModalLabel">
+          All data available for download
+        </h2>
+      </div>
+
+      <div class="modal-body">
+        <!-- Just add one of these for every dataset made available -->
+        <ol class="fullDownloadModalList">
+          <!-- This is population in interface.js' populateNavBarIndicators() -->
+        </ol>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="navbar navbar-default">
   <div class="col-lg-12 col-sm-12 test">
     
@@ -89,10 +123,24 @@
     <ul class="nav nav-pills nav-stacked layer-toggle-menu">
       <li>
         <button type="button"
+                class="btn btn-info btn-sm sharp-edges"
+                data-toggle="modal"
+                data-target="#downloadModal"
+                style="width:100%">
+          <span class="glyphicon glyphicon-download"></span> 
+          Download the data
+        </button>
+      </li>
+    </ul>
+    
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu">
+      <li>
+        <button type="button"
                 class="btn btn-danger btn-sm sharp-edges"
                 onclick="clearLayerManager()"
                 style="width:100%">
-          <span class="glyphicon glyphicon-trash"></span> Clear selection
+          <span class="glyphicon glyphicon-trash"></span> 
+          Clear selection
         </button>
       </li>
     </ul>
