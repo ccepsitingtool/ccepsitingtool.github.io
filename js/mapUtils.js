@@ -297,13 +297,15 @@ function populateMapWithChoropleth(fieldName) {
 
 
       legend.onAdd = function (map) {
-        console.log('in on add legend')
-        var div = L.DomUtil.create('div', 'info legend'),
-           labels = [];
+        var div = L.DomUtil.create('div', 'info legend');
+        var labels = [];
         var limits = dataQuants;
 
+        // This appears to be a hack adjustment to the
+        // legend values so the first value gets updated to 0
+        // if it is somehow the same as the second value (and, I think
+        // an implicit assumption here is that both are not zero...)
         if (limits[0] == limits[1]) { 
-          console.log('is less')
           limits[0] = 0.0
         }
         limits = limits.map(function(l) {return l==null ? 0: l});

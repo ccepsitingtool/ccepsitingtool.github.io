@@ -1,6 +1,7 @@
 /* Stuff from @kuanb */
 #leaflet_map {
-  min-height: 500px;
+  min-height: 300px;
+  overflow-y: scroll;
   z-index: 0;
 }
 
