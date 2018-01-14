@@ -114,10 +114,10 @@ function styleCircle(fileName, line){
 
 
 function circleInfoUpdate(e) {
-    var clickedCircle = e.target;
-  // do something, like:
-  // clickedCircle.bindPopup("some content").openPopup();
-  pointClick = clickedCircle;
+  // TODO: Add a binded popup
+  //      e.g.: e.target.bindPopup("some content").openPopup();
+
+  pointClick = e.target;
   mainMap.removeControl(point_legend);
   point_legend.addTo(mainMap, e)
 }
