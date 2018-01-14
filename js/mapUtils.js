@@ -380,7 +380,8 @@ function populateMapWithChoropleth(fieldName) {
           var col = getColor(limits[i], limits);
 
           // Add a new layer inside of the legend
-          div.innerHTML +=  '<i style="background:' + col + '"></i> ';
+          div.innerHTML += '<i class="leftColorMapBox" style="background:' +
+                           col + '"></i> ';
 
           var thisLimVal = limits[i].toFixed(3);
 

@@ -48,6 +48,9 @@
 .leafletMapBLBox .legend {
   line-height: 18px;
   color: #555;
+}
+
+.leafletMapBLBox .leftColorMapBox {
   width: 30px;
   height: 15px;
   float: left;
