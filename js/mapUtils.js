@@ -38,6 +38,10 @@ function clearLayerManager() {
       layerManager['choropleth'] = null;
     }
   });
+
+  // TODO: couple this with other remove operations of the same class
+  // Finally, and this is gross, remove the circle data legend
+  $('.leafletMapBLBox').remove();
 }
 
 function processCSV(data) {
