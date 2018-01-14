@@ -30,3 +30,18 @@ addCountyToMap(mainMap);
 
 //Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
+var point_legend = L.control({position: 'bottomleft'});
+var cleanFields = {
+    'dens.cvap.std': 'CVAP Density',
+    'dens.work.std': 'Worker Density',
+    'popDens.std': 'Population Density',
+    'prc.CarAccess.std': 'Percent Car Access',
+    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
+    'prc.disabled.std': 'Percent Disabled',
+    'prc.latino.std': 'Percent Latino',
+    'prc.nonEngProf.std':'Percent Non English',
+    'prc.pov.std': 'Percent Poverty',
+    'prc.youth.std': 'Percent Youth',
+    'rate.vbm.std': 'Percent Vote By Mail',
+    'wtd_center_score': 'Weighted Score'
+}

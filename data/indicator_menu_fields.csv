@@ -1,12 +1,11 @@
 basename,cleanname
-prc_nonEngProf_Final,Percent Non English
-prc_CarAccess_Final,Percent Car Access
-prcDisabled_Final,Percent Disabled
-VBM,Percent Vote By Mail 
-Tot_EligNonReg_prc,Percent Eligble Non Registered
-prc_popLatino_Final,Percent Latino
-prc_Youth_Final,Percent Youth
-prc_CarAccess_Final,Percent Car Access
-prc_Pov_Final,Percent Poverty
-inCounty_JobSum,Worker Total
-cvapDens,Eligible Voter Density
+prc_nonengprof_final,Percent Non English
+prc_caraccess_final,Percent Car Access
+prcdisabled_final,Percent Disabled
+vbm,Percent Vote By Mail 
+tot_elignonreg_prc,Percent Eligble Non Registered
+prc_poplatino_final,Percent Latino
+prc_youth_final,Percent Youth
+prc_pov_final,Percent Poverty
+incounty_jobsum,Worker Total
+cvapdens,Eligible Voter Density

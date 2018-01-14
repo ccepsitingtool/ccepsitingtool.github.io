@@ -89,6 +89,20 @@ function styleCircle(fileName, line){
         fillColor: 'green',
         fillOpacity: 0.25,
         radius: 800  
+    },
+    'poi.csv': {
+        color: 'black',
+        fillColor: 'gray',
+        fillOpacity: 0.45,
+        radius: 25,
+        opacity: .5  
+    },
+    'transit_stops.csv': {
+        color: 'darkred',
+        fillColor: 'darkred',
+        fillOpacity: 0.6,
+        radius: 10,
+        opacity: .6  
     }
 
 }
@@ -96,6 +110,17 @@ function styleCircle(fileName, line){
   // this function
   return circleStyleLookup[fileName]
 };
+
+
+
+function circleInfoUpdate(e) {
+    var clickedCircle = e.target;
+  // do something, like:
+  // clickedCircle.bindPopup("some content").openPopup();
+  pointClick = clickedCircle;
+  mainMap.removeControl(point_legend);
+  point_legend.addTo(mainMap, e)
+}
 
 function populateMapWithPoints(fileName) {
   //Indicate the Layer is Selected
@@ -126,11 +151,20 @@ function populateMapWithPoints(fileName) {
         // fresh list entirely)
         layerManager[fileName] = [];
         
+        pointsData[fileName] = {}
         processCSV(data).forEach(function(line) {
+
+          //Save Line Data to Point Object
+          pointsData[fileName][line.ID] = line;
+          // console.log(line)
           // Add a new circle shape to the map
           var loc = [line.lat, line.lon]
           var style = styleCircle(fileName, line);
-          var circle = L.circle(loc, style).addTo(mainMap);
+          var circle = L.circle(loc, style).on("click", circleInfoUpdate)
+          // console.log(line.ID)
+          // console.log(fileName)
+          circle.id = [fileName, line.ID]
+          circle.addTo(mainMap);
 
           // As well as to our layer management object
           layerManager[fileName].push(circle);
@@ -139,7 +173,42 @@ function populateMapWithPoints(fileName) {
     }
     }
   });
+
+
 }
+
+point_legend.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'info legend');
+  var labels = [];
+
+  // IF First Time Loading or No Points Being Shown
+  if (pointClick==null) {
+    div.innerHTML = "Click Points For More Information"
+    return div
+  } else {
+    console.log(layerManager)
+    var id = pointClick.id[1]
+    var fileName = pointClick.id[0]
+    console.log('abc', id, fileName)
+    var pointData = pointsData[fileName][id]
+    console.log(pointData)
+    var fields = ['dens.cvap.std','dens.work.std','popDens.std','prc.CarAccess.std',
+      'prc.ElNonReg.std','prc.disabled.std','prc.latino.std','prc.nonEngProf.std','prc.pov.std','prc.youth.std',
+      'rate.vbm.std','wtd_center_score']
+
+    div.innerHTML += '<h5>Points Data</h5>'
+    for  (var i = 0; i < fields.length; i++) {
+        console.log(fields[i])
+         div.innerHTML +=  '<i style="background:' + '' + '">'+(+pointData[fields[i]]).toFixed(2)+'</i>' + cleanFields[fields[i]] ; 
+         div.innerHTML += '<br>'
+    }
+    return div
+    // We have points shown (need to filter out )
+
+  }
+}
+
+point_legend.addTo(mainMap)
 
 // TODO: This code is totally not legible and needs to be refactored
 //       asap - can't a simple lookup dictionary work here?
@@ -226,7 +295,7 @@ function populateMapWithChoropleth(fieldName) {
   // We need to create a local variable of fieldName to keep and
   // be able to access in the success callback function
   var targetCol = fieldName;
-
+  console.log( fieldName)
   $.ajax({
     type: 'GET',
     url: loc,
@@ -313,6 +382,8 @@ function populateMapWithChoropleth(fieldName) {
       }
 
 
+
+
       legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info legend');
         var labels = [];
@@ -333,6 +404,7 @@ function populateMapWithChoropleth(fieldName) {
           return l == null ? 0 : l
         });
 
+        div.innerHTML += '<h5>Indicator Data</h5>'
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
         for (var i = 0; i < limits.length; i++) {
@@ -365,12 +437,13 @@ function populateMapWithChoropleth(fieldName) {
     };
 
 
+      // TODO - Maybe just remove this
       function onEachFeature (feature, layer) {
-        layer.on({
-          mouseover: highlightFeature,
-          mouseout: resetHighlight,
-          click: whenClicked
-        });
+        // layer.on({
+        //   mouseover: highlightFeature,
+        //   mouseout: resetHighlight,
+        //   click: whenClicked
+        // });
       }
 
       // Add the polygon layers
