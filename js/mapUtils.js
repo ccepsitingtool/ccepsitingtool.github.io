@@ -188,48 +188,7 @@ function populateMapWithPoints(fileName) {
     }
     }
   });
-
-
 }
-
-pointLegend.onAdd = function(map) {
-  var div = L.DomUtil.create('div', 'info legend pointLegend');
-  var labels = [];
-
-  // IF First Time Loading or No Points Being Shown
-  if (pointClick==null) {
-    div.innerHTML = "Click Points For More Information"
-    return div
-  } else {
-    var id = pointClick.registeredName[1]
-    var fileName = pointClick.registeredName[0]
-    var pointData = pointsData[fileName][id]
-    var fields = ['dens.cvap.std',
-                  'dens.work.std',
-                  'popDens.std',
-                  'prc.CarAccess.std',
-                  'prc.ElNonReg.std',
-                  'prc.disabled.std',
-                  'prc.latino.std',
-                  'prc.nonEngProf.std',
-                  'prc.pov.std',
-                  'prc.youth.std',
-                  'rate.vbm.std',
-                  'wtd_center_score']
-
-    div.innerHTML += '<span class="legendHeader"><h5>Points Data </h5> </span>'
-    for  (var i = 0; i < fields.length; i++) {
-         div.innerHTML +=  '<i style="background:' + '' + '">'+(+pointData[fields[i]]).toFixed(2)+'</i>' + cleanFields[fields[i]] ; 
-         div.innerHTML += '<br>'
-    }
-    div.innerHTML += "<h6 style='color:red'> <a onclick='closePointLegend()'>  Close </a> </h6>"
-    return div
-    // We have points shown (need to filter out )
-
-  }
-}
-
-pointLegend.addTo(mainMap)
 
 function closePointLegend(){
   mainMap.removeControl(pointLegend)
@@ -247,8 +206,8 @@ pointLegend.onAdd = function(map) {
 
   // Once the above check clears, proceed with business as usual (no need for
   // that else statement that was wrapping this, before, by the way)
-  var id = pointClick.id[1]
-  var fileName = pointClick.id[0]
+  var id = pointClick.registeredName[1]
+  var fileName = pointClick.registeredName[0]
   var pointData = pointsData[fileName][id]
   var fields = ['dens.cvap.std',
                 'dens.work.std',
