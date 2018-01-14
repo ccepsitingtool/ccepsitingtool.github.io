@@ -151,7 +151,7 @@ function populateMapWithPoints(fileName) {
         });
 
         // Then remove that key
-        delete layerManager[fileName]
+        delete layerManager[fileName];
       }
 
       if (pos === -1 ) {
@@ -159,19 +159,16 @@ function populateMapWithPoints(fileName) {
         // fresh list entirely)
         layerManager[fileName] = [];
         
-        pointsData[fileName] = {}
+        pointsData[fileName] = {};
         processCSV(data).forEach(function(line) {
 
           //Save Line Data to Point Object
           pointsData[fileName][line.ID] = line;
-          // console.log(line)
           // Add a new circle shape to the map
-          var loc = [line.lat, line.lon]
+          var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
-          var circle = L.circle(loc, style).on("click", circleInfoUpdate)
-          // console.log(line.ID)
-          // console.log(fileName)
-          circle.id = [fileName, line.ID]
+          var circle = L.circle(loc, style).on("click", circleInfoUpdate);
+          circle.id = [fileName, line.ID];
           circle.addTo(mainMap);
 
           // As well as to our layer management object
@@ -309,7 +306,6 @@ function populateMapWithChoropleth(fieldName) {
   // We need to create a local variable of fieldName to keep and
   // be able to access in the success callback function
   var targetCol = fieldName;
-  console.log( fieldName)
   $.ajax({
     type: 'GET',
     url: loc,
@@ -346,20 +342,6 @@ function populateMapWithChoropleth(fieldName) {
 
       // Get the Jenks breaks
       var dataQuants = chloroQuantile(allVals, 4, useJenks=true);
-      // Leaflet Styling and Things
-      function generateLeafletStyle(feature) {
-        var geoId = Number(feature.properties['GEOID']);
-        var val = Number(geoIdLookup[geoId]);
-        var qColor = getColor(val, dataQuants);
-        return {
-          fillColor: qColor,
-          weight: 1,
-          opacity: .25,
-          color: 'black',
-          fillOpacity: .75
-
-        }
-      }
 
       // TODO: Can this be moved out of the async callback?
       // Generate a new legend each time?
@@ -419,8 +401,23 @@ function populateMapWithChoropleth(fieldName) {
 
       // Add the polygon layers
       var options = {
-        style: generateLeafletStyle,
-        onEachFeature: onEachFeature
+        style: function(feature) {
+          var geoId = Number(feature.properties['GEOID']);
+          var val = Number(geoIdLookup[geoId]);
+          var qColor = getColor(val, dataQuants);
+          return {
+            fillColor: qColor,
+            weight: 1,
+            opacity: .25,
+            color: 'black',
+            fillOpacity: .75
+
+          }
+        },
+
+        // TODO: Currently we do not do anything when a
+        //       chloropleth geometry is clicked
+        onEachFeature: function() {},
       };
 
       geoJsonLayer = L.geoJson(tracts, options);
