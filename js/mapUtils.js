@@ -123,8 +123,16 @@ function circleInfoUpdate(e) {
 }
 
 function populateMapWithPoints(fileName) {
-  //Indicate the Layer is Selected
-  $('#'+fileName.slice(0, fileName.length-4)).toggleClass('selected')
+  $('.leafletMapBLBox').remove();
+  // This is a safer way to make sure that the .csv end
+  // is not in the name
+  var trimmedKey = fileName.replace('.csv', '');
+  var divId = $('#' + trimmedKey);
+
+  // Make this particular div set as selected
+  divId.toggleClass('selected');
+
+  // Then run an asyn task to acquire the actual data
   $.ajax({
     type: 'GET',
     url: `data/${fileName}`,
@@ -173,42 +181,48 @@ function populateMapWithPoints(fileName) {
     }
     }
   });
-
-
 }
 
 point_legend.onAdd = function(map) {
-  var div = L.DomUtil.create('div', 'info legend');
+  var div = L.DomUtil.create('div', 'leafletMapBLBox legend');
   var labels = [];
 
-  // IF First Time Loading or No Points Being Shown
-  if (pointClick==null) {
-    div.innerHTML = "Click Points For More Information"
-    return div
-  } else {
-    console.log(layerManager)
-    var id = pointClick.id[1]
-    var fileName = pointClick.id[0]
-    console.log('abc', id, fileName)
-    var pointData = pointsData[fileName][id]
-    console.log(pointData)
-    var fields = ['dens.cvap.std','dens.work.std','popDens.std','prc.CarAccess.std',
-      'prc.ElNonReg.std','prc.disabled.std','prc.latino.std','prc.nonEngProf.std','prc.pov.std','prc.youth.std',
-      'rate.vbm.std','wtd_center_score']
-
-    div.innerHTML += '<h5>Points Data</h5>'
-    for  (var i = 0; i < fields.length; i++) {
-        console.log(fields[i])
-         div.innerHTML +=  '<i style="background:' + '' + '">'+(+pointData[fields[i]]).toFixed(2)+'</i>' + cleanFields[fields[i]] ; 
-         div.innerHTML += '<br>'
-    }
-    return div
-    // We have points shown (need to filter out )
-
+  // If it is the first time loading, return nothing; since no
+  // points have been selected
+  if (pointClick == null) {
+    return null;
   }
-}
 
-point_legend.addTo(mainMap)
+  // Once the above check clears, proceed with business as usual (no need for
+  // that else statement that was wrapping this, before, by the way)
+  var id = pointClick.id[1]
+  var fileName = pointClick.id[0]
+  var pointData = pointsData[fileName][id]
+  var fields = ['dens.cvap.std',
+                'dens.work.std',
+                'popDens.std',
+                'prc.CarAccess.std',
+                'prc.ElNonReg.std',
+                'prc.disabled.std',
+                'prc.latino.std',
+                'prc.nonEngProf.std',
+                'prc.pov.std',
+                'prc.youth.std',
+                'rate.vbm.std',
+                'wtd_center_score']
+
+  // First, add the title of the new points data legend
+  div.innerHTML += '<h5>Points Data</h5>'
+
+  // Then iterate through the fields and add all the values data
+  for  (var i = 0; i < fields.length; i++) {
+    var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
+    div.innerHTML += '<i class="leftNumVal">' + valAsFloat + '</i>' +
+                     cleanFields[fields[i]] + '<br>';
+  }
+
+  return div;
+}
 
 // TODO: This code is totally not legible and needs to be refactored
 //       asap - can't a simple lookup dictionary work here?
@@ -347,45 +361,10 @@ function populateMapWithChoropleth(fieldName) {
         }
       }
 
-      function highlightFeature(e) {
-        var layer = e.target;
-
-        layer.setStyle({
-          weight: 2,
-          color: 'yellow',
-          dashArray: '',
-          fillOpacity: 0.75
-        });
-
-        var browserOk = (!L.Browser.ie &&
-                         !L.Browser.opera &&
-                         !L.Browser.edge)
-        if (browserOk) {
-          layer.bringToFront();
-        }
-      }
-
-      function resetHighlight(e) {
-        var layer = e.target;
-
-        layer.setStyle({
-            weight: 1,
-            color: 'black',
-            dashArray: '',
-            fillOpacity: 0.75
-        });
-      }
-
-      function whenClicked(e) {
-        // TODO Create a Popup
-        console.log(e.target)
-      }
-
-
-
-
+      // TODO: Can this be moved out of the async callback?
+      // Generate a new legend each time?
       legend.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'info legend');
+        var div = L.DomUtil.create('div', 'leafletMapBLBox legend');
         var labels = [];
 
         // Copy data quants (color bins) over from parent scope
@@ -404,7 +383,9 @@ function populateMapWithChoropleth(fieldName) {
           return l == null ? 0 : l
         });
 
-        div.innerHTML += '<h5>Indicator Data</h5>'
+        // First, add the title
+        div.innerHTML += '<h5>Indicator Data</h5>';
+
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
         for (var i = 0; i < limits.length; i++) {
@@ -434,17 +415,7 @@ function populateMapWithChoropleth(fieldName) {
 
         // Return the newly created div
         return div;
-    };
-
-
-      // TODO - Maybe just remove this
-      function onEachFeature (feature, layer) {
-        // layer.on({
-        //   mouseover: highlightFeature,
-        //   mouseout: resetHighlight,
-        //   click: whenClicked
-        // });
-      }
+      };
 
       // Add the polygon layers
       var options = {
@@ -459,14 +430,12 @@ function populateMapWithChoropleth(fieldName) {
       layerManager['choropleth'] = geoJsonLayer;
       legend.addTo(mainMap);
 
-      //Bring Circles to Front if They Are Present
+      // Move circles up to front should they exist
       Object.keys(layerManager).forEach(function(layer) {
         if (layer != 'choropleth') {
           layerManager[layer].forEach(function(d) {d.bringToFront()})
         }
-      })
-      
-
+      });
     }
   });
 }
