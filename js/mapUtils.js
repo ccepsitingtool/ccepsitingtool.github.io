@@ -35,6 +35,7 @@ function clearLayerManager() {
       $('#' + geoJsonLayer.targetCol).removeClass('selected')
       mainMap.removeLayer(geoJsonLayer);
       mainMap.removeControl(legend)
+      mainMap.removeControl(pointLegend);
       layerManager['choropleth'] = null;
     }
   });
@@ -123,7 +124,9 @@ function circleInfoUpdate(e) {
 
   pointClick = e.target;
   mainMap.removeControl(pointLegend);
-  pointLegend.addTo(mainMap, e)
+  pointLegend.addTo(mainMap, e);
+
+  $(".info.legend.indicatorLegend").insertBefore(".info.legend.pointLegend");
 }
 
 function populateMapWithPoints(fileName) {
@@ -162,26 +165,74 @@ function populateMapWithPoints(fileName) {
         // Now override all the old items in the list (or create a 
         // fresh list entirely)
         layerManager[fileName] = [];
-        
         pointsData[fileName] = {};
-        processCSV(data).forEach(function(line) {
 
+        processCSV(data).forEach(function(line) {
           //Save Line Data to Point Object
           pointsData[fileName][line.ID] = line;
+
           // Add a new circle shape to the map
           var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
+
+          // Add a Unique Identifier to the Point
           var circle = L.circle(loc, style).on("click", circleInfoUpdate);
-          circle.id = [fileName, line.ID];
+          circle.registeredName = [fileName, line.ID];
           circle.addTo(mainMap);
 
-          // As well as to our layer management object
+          // Add to Map and Layer Management
+          circle.addTo(mainMap);
           layerManager[fileName].push(circle);
         });
 
     }
     }
   });
+
+
+}
+
+pointLegend.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'info legend pointLegend');
+  var labels = [];
+
+  // IF First Time Loading or No Points Being Shown
+  if (pointClick==null) {
+    div.innerHTML = "Click Points For More Information"
+    return div
+  } else {
+    var id = pointClick.registeredName[1]
+    var fileName = pointClick.registeredName[0]
+    var pointData = pointsData[fileName][id]
+    var fields = ['dens.cvap.std',
+                  'dens.work.std',
+                  'popDens.std',
+                  'prc.CarAccess.std',
+                  'prc.ElNonReg.std',
+                  'prc.disabled.std',
+                  'prc.latino.std',
+                  'prc.nonEngProf.std',
+                  'prc.pov.std',
+                  'prc.youth.std',
+                  'rate.vbm.std',
+                  'wtd_center_score']
+
+    div.innerHTML += '<span class="legendHeader"><h5>Points Data </h5> </span>'
+    for  (var i = 0; i < fields.length; i++) {
+         div.innerHTML +=  '<i style="background:' + '' + '">'+(+pointData[fields[i]]).toFixed(2)+'</i>' + cleanFields[fields[i]] ; 
+         div.innerHTML += '<br>'
+    }
+    div.innerHTML += "<h6 style='color:red'> <a onclick='closePointLegend()'>  Close </a> </h6>"
+    return div
+    // We have points shown (need to filter out )
+
+  }
+}
+
+pointLegend.addTo(mainMap)
+
+function closePointLegend(){
+  mainMap.removeControl(pointLegend)
 }
 
 pointLegend.onAdd = function(map) {
@@ -350,7 +401,7 @@ function populateMapWithChoropleth(fieldName) {
       // TODO: Can this be moved out of the async callback?
       // Generate a new legend each time?
       legend.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'leafletMapBLBox legend');
+        var div = L.DomUtil.create('div', 'leafletMapBLBox legend indicatorLegend');
         var labels = [];
 
         // Copy data quants (color bins) over from parent scope
@@ -432,6 +483,9 @@ function populateMapWithChoropleth(fieldName) {
       layerManager['choropleth'] = geoJsonLayer;
       legend.addTo(mainMap);
 
+      // If the Point Legend is in the Chart Be Sure to Insert Before it
+      $(".info.legend.indicatorLegend").insertBefore(".info.legend.pointLegend");
+      
       // Move circles up to front should they exist
       Object.keys(layerManager).forEach(function(layer) {
         if (layer != 'choropleth') {
