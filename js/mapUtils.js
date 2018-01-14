@@ -122,8 +122,8 @@ function circleInfoUpdate(e) {
   //      e.g.: e.target.bindPopup("some content").openPopup();
 
   pointClick = e.target;
-  mainMap.removeControl(point_legend);
-  point_legend.addTo(mainMap, e)
+  mainMap.removeControl(pointLegend);
+  pointLegend.addTo(mainMap, e)
 }
 
 function populateMapWithPoints(fileName) {
@@ -184,7 +184,7 @@ function populateMapWithPoints(fileName) {
   });
 }
 
-point_legend.onAdd = function(map) {
+pointLegend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'leafletMapBLBox legend');
   var labels = [];
 
