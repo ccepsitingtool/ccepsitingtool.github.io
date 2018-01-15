@@ -27,24 +27,25 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 
 // Add geocoding search tool
 var mobileOpts = {
-  url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
-  jsonpParam: 'json_callback',
+  sourceData: function(text, callResponse) {
+    geocoder.geocode({address: text}, callResponse);
+  },   
   formatData: function(rawjson) {
     var json = {}, key, loc, disp = [];
-    for (var i in rawjson) {
-      disp = rawjson[i].display_name.split(',');  
-      key = disp[0] + ', ' + disp[1];
-      loc = L.latLng(rawjson[i].lat, rawjson[i].lon);
+    for(var i in rawjson) {
+      key = rawjson[i].formatted_address;
+      var lat = rawjson[i].geometry.location.lat();
+      var lng = rawjson[i].geometry.location.lng();
+      loc = L.latLng(lat, lng);
       json[key]= loc;
     }
-    
+
     return json;
-  },   
-  textPlaceholder: 'Search...',
+  },
+  markerLocation: true,
   autoType: false,
-  tipAutoSubmit: true,
-  autoCollapse: false,
-  autoCollapseTime: 20000,
+  autoCollapse: true,
+  minLength: 2,
   delayType: 800, // with mobile device typing is more slow
   position: 'topright',
   marker: { icon: true }
