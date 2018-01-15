@@ -35,14 +35,13 @@ function clearLayerManager() {
       $('#' + geoJsonLayer.targetCol).removeClass('selected')
       mainMap.removeLayer(geoJsonLayer);
       mainMap.removeControl(legend)
-      mainMap.removeControl(pointLegend);
       layerManager['choropleth'] = null;
     }
+
+    // Remove this legend
+    closePointLegend();
   });
 
-  // TODO: couple this with other remove operations of the same class
-  // Finally, and this is gross, remove the circle data legend
-  $('.leafletMapBLBox').remove();
 }
 
 function processCSV(data) {
@@ -123,14 +122,14 @@ function circleInfoUpdate(e) {
   //      e.g.: e.target.bindPopup("some content").openPopup();
 
   pointClick = e.target;
-  mainMap.removeControl(pointLegend);
+  closePointLegend();
   pointLegend.addTo(mainMap, e);
 
-  $(".info.legend.indicatorLegend").insertBefore(".info.legend.pointLegend");
+  $(".leafletMapBLBox.legend.indicatorLegend").insertBefore(".leafletMapBLBox.legend.pointLegend");
 }
 
 function populateMapWithPoints(fileName) {
-  $('.leafletMapBLBox').remove();
+
   // This is a safer way to make sure that the .csv end
   // is not in the name
   var trimmedKey = fileName.replace('.csv', '');
@@ -175,10 +174,21 @@ function populateMapWithPoints(fileName) {
           var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
 
-          // Add a Unique Identifier to the Point
-          var circle = L.circle(loc, style).on("click", circleInfoUpdate);
-          circle.registeredName = [fileName, line.ID];
-          circle.addTo(mainMap);
+
+          // // Do Different Things if POI/Transit vs. Model Points 
+          if (['poi.csv','transit_stops.csv'].indexOf(fileName) === -1 ){
+              // Add a Unique Identifier to the Point and Enable Click Options for the Legend
+              var circle = L.circle(loc, style).on("click", circleInfoUpdate);
+              circle.registeredName = [fileName, line.ID];
+          } else {
+              if (fileName == 'poi.csv') {
+                // Just Add a Popup
+                var popupContent = '<b>Type:</b> ' + toTitleCase(line['fclass']) + '<br>' + '<b>Name</b>: '+ line['name']
+                var circle = L.circle(loc, style).bindPopup(popupContent);
+              } else {
+                var circle = L.circle(loc, style)
+              }
+          }
 
           // Add to Map and Layer Management
           circle.addTo(mainMap);
@@ -186,8 +196,25 @@ function populateMapWithPoints(fileName) {
         });
 
     }
+
+    // Finally Check if Any Points Are Currently Active 
+    // If Not - Remove the Point Legend
+    var keys = Object.keys(layerManager);
+    // Choropleth is the only permanent item in layerManager so if len ==1 then no points. 
+    if (keys.length == 1) {
+      closePointLegend()
+      }
+
     }
   });
+
+
+}
+
+function toTitleCase(str)
+{
+    str = str.replace('_',' ')
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
 function closePointLegend(){
@@ -195,7 +222,7 @@ function closePointLegend(){
 }
 
 pointLegend.onAdd = function(map) {
-  var div = L.DomUtil.create('div', 'leafletMapBLBox legend');
+  var div = L.DomUtil.create('div', 'leafletMapBLBox pointLegend legend');
   var labels = [];
 
   // If it is the first time loading, return nothing; since no
@@ -206,9 +233,9 @@ pointLegend.onAdd = function(map) {
 
   // Once the above check clears, proceed with business as usual (no need for
   // that else statement that was wrapping this, before, by the way)
-  var id = pointClick.registeredName[1]
-  var fileName = pointClick.registeredName[0]
-  var pointData = pointsData[fileName][id]
+  var id = pointClick.registeredName[1];
+  var fileName = pointClick.registeredName[0];
+  var pointData = pointsData[fileName][id];
   var fields = ['dens.cvap.std',
                 'dens.work.std',
                 'popDens.std',
@@ -220,15 +247,23 @@ pointLegend.onAdd = function(map) {
                 'prc.pov.std',
                 'prc.youth.std',
                 'rate.vbm.std',
-                'wtd_center_score']
+                'wtd_center_score'];
+
+  function highMedLowLookupColor(val) {
+    result = val >=  .67  ? ['High','red'] :
+            val >= .33  ? ['Med&nbsp','orange']: ['Low&nbsp','yellow']
+    return result
+  }
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<h5>Points Data</h5>'
-
+  div.innerHTML += '<h5>Suggested Voting Facility (ID:' + pointData['ID'] + ')</h5>'
+  div.innerHTML += '<span><b>' + fileName  + '</b></span><br><br>'
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
-    div.innerHTML += '<i class="leftNumVal">' + valAsFloat + '</i>' +
+    var color =  highMedLowLookupColor(valAsFloat)[1]
+    var label = highMedLowLookupColor(valAsFloat)[0] 
+    div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
 
@@ -311,10 +346,11 @@ function populateMapWithChoropleth(fieldName) {
   // Controls for Adding Selection Indicator to the Button
   if (layerManager['choropleth'] != null ) {
     if (layerManager['choropleth']['targetCol'] != fieldName) {
-        $('#'+layerManager['choropleth']['targetCol']).toggleClass('selected')
+      $('#'+layerManager['choropleth']['targetCol']).toggleClass('selected')
   }
 }
   $('#'+fieldName).toggleClass('selected')
+
 
   var loc = 'data/indicator_files/' + fieldName + '.csv';
   // We need to create a local variable of fieldName to keep and
@@ -331,12 +367,12 @@ function populateMapWithChoropleth(fieldName) {
       // one that is currently on the map
       if (geoJsonLayer) {
         mainMap.removeLayer(geoJsonLayer);
-        mainMap.removeControl(legend)
         layerManager['choropleth'] = null
 
         // Exit out early if we are clicking on the same
         // item twice in a row
         if (geoJsonLayer.targetCol == targetCol) {
+          mainMap.removeControl(legend)
           return null;
         }
       }
@@ -414,7 +450,7 @@ function populateMapWithChoropleth(fieldName) {
         return div;
       };
 
-      // Add the polygon layers
+      // Polygon Options - Add the polygon layers
       var options = {
         style: function(feature) {
           var geoId = Number(feature.properties['GEOID']);
@@ -443,7 +479,7 @@ function populateMapWithChoropleth(fieldName) {
       legend.addTo(mainMap);
 
       // If the Point Legend is in the Chart Be Sure to Insert Before it
-      $(".info.legend.indicatorLegend").insertBefore(".info.legend.pointLegend");
+      $(".leafletMapBLBox.legend.indicatorLegend").insertBefore(".leafletMapBLBox.legend.pointLegend");
       
       // Move circles up to front should they exist
       Object.keys(layerManager).forEach(function(layer) {
