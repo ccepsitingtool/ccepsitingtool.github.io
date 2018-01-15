@@ -25,23 +25,37 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
     accessToken: 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q'
 }).addTo(mainMap);
 
+// Add geocoding search tool
+var mobileOpts = {
+  url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
+  jsonpParam: 'json_callback',
+  formatData: function(rawjson) {
+    var json = {}, key, loc, disp = [];
+    for (var i in rawjson) {
+      disp = rawjson[i].display_name.split(',');  
+      key = disp[0] + ', ' + disp[1];
+      loc = L.latLng(rawjson[i].lat, rawjson[i].lon);
+      json[key]= loc;
+    }
+    
+    return json;
+  },   
+  textPlaceholder: 'Search...',
+  autoType: false,
+  tipAutoSubmit: true,
+  autoCollapse: false,
+  autoCollapseTime: 20000,
+  delayType: 800, // with mobile device typing is more slow
+  position: 'topright',
+  marker: { icon: true }
+};
+
+mainMap.addControl(new L.Control.Search(mobileOpts));
+mainMap.addControl(new L.Control.Zoom());
+
 // Add the county to the map
 addCountyToMap(mainMap);
 
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
-var cleanFields = {
-    'dens.cvap.std': 'CVAP Density',
-    'dens.work.std': 'Worker Density',
-    'popDens.std': 'Population Density',
-    'prc.CarAccess.std': 'Percent Car Access',
-    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
-    'prc.disabled.std': 'Percent Disabled',
-    'prc.latino.std': 'Percent Latino',
-    'prc.nonEngProf.std':'Percent Non English',
-    'prc.pov.std': 'Percent Poverty',
-    'prc.youth.std': 'Percent Youth',
-    'rate.vbm.std': 'Percent Vote By Mail',
-    'wtd_center_score': 'Weighted Score'
-}

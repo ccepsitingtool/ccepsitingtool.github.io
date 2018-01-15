@@ -255,6 +255,22 @@ pointLegend.onAdd = function(map) {
     return result
   }
 
+  // Lookup for the div innerHtml conversion
+  var cleanFields = {
+    'dens.cvap.std': 'CVAP Density',
+    'dens.work.std': 'Worker Density',
+    'popDens.std': 'Population Density',
+    'prc.CarAccess.std': 'Percent Car Access',
+    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
+    'prc.disabled.std': 'Percent Disabled',
+    'prc.latino.std': 'Percent Latino',
+    'prc.nonEngProf.std':'Percent Non English',
+    'prc.pov.std': 'Percent Poverty',
+    'prc.youth.std': 'Percent Youth',
+    'rate.vbm.std': 'Percent Vote By Mail',
+    'wtd_center_score': 'Weighted Score'
+  };
+
   // First, add the title of the new points data legend
   div.innerHTML += '<h5>Suggested Voting Facility (ID:' + pointData['ID'] + ')</h5>'
   div.innerHTML += '<span><b>' + fileName  + '</b></span><br><br>'

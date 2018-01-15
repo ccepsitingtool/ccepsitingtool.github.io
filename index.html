@@ -12,6 +12,7 @@
   crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/leaflet-search.css" />
 </head>
 
 <body>
@@ -227,10 +228,17 @@
 <!-- Libraries needed -->
 <script src="js/jquery.min.js"
         type="text/javascript"></script>
+<script src="js/simple_statistics.js"
+        type="text/javascript"></script>
+
+<!-- Leaflet related -->
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
         crossorigin=""></script>
-<script src="js/simple_statistics.js"
+
+<!-- Leaflet geocoding -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+<script src="http://labs.easyblog.it/maps/leaflet-search/dist/leaflet-search.min.js"
         type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -249,10 +257,11 @@
 
 <!-- Global variables -->
 <script type="text/javascript">
-  var mainMap = L.map('leaflet_map').setView([38.576, -121.490], 13);
+  var mainMap = L.map('leaflet_map', {zoomControl: false}).setView([38.576, -121.490], 13);
   var layerManager = { choropleth: null };
   var pointsData = {}
   var pointClick = null;
+  var geocoder = new google.maps.Geocoder();
 </script>
 
 <!-- TODO: This data loading should happen async -->
