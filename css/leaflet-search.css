@@ -1,42 +1,39 @@
- 
 .leaflet-container .leaflet-control-search {
   position:relative;
   float:left;
   background:#fff;
   color:#1978cf;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.8);
-  z-index:1000; 
-  box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #d43f3a;
+  z-index: 1000;
   margin-left: 10px;
   margin-top: 10px;
 }
 .leaflet-control-search.search-exp {/*expanded*/
   box-shadow: 0 1px 7px #999;
-  background: #fff;
+  background: #d43f3a;
 }
 .leaflet-control-search .search-input {
   display:block;
   float:left;
   background: #fff;
   border:1px solid #666;
-  border-radius:2px;
-  height:18px;
+  height: 18px;
   padding:0 18px 0 2px;
   margin:3px 0 3px 3px;
 }
 .leaflet-control-search.search-load .search-input {
-  background: url('../assets/loader.gif') no-repeat center right #fff;
+  background: url('../assets/loader.gif') no-repeat center right #8c2320;
 }
 .leaflet-control-search.search-load .search-cancel {
   visibility:hidden;
 }
 .leaflet-control-search .search-cancel {
   display:block;
-  width:22px;
-  height:18px;
+  width: 22px;
+  height: 18px;
   position:absolute;
   right:22px;
   margin:3px 0;
@@ -57,18 +54,17 @@
   font-weight:bold;
 }
 .leaflet-control-search .search-cancel:hover span {
-  color:#aaa;
+  color: #8c2320;
 }
 .leaflet-control-search .search-button {
   display:block;
   float:left;
-  width:26px;
-  height:26px;  
-  background: url('../assets/search-icon.png') no-repeat 2px 2px #fff;
-  border-radius:4px;
+  width: 26px;
+  height: 26px;  
+  background: url('../assets/search-icon.png') no-repeat 2px 2px rgba(255, 255, 255, 0);
 }
 .leaflet-control-search .search-button:hover {
-  background: url('../assets/search-icon.png') no-repeat 2px -22px #fafafa;
+  background: url('../assets/search-icon.png') no-repeat 2px -22px rgba(255, 255, 255, 0);
 }
 .leaflet-control-search .search-tooltip {
   position:absolute;
@@ -98,11 +94,11 @@
   vertical-align:center;
 }
 .leaflet-control-search .search-button:hover {
-  background-color: #f4f4f4;
+  background-color: #8c2320;
 }
 .leaflet-control-search .search-tip-select,
 .leaflet-control-search .search-tip:hover {
-  background-color: #fff;
+  background-color: #8c2320;
 }
 .leaflet-control-search .search-alert {
   cursor:pointer;
