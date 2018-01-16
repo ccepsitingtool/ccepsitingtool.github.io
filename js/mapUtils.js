@@ -422,8 +422,8 @@ function populateMapWithChoropleth(fieldName) {
 
         // First, add the title
         div.innerHTML += '<h5>Indicator Data</h5>';
-        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br><br>'
-        console.log('In the legend')
+        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br><br>';
+
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
         for (var i = 0; i < limits.length; i++) {

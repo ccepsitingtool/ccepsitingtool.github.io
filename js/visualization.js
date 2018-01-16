@@ -513,15 +513,13 @@ function changeNeighborhoodData(new_data_column) {
 }
 
 function redrawPoints() {
-  console.log('this clicked')
   $('.points-menu').children('li.selected').each(function () {
     drawPoints($(this).children('a').attr('id'));
   });
 }
 
 function populateMapWithPoints() {
-  console.log('hey')
-
+  // TODO: What is this for?
 }
 
 function drawPoints(type) {

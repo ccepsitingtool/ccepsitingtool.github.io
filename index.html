@@ -7,9 +7,10 @@
 
   <title>CCEP | Voting Facility Siting Tools</title>
   
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-  integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-  crossorigin=""/>
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/leaflet-search.css" />
@@ -115,6 +116,11 @@
       <img src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
     </a>
 
+    <button class="btn btn-primary pull-right hidden-xs"
+            onclick="printScreen()">
+      <span class="glyphicon glyphicon-print"></span>
+    </button>
+
     <button class="btn btn-danger pull-right hidden-xs"
             data-toggle="modal"
             data-target="#myModal">
@@ -194,7 +200,9 @@
   <div id="main-container" class="posabs" style="position:relative;">
     
     <div class="menu-toggle posabs btn-danger">
-      <strong class="closed">Choose a dataset</strong>
+      <strong class="closed">
+        Choose a dataset
+      </strong>
       <strong class="open">
         <span class="glyphicon glyphicon-chevron-left"></span> Hide menu
       </strong>

@@ -41,6 +41,23 @@ function toggleMenu() {
   }
 }
 
+function printScreen() {
+  var toggleMenu = $('.menu-toggle');
+  var isToggled = toggleMenu.parent().hasClass('toggled')
+  if (isToggled) {
+    var animDir = { 'left' : 0 };
+    toggleMenu.parent().animate(animDir, 350, function() {
+      $('#main-container').removeClass('toggled');
+
+      // Then queue print screen
+      window.print();
+    });
+  } else {
+    // Do nothing, just go to print
+    window.print();
+  }
+}
+
 // Initializing these functions
 $('.menu-toggle').on('click', toggleMenu);
 populateNavBarIndicators();
