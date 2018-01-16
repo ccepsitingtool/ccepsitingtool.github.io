@@ -262,7 +262,31 @@
   var layerManager = { choropleth: null };
   var pointsData = {}
   var pointClick = null;
+  
+  // Instantiate Google geocoder object
   var geocoder = new google.maps.Geocoder();
+  
+  // Filename data
+  var cleanFields = {
+    'dens.cvap.std': 'CVAP Density',
+    'dens.work.std': 'Worker Density',
+    'popDens.std': 'Population Density',
+    'prc.CarAccess.std': 'Percent Car Access',
+    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
+    'prc.disabled.std': 'Percent Disabled',
+    'prc.latino.std': 'Percent Latino',
+    'prc.nonEngProf.std':'Percent Non English',
+    'prc.pov.std': 'Percent Poverty',
+    'prc.youth.std': 'Percent Youth',
+    'rate.vbm.std': 'Percent Vote By Mail',
+    'wtd_center_score': 'Weighted Score'
+  }
+  var cleanFiles = {
+    'dropoff_d_centers.csv': 'Ballot Drop Box',
+    'all_test_points.csv': 'All Potential Sites',
+    'three_d_centers.csv'  : '3 Days Prior to Election',
+    'ten_d_centers.csv'    : '10 Days Prior to Election'
+  }
 </script>
 
 <!-- TODO: This data loading should happen async -->

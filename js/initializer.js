@@ -56,7 +56,6 @@ mainMap.addControl(new L.Control.Zoom());
 
 // Add the county to the map
 addCountyToMap(mainMap);
-
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});

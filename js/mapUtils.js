@@ -273,7 +273,7 @@ pointLegend.onAdd = function(map) {
 
   // First, add the title of the new points data legend
   div.innerHTML += '<h5>Suggested Voting Facility (ID:' + pointData['ID'] + ')</h5>'
-  div.innerHTML += '<span><b>' + fileName  + '</b></span><br><br>'
+  div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
@@ -292,17 +292,6 @@ function getColor(d , classify) {
   // Function takes in d - a specific value and
   // classify - a list of break points
 
-  // This appears to be preserved from an older set of breaks
-  // var colorObject = {
-  //   8 : 'rgb(222,235,247)',
-  //   7 : 'rgb(198,219,239)',
-  //   6 : 'rgb(158,202,225)',
-  //   5 : 'rgb(107,174,214)',
-  //   4 : 'rgb(66,146,198)',
-  //   3 : 'rgb(33,113,181)',
-  //   2 : 'rgb(8,81,156)',
-  //   1 : 'rgb(8,48,107)',
-  //   0 : 'white'};
 
   // We then pick the appropriate color relating the break points
   var colorObject = {
@@ -433,7 +422,8 @@ function populateMapWithChoropleth(fieldName) {
 
         // First, add the title
         div.innerHTML += '<h5>Indicator Data</h5>';
-
+        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br><br>'
+        console.log('In the legend')
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
         for (var i = 0; i < limits.length; i++) {

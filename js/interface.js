@@ -7,6 +7,7 @@ function populateNavBarIndicators(){
       processCSV(data).forEach(function(line) {
         var bn = line['basename'];
         var cn = line['cleanname'];
+        cleanFiles[bn] = cn
         var li = '<li id=' + bn + '><a onclick=' +
                  '"populateMapWithChoropleth(\'' +
                  bn + '\')">' + cn + '</a></li>';
