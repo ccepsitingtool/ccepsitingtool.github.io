@@ -258,16 +258,34 @@ circle.poi:hover {
   position: absolute;
   content: "";
   width: 14px; height: 14px;
-  background: #e2b640;
+  background: #655876;
   border: 1px solid #fff;
   top: 8px;
   right: 11px;
   border-radius: 16px;
 }
 
+.selected#three_d_centers a:after {
+  background: blue;
+}
+
+.selected#dropoff_d_centers a:after {
+  background: green;
+}
+
+.selected#all_test_points a:after {
+  background: red ;
+}
+
+.selected#ten_d_centers a:after {
+  background: orange ;
+}
+
 .schools-menu .selected a:after {
   background: #d75452;
 }
+
+
 
 .schools-menu .selected a#charters:after {
   border-radius: 0;
