@@ -42,20 +42,23 @@ var mobileOpts = {
 
     return json;
   },
+  textPlaceholder:'Enter Address',
   markerLocation: true,
   autoType: false,
-  autoCollapse: true,
+  autoCollapse: false,
   minLength: 2,
   delayType: 800, // with mobile device typing is more slow
-  position: 'topright',
-  marker: { icon: true }
+  position: 'topleft',
+  marker: { icon: false }
 };
 
 mainMap.addControl(new L.Control.Search(mobileOpts));
-mainMap.addControl(new L.Control.Zoom());
-
+mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
 // Add the county to the map
 addCountyToMap(mainMap);
+
+// Make the Seach Box Always be Open
+$('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});

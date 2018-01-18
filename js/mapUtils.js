@@ -389,7 +389,7 @@ function populateMapWithChoropleth(fieldName) {
       var geoIdLookup = {}
       processCSV(data).forEach(function(line) {
         var targetField = Number(line[targetCol]);
-        var geoId = Number(line['GEOID']);
+        var geoId = Number(line['geoid']);
 
         allVals.push(targetField);
         geoIdLookup[geoId] = targetField;

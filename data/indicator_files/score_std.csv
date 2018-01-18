@@ -1,4 +1,4 @@
-lon,lat,county,num_stops_per_day,score_std
+stop_long,stop_lat,county,num_stops_per_day,score_std
 -121.41783,38.450207,67,56,1.0
 -121.427384,38.452549,67,56,1.0
 -121.427223,38.452835,67,54,1.0
