@@ -62,6 +62,6 @@ $('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
-
+var dowd;
 // Add print tooling
 

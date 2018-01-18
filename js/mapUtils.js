@@ -311,40 +311,16 @@ function getColor(d , classify) {
   return result;
 }
 
+
 // Helps in getting colors for the maps
-function chloroQuantile(data, breaks, useJenks=false){
+function chloroQuantile(data, breaks){
   var sorted = data.sort(function(a, b) {
     return (a - b);
   });
-
   var quants = [];
-  if (useJenks) {
-    quants = ss.jenks(sorted, breaks);
-    var lastindex = (quants.length - 1);
-    // TODO: @mdgis this seems hacky let's see if we 
-    // can revisit this and improve it
-    quants[lastindex] += .00000001;
-    return quants
-  } else {
-    // Doing Quantile Instead
-    // TODO: @mdgis it would help to add more comments
-    var p = .99999999/k;
+  quants = ss.jenks(sorted, breaks);
+  return quants
   
-    for (var i=1; i < (breaks + 1); i++) {
-      var qVal = ss.quantile(sorted, p*i);
-  
-      // TODO: @mdgis it would help to add more comments, it seems like there's
-      //       a lot of adjusting going on that is circumventing the underlying
-      //       problem
-      if (i === breaks) {
-        var adjustment = .0000001;
-        qVal = qVal + adjustment;
-      }
-      quants.push(qVal);
-    }
-  
-    return quants;
-  }
 }
 
 function populateMapWithChoropleth(fieldName) {
@@ -386,6 +362,7 @@ function populateMapWithChoropleth(fieldName) {
       // in the following functions that are bound to the
       // chloropleth layer
       var allVals = []
+
       var geoIdLookup = {}
       processCSV(data).forEach(function(line) {
         var targetField = Number(line[targetCol]);
@@ -395,8 +372,11 @@ function populateMapWithChoropleth(fieldName) {
         geoIdLookup[geoId] = targetField;
       });
 
+      var maxVal = Math.max.apply(Math,allVals);
+      var dowd = allVals;
+
       // Get the Jenks breaks
-      var dataQuants = chloroQuantile(allVals, 4, useJenks=true);
+      var dataQuants = chloroQuantile(allVals, 5);
 
       // TODO: Can this be moved out of the async callback?
       // Generate a new legend each time?
@@ -406,6 +386,7 @@ function populateMapWithChoropleth(fieldName) {
 
         // Copy data quants (color bins) over from parent scope
         var limits = dataQuants;
+        var dataMaxVal = maxVal;
 
         // This appears to be a hack adjustment to the
         // legend values so the first value gets updated to 0
@@ -426,16 +407,15 @@ function populateMapWithChoropleth(fieldName) {
 
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
-        for (var i = 0; i < limits.length; i++) {
+        for (var i = 0; i < limits.length-1; i++) {
           // This basically ties each break to its exact color value for
           // that level
           var col = getColor(limits[i], limits);
-
           // Add a new layer inside of the legend
           div.innerHTML += '<i class="leftColorMapBox" style="background:' +
                            col + '"></i> ';
 
-          var thisLimVal = limits[i].toFixed(3);
+          var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
 
           // Now, for each, format one way if not the last, otherwise
           // the last one is that one value "and up", hence the plus sign
@@ -444,7 +424,7 @@ function populateMapWithChoropleth(fieldName) {
           } else {
             // We can only create this if there is a "next" (this is
             // not the last value)
-            var nextLimVal = limits[i + 1].toFixed(3);
+            var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
             div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
             
             // Finally, add a break no matter what
