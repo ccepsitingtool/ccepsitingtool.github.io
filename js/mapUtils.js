@@ -55,6 +55,8 @@ function styleCircle(fileName, line){
   var circleStyleLookup = {
     'three_d_centers.csv': {
         color: 'blue',
+        weight: .5,
+        opacity: .8,
         fillColor: 'blue',
         fillOpacity: 0.25,
         radius: 800  
@@ -62,12 +64,16 @@ function styleCircle(fileName, line){
     'ten_d_centers.csv': {
         color: 'orange',
         fillColor: 'orange',
+        weight: .5,
+        opacity: .8,
         fillOpacity: 0.25,
         radius: 800  
     },
     'dropoff_d_centers.csv': {
         color: 'green',
         fillColor: 'green',
+        weight: .5,
+        opacity: .8,
         fillOpacity: 0.25,
         radius: 800  
     },
