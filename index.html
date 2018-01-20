@@ -222,15 +222,11 @@
   <center>
     <a href="">
       Methodology
-      <!-- <img alt="DataKind"
-           src="/assets/dk_orange.png"> -->
     </a>
 
     |
         <a href="">
-      Other Links ?
-      <!-- <img alt="DataKind"
-           src="/assets/dk_orange.png"> -->
+      More Information on the Purpose of the Siting Tool
     </a>
   </center>
 </div>
@@ -255,7 +251,8 @@
   function adjustSizing() {
     var wdh = $(window).height();
     var nbh = $('.navbar').height();
-    $('#leaflet_map').height(wdh - nbh);
+    var bottomBarH = 30 
+    $('#leaflet_map').height(wdh - nbh - bottomBarH);
   }
 
   // First call it once on page load
