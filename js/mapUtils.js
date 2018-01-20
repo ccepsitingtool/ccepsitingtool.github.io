@@ -233,8 +233,8 @@ pointLegend.onAdd = function(map) {
                 'wtd_center_score'];
 
   function highMedLowLookupColor(val) {
-    result = val >=  .67  ? ['High','#e86666'] :
-            val >= .33  ? ['Med&nbsp','#f4bf42']: ['Low&nbsp','#f4ff7c']
+    result = val >=  .67  ? ['High','#f03b20'] :
+            val >= .33  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
     return result
   }
 
