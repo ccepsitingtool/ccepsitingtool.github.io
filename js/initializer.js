@@ -1,3 +1,27 @@
+function processCSV(data) {
+  var allTextLines = data.split(/\r\n|\n/);
+  var headers = allTextLines[0].split(',');
+  var lines = [];
+
+  for (var i=1; i < allTextLines.length; i++) {
+    var data = allTextLines[i].split(',');
+    if (data.length == headers.length) {
+
+      // Create an object for each row
+      var tarr = {};
+      for (var j = 0; j < headers.length; j++) {
+        var h = headers[j].replace(/"/g, '');
+        var v = data[j].replace(/"/g, '');
+        tarr[h] = v;
+      }
+
+      // Push each JSON to a list
+      lines.push(tarr);
+    }
+  }
+  return lines;
+}
+
 function addCountyToMap(map) {
   $.ajax({
     type: 'GET',
@@ -42,23 +66,28 @@ var mobileOpts = {
 
     return json;
   },
+  textPlaceholder:'Enter Address',
   markerLocation: true,
   autoType: false,
-  autoCollapse: true,
+  autoCollapse: false,
   minLength: 2,
   delayType: 800, // with mobile device typing is more slow
-  position: 'topright',
-  marker: { icon: true }
+  position: 'topleft',
+  marker: { icon: false }
 };
 
 mainMap.addControl(new L.Control.Search(mobileOpts));
-mainMap.addControl(new L.Control.Zoom());
-
+mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
 // Add the county to the map
 addCountyToMap(mainMap);
+
+
+// Make the Seach Box Always be Open
+$('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
-
 // Add print tooling
+
+
 

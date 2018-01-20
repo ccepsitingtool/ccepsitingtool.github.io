@@ -5,7 +5,7 @@ function clearLayerManager() {
   keys.forEach(function(key) {
     // Currently, the chloropleth layers are being treated differently
     // that the other datsets, so we are skipping them in this operation
-    var keyIsOkay = (key != 'choropleth');
+    var keyIsOkay = (key != 'choropleth' && key != 'unreliable');
     
     if (keyIsOkay) {
       // This is a safer way to make sure that the .csv end
@@ -31,11 +31,16 @@ function clearLayerManager() {
 
     //Remove the GeoJson Layer Too
     var geoJsonLayer = layerManager['choropleth'];
+    var unreliableLayer = layerManager['unreliable']
     if (geoJsonLayer) {
       $('#' + geoJsonLayer.targetCol).removeClass('selected')
       mainMap.removeLayer(geoJsonLayer);
+      mainMap.removeLayer(unreliableLayer)
+
       mainMap.removeControl(legend)
       layerManager['choropleth'] = null;
+      layerManager['unreliable'] = null;
+
     }
 
     // Remove this legend
@@ -44,40 +49,14 @@ function clearLayerManager() {
 
 }
 
-function processCSV(data) {
-  var allTextLines = data.split(/\r\n|\n/);
-  var headers = allTextLines[0].split(',');
-  var lines = [];
 
-  for (var i=1; i < allTextLines.length; i++) {
-    var data = allTextLines[i].split(',');
-    if (data.length == headers.length) {
-
-      // Create an object for each row
-      var tarr = {};
-      for (var j = 0; j < headers.length; j++) {
-        var h = headers[j].replace(/"/g, '');
-        var v = data[j].replace(/"/g, '');
-        tarr[h] = v;
-      }
-
-      // Push each JSON to a list
-      lines.push(tarr);
-    }
-  }
-  return lines;
-}
 
 function styleCircle(fileName, line){
   var circleStyleLookup = {
-    'all_test_points.csv': {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.25,
-        radius: 800        
-    },
     'three_d_centers.csv': {
         color: 'blue',
+        weight: .5,
+        opacity: .8,
         fillColor: 'blue',
         fillOpacity: 0.25,
         radius: 800  
@@ -85,12 +64,16 @@ function styleCircle(fileName, line){
     'ten_d_centers.csv': {
         color: 'orange',
         fillColor: 'orange',
+        weight: .5,
+        opacity: .8,
         fillOpacity: 0.25,
         radius: 800  
     },
     'dropoff_d_centers.csv': {
         color: 'green',
         fillColor: 'green',
+        weight: .5,
+        opacity: .8,
         fillOpacity: 0.25,
         radius: 800  
     },
@@ -201,7 +184,7 @@ function populateMapWithPoints(fileName) {
     // If Not - Remove the Point Legend
     var keys = Object.keys(layerManager);
     // Choropleth is the only permanent item in layerManager so if len ==1 then no points. 
-    if (keys.length == 1) {
+    if (keys.length == 2) {
       closePointLegend()
       }
 
@@ -250,8 +233,8 @@ pointLegend.onAdd = function(map) {
                 'wtd_center_score'];
 
   function highMedLowLookupColor(val) {
-    result = val >=  .67  ? ['High','red'] :
-            val >= .33  ? ['Med&nbsp','orange']: ['Low&nbsp','yellow']
+    result = val >=  .67  ? ['High','#f03b20'] :
+            val >= .33  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
     return result
   }
 
@@ -272,7 +255,7 @@ pointLegend.onAdd = function(map) {
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<h5>Suggested Voting Facility (ID:' + pointData['ID'] + ')</h5>'
+  div.innerHTML += '<h5>Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</h5>'
   div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
@@ -311,40 +294,42 @@ function getColor(d , classify) {
   return result;
 }
 
+
 // Helps in getting colors for the maps
-function chloroQuantile(data, breaks, useJenks=false){
+function chloroQuantile(data, breaks){
   var sorted = data.sort(function(a, b) {
     return (a - b);
   });
-
   var quants = [];
-  if (useJenks) {
-    quants = ss.jenks(sorted, breaks);
-    var lastindex = (quants.length - 1);
-    // TODO: @mdgis this seems hacky let's see if we 
-    // can revisit this and improve it
-    quants[lastindex] += .00000001;
-    return quants
-  } else {
-    // Doing Quantile Instead
-    // TODO: @mdgis it would help to add more comments
-    var p = .99999999/k;
+  quants = ss.jenks(sorted, breaks);
+  return quants
   
-    for (var i=1; i < (breaks + 1); i++) {
-      var qVal = ss.quantile(sorted, p*i);
-  
-      // TODO: @mdgis it would help to add more comments, it seems like there's
-      //       a lot of adjusting going on that is circumventing the underlying
-      //       problem
-      if (i === breaks) {
-        var adjustment = .0000001;
-        qVal = qVal + adjustment;
+}
+
+function unreliableMarkers(unreliableTracts, fieldName) {
+
+ // Polygon Options - Add the polygon layers
+  var options = {
+    style: function(feature) {
+      var geoId = (+feature.properties['geoid']).toString()
+      var opacityval = unreliableTracts.indexOf(geoId) > -1 ? .5 : 0;
+      return {
+        fillColor: 'black',
+        weight: .5,
+        opacity: opacityval,
+        color: 'black',
+        fillOpacity:  opacityval
       }
-      quants.push(qVal);
-    }
-  
-    return quants;
-  }
+    },
+  };
+
+    unreliableLayer = L.geoJson(tractCentroidSquares, options);
+    unreliableLayer.addTo(mainMap);
+
+    layerManager['unreliable'] = unreliableLayer
+
+
+
 }
 
 function populateMapWithChoropleth(fieldName) {
@@ -367,13 +352,14 @@ function populateMapWithChoropleth(fieldName) {
     dataType: 'text',
     success: function(data) {
       var geoJsonLayer = layerManager['choropleth'];
-
+      var unreliableLayer = layerManager['unreliable']
       // If there is a chloropleth present, make sure to remove the
       // one that is currently on the map
       if (geoJsonLayer) {
         mainMap.removeLayer(geoJsonLayer);
+        mainMap.removeLayer(unreliableLayer)
         layerManager['choropleth'] = null
-
+        layerManager['unreliable'] = null
         // Exit out early if we are clicking on the same
         // item twice in a row
         if (geoJsonLayer.targetCol == targetCol) {
@@ -386,17 +372,26 @@ function populateMapWithChoropleth(fieldName) {
       // in the following functions that are bound to the
       // chloropleth layer
       var allVals = []
+      var unreliableTracts = []
       var geoIdLookup = {}
       processCSV(data).forEach(function(line) {
         var targetField = Number(line[targetCol]);
-        var geoId = Number(line['GEOID']);
+        var geoId = Number(line['geoid']);
+
+        if (line.unreliable_flag == 1) {
+          unreliableTracts.push(line.geoid)
+        }
 
         allVals.push(targetField);
         geoIdLookup[geoId] = targetField;
       });
 
+
+
+      var maxVal = Math.max.apply(Math,allVals);
+
       // Get the Jenks breaks
-      var dataQuants = chloroQuantile(allVals, 4, useJenks=true);
+      var dataQuants = chloroQuantile(allVals, 5);
 
       // TODO: Can this be moved out of the async callback?
       // Generate a new legend each time?
@@ -406,6 +401,7 @@ function populateMapWithChoropleth(fieldName) {
 
         // Copy data quants (color bins) over from parent scope
         var limits = dataQuants;
+        var dataMaxVal = maxVal;
 
         // This appears to be a hack adjustment to the
         // legend values so the first value gets updated to 0
@@ -426,16 +422,15 @@ function populateMapWithChoropleth(fieldName) {
 
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
-        for (var i = 0; i < limits.length; i++) {
+        for (var i = 0; i < limits.length-1; i++) {
           // This basically ties each break to its exact color value for
           // that level
           var col = getColor(limits[i], limits);
-
           // Add a new layer inside of the legend
           div.innerHTML += '<i class="leftColorMapBox" style="background:' +
                            col + '"></i> ';
 
-          var thisLimVal = limits[i].toFixed(3);
+          var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
 
           // Now, for each, format one way if not the last, otherwise
           // the last one is that one value "and up", hence the plus sign
@@ -444,12 +439,20 @@ function populateMapWithChoropleth(fieldName) {
           } else {
             // We can only create this if there is a "next" (this is
             // not the last value)
-            var nextLimVal = limits[i + 1].toFixed(3);
+            var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
             div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
             
             // Finally, add a break no matter what
             div.innerHTML += '<br>';
           }
+        }
+
+        if (unreliableTracts.length > 0) {
+          console.log('yes')
+          div.innerHTML += '<br><i class="leftColorMapBox" style="background:black;  width:15px; float:left;"></i>'
+          div.innerHTML += "Indicates Unreliable" 
+          div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
+          div.innerHTML +=  'ACS Estimates'
         }
 
         // Return the newly created div
@@ -484,15 +487,22 @@ function populateMapWithChoropleth(fieldName) {
       layerManager['choropleth'] = geoJsonLayer;
       legend.addTo(mainMap);
 
+
+
+
       // If the Point Legend is in the Chart Be Sure to Insert Before it
       $(".leafletMapBLBox.legend.indicatorLegend").insertBefore(".leafletMapBLBox.legend.pointLegend");
       
       // Move circles up to front should they exist
       Object.keys(layerManager).forEach(function(layer) {
-        if (layer != 'choropleth') {
+        if (layer != 'choropleth' && layer != 'unreliable') {
           layerManager[layer].forEach(function(d) {d.bringToFront()})
         }
       });
+            unreliableMarkers(unreliableTracts, fieldName)
+
     }
+
   });
+
 }

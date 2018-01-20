@@ -1,11 +1,16 @@
 basename,cleanname
-prc_nonengprof_final,Percent Non English
-prc_caraccess_final,Percent Car Access
-prcdisabled_final,Percent Disabled
-vbm,Percent Vote By Mail 
-tot_elignonreg_prc,Percent Eligble Non Registered
-prc_poplatino_final,Percent Latino
-prc_youth_final,Percent Youth
-prc_pov_final,Percent Poverty
-incounty_jobsum,Worker Total
-cvapdens,Eligible Voter Density
+prc_caraccess_final,Percent of Population with Vehicle Access
+cvapdens,Density of Voting Age Citizens
+prcdisabled_final,Percent Disabled Population
+tot_elignonreg_prc_final,Eligible Non-Registered Voter Rate
+job_dens,Worker Density
+prc_poplatino_final,Percent Latino Population
+prc_nonengprof_final,Percent Limited English Proficient Population
+pollvoter_dens,Density of Polling Place Voters
+popdens,Population Density
+prc_pov_final,Percent of the Population in Poverty
+vbm_rate_asn,Vote by Mail Rate (Asian)
+vbm_rate_lat,Vote by Mail Rate (Latino)
+vbm_rate_tot,Vote by Mail Rate (Total)
+vbm_rate_youth,Vote by Mail Rate (Youth)
+prc_youth_final,Percent of the Youth Population
