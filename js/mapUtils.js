@@ -467,7 +467,7 @@ function populateMapWithChoropleth(fieldName) {
           var qColor = getColor(val, dataQuants);
           return {
             fillColor: qColor,
-            weight: 1,
+            weight: 1.2,
             opacity: .25,
             color: 'black',
             fillOpacity: .75

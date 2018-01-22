@@ -26,7 +26,7 @@
 <div class="navbar navbar-default">
   <div class="col-lg-12 col-sm-12 test">
     
-    <a class="navbar-brand" href="http://ccep.ucdavis.edu/">
+    <a style="padding: 20px 0"class="navbar-brand" href="http://ccep.ucdavis.edu/">
       <img src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
     </a>
 
@@ -34,33 +34,32 @@
 
 
 
-    <h1>Vote Center Siting Tool</h1>
+<!--     <h1>Vote Center Siting Tool</h1>
 
     <p class="intro">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+    </p> -->
 
   </div>
 </div>
 
 <div class="row clearfix" style="width: 100%; overflow-x: hidden;">
   
-      <div id="content-wrapper" class="col-lg-7 col-md-7 col-sm-7">
+      <div id="content-wrapper" class="col-lg-7 col-md-7 col-sm-7" style="overflow-y: scroll">
 
       <div id="county_context">
-        <h1>County Selection</h1>
+
+        <h1> Vote Center Siting Tool</h1>
         <p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
 
+        <h2>County Selection</h2>
+        <p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+
+        <h3>Currently Available Counties</h3>
+        <ul id='county_list'>
+        </ul>
 
       </div>
-
-      <div id="source">
-        <h3 id="sources" class="panel-title">
-          Sources
-        </h3>
-        <a id="source-title"></a>
-      </div>
-
     </div>
 
 
@@ -115,6 +114,7 @@
     var nbh = $('.navbar').height();
     var bottomBarH = 30 
     $('#county_leaflet_map').height(wdh - nbh - bottomBarH);
+    $('#county_context').height(wdh - nbh - bottomBarH);
   }
 
   // First call it once on page load
@@ -126,7 +126,37 @@
 
 <!-- Global variables -->
 <script type="text/javascript">
-  var countyMap = L.map('county_leaflet_map', {zoomControl: false}).setView([37.7, -119.7], 6);
+  var countyContext = L.control();
+  var availableCounties ={};
+  var availableCountiesKeys = [];
+  var countiesLayer;
+function processCSV(data) {
+  var allTextLines = data.split(/\r\n|\n/);
+  var headers = allTextLines[0].split(',');
+  var lines = [];
+
+  for (var i=1; i < allTextLines.length; i++) {
+    var data = allTextLines[i].split(',');
+    if (data.length == headers.length) {
+
+      // Create an object for each row
+      var tarr = {};
+      for (var j = 0; j < headers.length; j++) {
+        var h = headers[j].replace(/"/g, '');
+        var v = data[j].replace(/"/g, '');
+        tarr[h] = v;
+      }
+
+      // Push each JSON to a list
+      lines.push(tarr);
+    }
+  }
+  return lines;
+}
+
+
+// Leaflet Map Stuff
+var countyMap = L.map('county_leaflet_map', {zoomControl: false}).setView([37.7, -119.7], 6);
 
 // We will need to replace the accessToken before releasing (since
 // you are just using mine right now)
@@ -140,38 +170,35 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 
 
 
-// control that shows COunty info on hover
-var countyContext = L.control();
-countyContext.onAdd = function (map) {
-  this._div = L.DomUtil.create('div', 'leafletMapBLBox');
-  this.update();
-  return this._div;
-};
+function createMapInterfaces(){
 
-countyContext.update = function (props) {
-  this._div.innerHTML = '<h4>County Name</h4>' +  (props ?
-    '<b>' + props.name + '</b><br />' 
-    : 'Hover over a county');
-};
-countyContext.addTo(countyMap);
+  countyContext.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'leafletMapBLBox');
+    this.update();
+    return this._div;
+    };
 
+  countyContext.update = function (props) {
+    if (props != undefined && (availableCountiesKeys.indexOf(props['countyfp']) > -1 ) ){
+      var hasVoteSitePage =  '<span style="color:steelblue">Click County to See Vote Sites</span>' 
+      } else {
+      var hasVoteSitePage =  '<span style="color:red">Vote Sites Not Yet Available</span>'
+    }
+    
+    this._div.innerHTML = '<h4>County Name</h4>' +  (props ?
+      '<b>' + props.name + '</b><br />'  + hasVoteSitePage
+      : 'Hover over a county');
+  };
+}
 
-// 
-
-
-// Counties Model Has been Run for
-var valid_counties = ['067']
-var countiesLayer;
 function addCountiesToMap(california_counties) {
 
  // Polygon Options - Add the polygon layers
   var options = {
     style: function(feature) {
-      var geoId = (+feature.properties['geoid']).toString()
       var countyId = feature.properties['countyfp']
-      // var opacityval = unreliableTracts.indexOf(geoId) > -1 ? .5 : 0;
       return {
-        fillColor: valid_counties.indexOf(countyId) > -1 ? 'yellow' : 'white',
+        fillColor: availableCountiesKeys.indexOf(countyId) > -1 ? 'yellow' : 'white',
         weight: 1,
         opacity: .5,
         color: 'black',
@@ -185,9 +212,9 @@ function addCountiesToMap(california_counties) {
 
                         layer.setStyle({
                           weight: 5,
-                          color: '#666',
+                          color: 'black',
                           dashArray: '',
-                          fillOpacity: 0.7
+                          fillOpacity: 0.15 
                         });
 
                         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -203,30 +230,45 @@ function addCountiesToMap(california_counties) {
         click:  function (e) {
             var countyId = e.target.feature.properties['countyfp']
 
-            if (valid_counties.indexOf(countyId) > -1 ) {
-              window.open(e.target.feature.properties.name + '.html','_self');
+            if (availableCountiesKeys.indexOf(countyId) > -1 ) {
+              window.open(availableCounties[countyId].url,'_self');
             }
             
       }
       });
     }
   };
-
+  // Add to Map
   countiesLayer = L.geoJson(california_counties, options);
   countiesLayer.addTo(countyMap);
-
 }
 
-addCountiesToMap(california_counties)
+// Check Available Counties Create Map Interfaces, Update Maps
+ $.ajax({
+    type: 'GET',
+    url: `data/available_counties.csv`,
+    dataType: 'text',
+    success: function(data) {
+    processCSV(data).forEach(function(line) {
+      //Save Line Data to Point Object
+      availableCounties[line['id']] = line
+      availableCountiesKeys.push(line['id'])
+    })
+    availableCountiesKeys = availableCountiesKeys.sort()
+
+    availableCountiesKeys.forEach(function(listItem) {
+      var listHtml = '<li> <a href="' + availableCounties[listItem].url + '">' +availableCounties[listItem].name + '</a></li>'
+      $('#county_list').append(listHtml)
+    })
+    createMapInterfaces()
+    countyContext.addTo(countyMap);
+    addCountiesToMap(california_counties)
+    }
+  });
 
 </script>
 
 
-
-<!-- Initialization library -->
-<!-- <script src="js/initializer.js" type="text/javascript"></script>
-<script src="js/interface.js" type="text/javascript"></script>
-<script src="js/mapUtils.js" type="text/javascript"></script> -->
 
 <!-- Remaining carry-over libraries -->
 <script src="js/queue.v1.min.js"></script>
