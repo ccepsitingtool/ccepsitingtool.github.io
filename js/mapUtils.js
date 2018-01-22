@@ -240,17 +240,17 @@ pointLegend.onAdd = function(map) {
 
   // Lookup for the div innerHtml conversion
   var cleanFields = {
-    'dens.cvap.std': 'CVAP Density',
+    'dens.cvap.std': 'Density of Voting Age Citizens',
     'dens.work.std': 'Worker Density',
     'popDens.std': 'Population Density',
-    'prc.CarAccess.std': 'Percent Car Access',
-    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
-    'prc.disabled.std': 'Percent Disabled',
-    'prc.latino.std': 'Percent Latino',
-    'prc.nonEngProf.std':'Percent Non English',
-    'prc.pov.std': 'Percent Poverty',
-    'prc.youth.std': 'Percent Youth',
-    'rate.vbm.std': 'Percent Vote By Mail',
+    'prc.CarAccess.std': 'Percent of Population with Vehicle Access',
+    'prc.ElNonReg.std' : 'Eligible Non-Registered Voter Rate',
+    'prc.disabled.std': 'Percent Disabled Population',
+    'prc.latino.std': 'Percent Latino Population',
+    'prc.nonEngProf.std':'Percent Limited English Proficient Population',
+    'prc.pov.std': 'Percent of the Population in Poverty',
+    'prc.youth.std': 'Percent of the Youth Population',
+    'rate.vbm.std': 'Vote by Mail Rate',
     'wtd_center_score': 'Weighted Score'
   };
 
@@ -467,7 +467,7 @@ function populateMapWithChoropleth(fieldName) {
           var qColor = getColor(val, dataQuants);
           return {
             fillColor: qColor,
-            weight: 1,
+            weight: 1.2,
             opacity: .25,
             color: 'black',
             fillOpacity: .75

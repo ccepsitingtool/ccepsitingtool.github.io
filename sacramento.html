@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <title>CCEP | Vote Center Siting Tool</title>
+  
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/leaflet-search.css" />
+</head>
+
+<body>
+
+<!-- Pop up modal -->
+<div class="modal fade"
+     id="myModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+
+        <h2 class="modal-title" id="myModalLabel">How To Use This Tool (TODO)</h2>
+      </div>
+
+      <div id="how-to" class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="one" style="position:relative;">
+              <h3>Click menu, select data layer</h3>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="two" style="position:relative;">
+              <h3>Select Potential Vote Sites</h3>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="three" style="position:relative;">
+              <h3>Click Indicator Data to View Chropleth Maps</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pop up modal (#2) -->
+<div class="modal fade"
+     id="downloadModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="downloadModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+
+        <h3 class="modal-title" id="downloadModalLabel">
+          All data available for download
+        </h3>
+      </div>
+
+      <div class="modal-body">
+        <!-- Just add one of these for every dataset made available -->
+        <ol class="fullDownloadModalList">
+          <li>
+            <a href="/data/three_d_centers.csv">Three Day Centers</a>
+          </li>
+          <li>
+            <a href="/data/ten_d_centers.csv">Ten Day Centers</a>
+          </li>
+          <li>
+            <a href="/data/dropoff_d_centers.csv">Dropoff Locations</a>
+          </li>
+          <!-- This is populated in interface.js' populateNavBarIndicators() -->
+        </ol>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="navbar navbar-default">
+  <div class="col-lg-12 col-sm-12 test">
+    
+    <a class="navbar-brand" href="http://ccep.ucdavis.edu/">
+      <img src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
+    </a>
+
+        <button class="btn btn-primary pull-right hidden-xs"
+            onclick=" window.open('index.html','_self');">
+      <span class="glyphicon glyphicon-home "></span>
+    </button>
+
+    <button class="btn btn-primary pull-right hidden-xs"
+            onclick="printScreen()">
+      <span class="glyphicon glyphicon-print"></span>
+    </button>
+
+    <button class="btn btn-danger pull-right hidden-xs"
+            data-toggle="modal"
+            data-target="#myModal">
+      How To Use This Tool
+    </button>
+
+    <h1>Vote Center Siting Tool</h1>
+
+    <p class="intro">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
+  </div>
+</div>
+
+<div class="posrel" style="width: 100%; overflow-x: hidden;">
+  <div id="nav-panel" class="posabs">
+    
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu">
+      <li>
+        <button type="button"
+                class="btn btn-info btn-sm sharp-edges"
+                data-toggle="modal"
+                data-target="#downloadModal"
+                style="width:100%">
+          <span class="glyphicon glyphicon-download"></span> 
+          Data Descriptions and Download
+        </button>
+      </li>
+    </ul>
+    
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu">
+      <li>
+        <button type="button"
+                class="btn btn-danger btn-sm sharp-edges"
+                onclick="clearLayerManager()"
+                style="width:100%">
+          <span class="glyphicon glyphicon-trash"></span> 
+          Clear selection
+        </button>
+      </li>
+    </ul>
+    
+    <h4 class="">Suggested Vote Facility Locations (1 Mile Diameter)</h4>
+    
+    <ul class="nav nav-pills nav-stacked models-menu points-menu ">
+      <li id='three_d_centers'>
+        <a onclick="populateMapWithPoints('three_d_centers.csv')">3 Days Prior to Election Day</a>
+      </li>
+      <li id='ten_d_centers'>
+        <a onclick="populateMapWithPoints('ten_d_centers.csv')">10 Days Prior to Election Day</a>
+      </li>
+        <li id='dropoff_d_centers'>
+        <a onclick="populateMapWithPoints('dropoff_d_centers.csv')">Ballot Drop Box</a>
+      </li>
+    </ul>
+
+    <h4 class="">Points of interest</h4>
+    <ul class="nav nav-pills nav-stacked poi-menu points-menu">
+      <li id='poi'>
+        <a onclick="populateMapWithPoints('poi.csv')">Points of Interest</a>
+      </li>
+      <li id='transit_stops'>
+        <a onclick="populateMapWithPoints('transit_stops.csv')">Transit Stops</a>
+      </li>
+    </ul>
+
+    <h4>Indicator Data</h4>
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu indicator-menu points-menu">
+      <!-- These get added via the indicator_menu_fields.csv -->
+    </ul>
+  </div>
+
+  <div id="main-container" class="posabs" style="position:relative;">
+    
+    <div class="menu-toggle posabs btn-danger">
+      <strong class="closed">
+        Show Menu
+      </strong>
+      <strong class="open">
+        <span class="glyphicon glyphicon-chevron-left"></span> Hide menu
+      </strong>
+    </div>
+
+    <div id="content-wrapper" class="col-lg-12 col-md-12 col-sm-12">
+
+      <div id="leaflet_map"></div>
+
+      <div id="source">
+        <h3 id="sources" class="panel-title">
+          Sources
+        </h3>
+        <a id="source-title"></a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <center>
+    <a href="">
+      Methodology
+    </a>
+
+    |
+        <a href="">
+      More Information on the Purpose of the Siting Tool
+    </a>
+    |
+        <a href="">
+      Acknowledgments
+    </a>
+    
+  </center>
+</div>
+
+<!-- Libraries needed -->
+<script src="js/jquery.min.js"
+        type="text/javascript"></script>
+<script src="js/simple_statistics.js"
+        type="text/javascript"></script>
+
+<!-- Leaflet related -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+
+<!-- Leaflet geocoding -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyBhsCF_BS6oDPz0zI4bB5ameixlRAX_880"></script>
+<script src="js/leaflet_search.js"
+        type="text/javascript"></script>
+
+<script type="text/javascript">
+  function adjustSizing() {
+    var wdh = $(window).height();
+    var nbh = $('.navbar').height();
+    var bottomBarH = 30 
+    $('#leaflet_map').height(wdh - nbh - bottomBarH);
+  }
+
+  // First call it once on page load
+  adjustSizing();
+
+  // Then bind it to be called every time the page window is changed in size
+  $(window).resize(adjustSizing);
+</script>
+
+<!-- Global variables -->
+<script type="text/javascript">
+  var mainMap = L.map('leaflet_map', {zoomControl: false}).setView([38.4, -121.37], 10);
+  var layerManager = { choropleth: null , unreliable: null};
+  var pointsData = {}
+  var pointClick = null;
+  var currentZoom = mainMap.getZoom();
+  // Instantiate Google geocoder object
+  var geocoder = new google.maps.Geocoder();
+  
+  // Filename data
+  var cleanFields = {
+    'dens.cvap.std': 'CVAP Density',
+    'dens.work.std': 'Worker Density',
+    'popDens.std': 'Population Density',
+    'prc.CarAccess.std': 'Percent Car Access',
+    'prc.ElNonReg.std' : 'Percent Eligible Non Registered',
+    'prc.disabled.std': 'Percent Disabled',
+    'prc.latino.std': 'Percent Latino',
+    'prc.nonEngProf.std':'Percent Non English',
+    'prc.pov.std': 'Percent Poverty',
+    'prc.youth.std': 'Percent Youth',
+    'rate.vbm.std': 'Percent Vote By Mail',
+    'wtd_center_score': 'Weighted Score'
+  }
+  var cleanFiles = {
+    'dropoff_d_centers.csv': 'Ballot Drop Box',
+    'all_test_points.csv': 'All Potential Sites',
+    'three_d_centers.csv'  : '3 Days Prior to Election',
+    'ten_d_centers.csv'    : '10 Days Prior to Election'
+  }
+</script>
+
+<!-- TODO: This data loading should happen async -->
+<script src="data/tracts.js"></script>
+<script src="data/tract_centroid3310.js"></script>
+
+<!-- Initialization library -->
+<script src="js/initializer.js" type="text/javascript"></script>
+<script src="js/interface.js" type="text/javascript"></script>
+<script src="js/mapUtils.js" type="text/javascript"></script>
+
+<!-- Remaining carry-over libraries -->
+<script src="js/queue.v1.min.js"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+</body>
+</html>
