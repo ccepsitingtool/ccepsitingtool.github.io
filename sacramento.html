@@ -180,7 +180,20 @@
       </li>
     </ul>
 
-    <h4 class="">Points of interest</h4>
+<div style='padding: 10px'></div>
+<h4> Additional Data</h4>
+<div id="accordion">
+  
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <div class="nav nav-pills nav-stacked collapsed h5 extradata" data-toggle="collapse" data-target="#collapsePOIS" aria-expanded="false" aria-controls="collapsePOIS" onclick="downArrow('poi_arrow')">
+          <i id="poi_arrow" class="arrow"></i> Points of Interest & Transit
+        </div>
+      </h5>
+    </div>
+    <div id="collapsePOIS" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+       <!-- <h5 class="">Points of interest</h5> -->
     <ul class="nav nav-pills nav-stacked poi-menu points-menu">
       <li id='poi'>
         <a onclick="populateMapWithPoints('poi.csv')">Points of Interest</a>
@@ -189,11 +202,39 @@
         <a onclick="populateMapWithPoints('transit_stops.csv')">Transit Stops</a>
       </li>
     </ul>
-
-    <h4>Indicator Data</h4>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <div class="nav nav-pills nav-stacked h5 collapsed extradata" data-toggle="collapse" data-target="#collapseIndicator" aria-expanded="false" aria-controls="collapseIndicator" onclick="downArrow('indicator_arrow')" >
+         <i id="indicator_arrow" class="arrow"></i>   Indicator Data
+        </div>
+      </h5>
+    </div>
+    <div id="collapseIndicator" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
     <ul class="nav nav-pills nav-stacked layer-toggle-menu indicator-menu points-menu">
       <!-- These get added via the indicator_menu_fields.csv -->
     </ul>
+    </div>
+  </div>
+</div>
+
+    <!-- <h5 class="">Points of interest</h5> -->
+    <!-- <ul class="nav nav-pills nav-stacked poi-menu points-menu"> -->
+      <!-- <li id='poi'> -->
+        <!-- <a onclick="populateMapWithPoints('poi.csv')">Points of Interest</a> -->
+      <!-- </li> -->
+      <!-- <li id='transit_stops'> -->
+        <!-- <a onclick="populateMapWithPoints('transit_stops.csv')">Transit Stops</a> -->
+      <!-- </li> -->
+    <!-- </ul> -->
+
+    <!-- <h5>Indicator Data</h5> -->
+    <!-- <ul class="nav nav-pills nav-stacked layer-toggle-menu indicator-menu points-menu"> -->
+      <!-- These get added via the indicator_menu_fields.csv -->
+    <!-- </ul> -->
+
   </div>
 
   <div id="main-container" class="posabs" style="position:relative;">
@@ -282,6 +323,12 @@
   // Instantiate Google geocoder object
   var geocoder = new google.maps.Geocoder();
   
+
+  // Display Stuff
+  function downArrow(e){
+    $("#"+e).toggleClass('down')
+      
+      }
   // Filename data
   var cleanFields = {
     'dens.cvap.std': 'CVAP Density',

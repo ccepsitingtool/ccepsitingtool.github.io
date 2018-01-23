@@ -58,7 +58,7 @@ function styleCircle(fileName, line){
         weight: .5,
         opacity: .8,
         fillColor: 'blue',
-        fillOpacity: 0.25,
+        fillOpacity: 0.40,
         radius: 800  
     },
     'ten_d_centers.csv': {
@@ -66,7 +66,7 @@ function styleCircle(fileName, line){
         fillColor: 'orange',
         weight: .5,
         opacity: .8,
-        fillOpacity: 0.25,
+        fillOpacity: 0.40,
         radius: 800  
     },
     'dropoff_d_centers.csv': {
@@ -74,7 +74,7 @@ function styleCircle(fileName, line){
         fillColor: 'green',
         weight: .5,
         opacity: .8,
-        fillOpacity: 0.25,
+        fillOpacity: 0.40,
         radius: 800  
     },
     'poi.csv': {
