@@ -179,7 +179,7 @@ p {
 .menu-toggle {
   cursor: pointer;
   left: 0px;
-  top: 100px;
+  top: 30px;
   padding: 10px 15px;
   z-index: 250;
 }
