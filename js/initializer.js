@@ -82,6 +82,18 @@ mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
 addCountyToMap(mainMap);
 
 
+
+// Helps in getting colors for the maps
+function chloroQuantile(data, breaks){
+  var sorted = data.sort(function(a, b) {
+    return (a - b);
+  });
+  var quants = [];
+  quants = ss.jenks(sorted, breaks);
+  return quants
+  
+}
+
 // Make the Seach Box Always be Open
 $('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
@@ -89,5 +101,21 @@ var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
 // Add print tooling
 
+
+//Precalculate Quantile Values for Scores 
+var siteWeightValues = [];
+var siteWeightClasses;
+console.log('in initializer')
+$.ajax({
+    type: 'GET',
+    url: `data/all_test_points_CMA_revised.csv`,
+    dataType: 'text',
+    success: function(data) {
+      processCSV(data).forEach(function(line) {
+        siteWeightValues.push(+line['wtd_center_score'])
+      })
+      siteWeightClasses = chloroQuantile(siteWeightValues, 5)
+    }
+  })
 
 

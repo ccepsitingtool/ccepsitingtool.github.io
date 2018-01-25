@@ -49,39 +49,76 @@ function clearLayerManager() {
 
 }
 
+function quantilePointWeights(d){
+  var rdPrpl = {
+    0:'white',
+    1:'#fa9fb5',
+    2:'#f768a1',
+    3:'#c51b8a',
+    4:'#7a0177'
+  }
 
+
+        
+  var result =  d >= siteWeightClasses[4]  ? rdPrpl[4] :
+                d >= siteWeightClasses[3]  ? rdPrpl[3] :
+                d >= siteWeightClasses[2]  ? rdPrpl[2] :
+                d >= siteWeightClasses[1]  ? rdPrpl[1] :
+             rdPrpl[0] 
+      
+  return result;
+
+};
 
 function styleCircle(fileName, line){
+  var voteSiteWeight = .5;
+  var voteSiteOpacity = .8;
+
+
   var circleStyleLookup = {
-    'three_d_centers.csv': {
-        color: 'blue',
-        weight: .5,
-        opacity: .8,
-        fillColor: 'blue',
-        fillOpacity: 0.40,
-        radius: 800  
-    },
-    'ten_d_centers.csv': {
-        color: 'orange',
-        fillColor: 'orange',
-        weight: .5,
-        opacity: .8,
-        fillOpacity: 0.40,
-        radius: 800  
-    },
-    'dropoff_d_centers.csv': {
-        color: 'green',
-        fillColor: 'green',
-        weight: .5,
-        opacity: .8,
-        fillOpacity: 0.40,
-        radius: 800  
-    },
+    // 'three_d_centers.csv': {
+    //     color: 'blue',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillColor: 'blue',
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
+    // 'ten_d_centers.csv': {
+    //     color: 'orange',
+    //     fillColor: 'orange',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
+    // 'dropoff_d_centers.csv': {
+    //     color: 'green',
+    //     fillColor: 'green',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
     'poi.csv': {
         color: 'black',
         fillColor: 'gray',
         fillOpacity: 0.45,
-        radius: 25,
+        radius: 35,
+        opacity: .5  
+    },
+    'poi_misc.csv': {
+        color: 'darkred',
+        fillColor: 'darkred',
+        fillOpacity: 0.45,
+        radius: 35,
+        opacity: .5  
+    },
+    'poi_govish.csv': {
+        color: 'red',
+        fillColor: 'darkorange',
+        fillOpacity: 0.45,
+        radius: 35,
         opacity: .5  
     },
     'transit_stops.csv': {
@@ -90,6 +127,62 @@ function styleCircle(fileName, line){
         fillOpacity: 0.6,
         radius: 10,
         opacity: .6  
+    },
+    'all_test_points_CMA_revised.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+    'all_4.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#7a0177',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_3.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#c51b8a',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_2.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#f768a1',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_1.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#fa9fb5',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_0.csv':{
+        color: 'gray',
+        weight: .5,
+        fillColor: 'fcc5c0',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+    'geo_isolated.csv':{
+        color: 'black',
+        weight: 2,
+        fillColor: 'fcc5c0',
+        fillOpacity: 0,
+        opacity: 1,
+        radius: 400
     }
 
 }
@@ -159,18 +252,19 @@ function populateMapWithPoints(fileName) {
 
 
           // // Do Different Things if POI/Transit vs. Model Points 
-          if (['poi.csv','transit_stops.csv'].indexOf(fileName) === -1 ){
-              // Add a Unique Identifier to the Point and Enable Click Options for the Legend
-              var circle = L.circle(loc, style).on("click", circleInfoUpdate);
-              circle.registeredName = [fileName, line.ID];
-          } else {
-              if (fileName == 'poi.csv') {
+          if (['poi.csv','transit_stops.csv','poi_misc.csv','poi_govish.csv'].indexOf(fileName) > -1 ){
+               if (['poi.csv','poi_misc.csv','poi_govish.csv'].indexOf(fileName) > -1 ) {
                 // Just Add a Popup
                 var popupContent = '<b>Type:</b> ' + toTitleCase(line['fclass']) + '<br>' + '<b>Name</b>: '+ line['name']
                 var circle = L.circle(loc, style).bindPopup(popupContent);
               } else {
                 var circle = L.circle(loc, style)
               }
+
+          } else {
+              // Add a Unique Identifier to the Point and Enable Click Options for the Legend
+              var circle = L.circle(loc, style).on("click", circleInfoUpdate);
+              circle.registeredName = [fileName, line.ID];
           }
 
           // Add to Map and Layer Management
@@ -229,8 +323,7 @@ pointLegend.onAdd = function(map) {
                 'prc.nonEngProf.std',
                 'prc.pov.std',
                 'prc.youth.std',
-                'rate.vbm.std',
-                'wtd_center_score'];
+                'rate.vbm.std'];
 
   function highMedLowLookupColor(val) {
     result = val >=  .67  ? ['High','#f03b20'] :
@@ -251,12 +344,12 @@ pointLegend.onAdd = function(map) {
     'prc.pov.std': 'Percent of the Population in Poverty',
     'prc.youth.std': 'Percent of the Youth Population',
     'rate.vbm.std': 'Vote by Mail Rate',
-    'wtd_center_score': 'Weighted Score'
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<h5>Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</h5>'
-  div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
+  div.innerHTML += '<h4>Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</h4>'
+  // div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
+  div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br><br>'
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
@@ -265,10 +358,22 @@ pointLegend.onAdd = function(map) {
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-
+  div.innerHTML += '<br><span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;">CLOSE</span>'
   return div;
 }
 
+
+function hidePoints(){
+  var k = 'all_test_points_CMA_revised.csv'
+  var searchPoints = layerManager[k]
+  
+
+  searchPoints.forEach(function (d, idx) {
+    console.log(pointsData[k][d.registeredName[1]])
+    // searchPoints[idx].setStyle({'opacity':0, 'fillOpacity':0})
+  })
+
+};
 // TODO: This code is totally not legible and needs to be refactored
 //       asap - can't a simple lookup dictionary work here?
 function getColor(d , classify) {
@@ -294,17 +399,6 @@ function getColor(d , classify) {
   return result;
 }
 
-
-// Helps in getting colors for the maps
-function chloroQuantile(data, breaks){
-  var sorted = data.sort(function(a, b) {
-    return (a - b);
-  });
-  var quants = [];
-  quants = ss.jenks(sorted, breaks);
-  return quants
-  
-}
 
 function unreliableMarkers(unreliableTracts, fieldName) {
 
