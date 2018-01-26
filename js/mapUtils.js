@@ -136,6 +136,14 @@ function styleCircle(fileName, line){
         opacity: 1,
         radius: 400
     },
+    'flp_selection_nocost.csv':{
+        color: 'yellow',
+        weight: 1.5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: 1,
+        radius: 400
+    },
     'all_test_points_CMA_revised.csv':{
         color: '#fcc5c0',
         weight: .5,
@@ -533,26 +541,33 @@ function populateMapWithChoropleth(fieldName) {
           div.innerHTML += '<i class="leftColorMapBox" style="background:' +
                            col + '"></i> ';
 
-          var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
 
           // Now, for each, format one way if not the last, otherwise
           // the last one is that one value "and up", hence the plus sign
-          if (i == (limits.length - 1)) {
-            div.innerHTML += (thisLimVal + '+');
-          } else {
+   
             // We can only create this if there is a "next" (this is
             // not the last value)
-            var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
+            // CVAP density, job density, population density
+            if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
+              console.log(limits.slice(0))
+              var decimalLimit = limits[1] < .01 ? 3 : limits[1] < .1 ? 2: 2;
+              var thisLimVal = (limits[i]).toFixed(decimalLimit).toString()
+              var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString();
+            } else {
+              var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
+              var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
+            }
+            
             div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
             
             // Finally, add a break no matter what
             div.innerHTML += '<br>';
-          }
+          
         }
 
         if (unreliableTracts.length > 0) {
           console.log('yes')
-          div.innerHTML += '<br><i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left;"></i>'
+          div.innerHTML += '<i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left; margin-top:4px;"></i>'
           div.innerHTML += '<span style="font-size:12px">Estimates that have a high'
           div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
           div.innerHTML +=  '<span style="font-size:12px">degree of uncertainty</span>'

@@ -87,8 +87,15 @@
   font-weight: bold;
   font-size: 17px;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 2px; 
 
+}
+
+.countyTitle{
+  font-weight: bold;
+  font-size: 25px;
+  display: block;
+  margin-bottom: 5px;
 }
 /* Stuff from before */
 body {
