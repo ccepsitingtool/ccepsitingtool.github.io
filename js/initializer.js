@@ -2,7 +2,6 @@ function processCSV(data) {
   var allTextLines = data.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
   var lines = [];
-
   for (var i=1; i < allTextLines.length; i++) {
     var data = allTextLines[i].split(',');
     if (data.length == headers.length) {
@@ -17,7 +16,10 @@ function processCSV(data) {
 
       // Push each JSON to a list
       lines.push(tarr);
+    } else {
+      console.log('Headers Length Longer than Cols')
     }
+
   }
   return lines;
 }

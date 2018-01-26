@@ -128,6 +128,14 @@ function styleCircle(fileName, line){
         radius: 10,
         opacity: .6  
     },
+    'flp_selection.csv':{
+        color: 'black',
+        weight: 1.5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: 1,
+        radius: 400
+    },
     'all_test_points_CMA_revised.csv':{
         color: '#fcc5c0',
         weight: .5,
@@ -205,7 +213,6 @@ function circleInfoUpdate(e) {
 }
 
 function populateMapWithPoints(fileName) {
-
   // This is a safer way to make sure that the .csv end
   // is not in the name
   var trimmedKey = fileName.replace('.csv', '');
@@ -220,6 +227,7 @@ function populateMapWithPoints(fileName) {
     url: `data/${fileName}`,
     dataType: 'text',
     success: function(data) {
+      console.log('in ajax')
       // First check if this layer is already on the map
       var keys = Object.keys(layerManager);
       var pos = keys.indexOf(fileName);
@@ -237,15 +245,16 @@ function populateMapWithPoints(fileName) {
       }
 
       if (pos === -1 ) {
+        console.log('in pos -1s')
         // Now override all the old items in the list (or create a 
         // fresh list entirely)
         layerManager[fileName] = [];
         pointsData[fileName] = {};
 
         processCSV(data).forEach(function(line) {
+          // console.log(line)
           //Save Line Data to Point Object
           pointsData[fileName][line.ID] = line;
-
           // Add a new circle shape to the map
           var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
@@ -347,9 +356,9 @@ pointLegend.onAdd = function(map) {
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<h4>Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</h4>'
+  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</span>'
   // div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
-  div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br><br>'
+  div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
@@ -358,7 +367,7 @@ pointLegend.onAdd = function(map) {
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-  div.innerHTML += '<br><span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;">CLOSE</span>'
+  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;">CLOSE</span>'
   return div;
 }
 
@@ -511,8 +520,8 @@ function populateMapWithChoropleth(fieldName) {
         });
 
         // First, add the title
-        div.innerHTML += '<h5>Indicator Data</h5>';
-        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br><br>';
+        div.innerHTML += '<span class="legendTitle">Indicator Data</span>';
+        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br>';
 
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
@@ -543,10 +552,10 @@ function populateMapWithChoropleth(fieldName) {
 
         if (unreliableTracts.length > 0) {
           console.log('yes')
-          div.innerHTML += '<br><i class="leftColorMapBox" style="background:black;  width:15px; float:left;"></i>'
-          div.innerHTML += "Indicates Unreliable" 
+          div.innerHTML += '<br><i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left;"></i>'
+          div.innerHTML += '<span style="font-size:12px">Estimates that have a high'
           div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
-          div.innerHTML +=  'ACS Estimates'
+          div.innerHTML +=  '<span style="font-size:12px">degree of uncertainty</span>'
         }
 
         // Return the newly created div

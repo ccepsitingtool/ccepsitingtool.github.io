@@ -82,6 +82,14 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.legendTitle {
+  font-weight: bold;
+  font-size: 17px;
+  display: block;
+  margin-bottom: 2px;
+
+}
 /* Stuff from before */
 body {
   overflow-x: hidden;
