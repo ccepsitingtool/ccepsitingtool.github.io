@@ -105,18 +105,46 @@ var pointLegend = L.control({position: 'bottomleft'});
 
 
 //Precalculate Quantile Values for Scores 
-var siteWeightValues = [];
-var siteWeightClasses;
-console.log('in initializer')
+var siteWeightValues = {};
+var siteWeightClasses = {};
+
 $.ajax({
     type: 'GET',
     url: `data/all_test_points_CMA_revised.csv`,
     dataType: 'text',
     success: function(data) {
-      processCSV(data).forEach(function(line) {
-        siteWeightValues.push(+line['wtd_center_score'])
+
+    var pointCols = ['dens.cvap.std',
+                    'dens.work.std',
+                    'popDens.std',
+                    'prc.CarAccess.std',
+                    'prc.ElNonReg.std' ,
+                    'prc.disabled.std',
+                    'prc.latino.std',
+                    'prc.nonEngProf.std',
+                    'prc.pov.std',
+                    'prc.youth.std',
+                    'rate.vbm.std',
+                    'wtd_center_score'];
+
+      pointCols.forEach(function(col){
+        siteWeightValues[col] = [];
       })
-      siteWeightClasses = chloroQuantile(siteWeightValues, 5)
+
+      processCSV(data).forEach(function(line) {
+        pointCols.forEach(function(col){
+          siteWeightValues[col].push(+line[col])
+        })
+        
+      });
+
+      Object.keys(siteWeightValues).forEach(function(k) {
+        if (['wtd_center_score'].indexOf(k) > -1){
+          siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 5)
+        } else {
+          siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 3)
+        }
+      })
     }
   })
 

@@ -58,12 +58,11 @@ function quantilePointWeights(d){
     4:'#7a0177'
   }
 
-
-        
-  var result =  d >= siteWeightClasses[4]  ? rdPrpl[4] :
-                d >= siteWeightClasses[3]  ? rdPrpl[3] :
-                d >= siteWeightClasses[2]  ? rdPrpl[2] :
-                d >= siteWeightClasses[1]  ? rdPrpl[1] :
+  var classes =  siteWeightClasses['wtd_center_score']
+  var result =  d >= classes[4]  ? rdPrpl[4] :
+                d >= classes[3]  ? rdPrpl[3] :
+                d >= classes[2]  ? rdPrpl[2] :
+                d >= classes[1]  ? rdPrpl[1] :
              rdPrpl[0] 
       
   return result;
@@ -144,7 +143,7 @@ function styleCircle(fileName, line){
         opacity: 1,
         radius: 400
     },
-    'all_test_points_CMA_revised.csv':{
+    'all_sites.csv':{
         color: '#fcc5c0',
         weight: .5,
         fillColor: quantilePointWeights(+line['wtd_center_score']),
@@ -201,23 +200,29 @@ function styleCircle(fileName, line){
         radius: 400
     }
 
-}
+  }
   // At some point we may have a crosswalk that lies outside
   // this function
   return circleStyleLookup[fileName]
 };
 
 
-
 function circleInfoUpdate(e) {
-  // TODO: Add a binded popup
-  //      e.g.: e.target.bindPopup("some content").openPopup();
-
+  // Things we do when a vote site point is clicked. 
+  if (pointClick != null){
+      var specificVals = pointClick.registeredName[0] == 'flp_selection.csv' ? {'color':'black','weight':1.5} :
+                      pointClick.registeredName[0] == 'flp_selection_nocost.csv' ? {'color':'yellow','weight':1.5} : 
+                          {'color':'#fcc5c0','weight':.5};
+      pointClick.setStyle(specificVals)
+  }
   pointClick = e.target;
   closePointLegend();
   pointLegend.addTo(mainMap, e);
 
   $(".leafletMapBLBox.legend.indicatorLegend").insertBefore(".leafletMapBLBox.legend.pointLegend");
+
+
+  pointClick.setStyle({'color':'yellow','weight':2})
 }
 
 function populateMapWithPoints(fileName) {
@@ -235,7 +240,6 @@ function populateMapWithPoints(fileName) {
     url: `data/${fileName}`,
     dataType: 'text',
     success: function(data) {
-      console.log('in ajax')
       // First check if this layer is already on the map
       var keys = Object.keys(layerManager);
       var pos = keys.indexOf(fileName);
@@ -253,7 +257,6 @@ function populateMapWithPoints(fileName) {
       }
 
       if (pos === -1 ) {
-        console.log('in pos -1s')
         // Now override all the old items in the list (or create a 
         // fresh list entirely)
         layerManager[fileName] = [];
@@ -289,6 +292,14 @@ function populateMapWithPoints(fileName) {
           layerManager[fileName].push(circle);
         });
 
+        // Need to Make Sure the Suggested Sites are always on top of "all sites"
+        var keys = Object.keys(layerManager)
+        keys.forEach(function(layer) {
+          if (['flp_selection.csv','flp_selection_nocost.csv'].indexOf(layer) > -1) {
+            layerManager[layer].forEach(function(d) {d.bringToFront()})
+          }
+        });
+
     }
 
     // Finally Check if Any Points Are Currently Active 
@@ -305,14 +316,13 @@ function populateMapWithPoints(fileName) {
 
 }
 
-function toTitleCase(str)
-{
-    str = str.replace('_',' ')
+function toTitleCase(str) { str = str.replace('_',' ')
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
 function closePointLegend(){
   mainMap.removeControl(pointLegend)
+  pointClick.setStyle({'color':'black'})
 }
 
 pointLegend.onAdd = function(map) {
@@ -342,10 +352,11 @@ pointLegend.onAdd = function(map) {
                 'prc.youth.std',
                 'rate.vbm.std'];
 
-  function highMedLowLookupColor(val) {
-    result = val >=  .67  ? ['High','#f03b20'] :
-            val >= .33  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
-    return result
+  function highMedLowLookupColor(val, fieldName) {
+      var classes = siteWeightClasses[fieldName]
+      result = val >=  classes[2]  ? ['High','#f03b20'] :
+              val >= classes[1]  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
+      return result
   }
 
   // Lookup for the div innerHtml conversion
@@ -365,39 +376,25 @@ pointLegend.onAdd = function(map) {
 
   // First, add the title of the new points data legend
   div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</span>'
-  // div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
-  div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
+  // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
+  console.log('Weighted Score=',pointData['wtd_center_score']) //Keep for reference
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
-    var color =  highMedLowLookupColor(valAsFloat)[1]
-    var label = highMedLowLookupColor(valAsFloat)[0] 
+    var colorLabel = highMedLowLookupColor(valAsFloat, fields[i])
+    var color =  colorLabel[1]
+    var label = colorLabel[0] 
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;">CLOSE</span>'
+  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
+  div.innerHTML += '<span style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;"><a href="http://ccep.ucdavis.edu/">Methodology</a></span>'
   return div;
 }
 
 
-function hidePoints(){
-  var k = 'all_test_points_CMA_revised.csv'
-  var searchPoints = layerManager[k]
-  
 
-  searchPoints.forEach(function (d, idx) {
-    console.log(pointsData[k][d.registeredName[1]])
-    // searchPoints[idx].setStyle({'opacity':0, 'fillOpacity':0})
-  })
-
-};
-// TODO: This code is totally not legible and needs to be refactored
-//       asap - can't a simple lookup dictionary work here?
 function getColor(d , classify) {
-  // Function takes in d - a specific value and
-  // classify - a list of break points
-
-
   // We then pick the appropriate color relating the break points
   var colorObject = {
           0: '#ffffcc',
@@ -418,7 +415,7 @@ function getColor(d , classify) {
 
 
 function unreliableMarkers(unreliableTracts, fieldName) {
-
+  //Function to add the shapes that indicate the data is somewhat unreliable
  // Polygon Options - Add the polygon layers
   var options = {
     style: function(feature) {
@@ -436,7 +433,6 @@ function unreliableMarkers(unreliableTracts, fieldName) {
 
     unreliableLayer = L.geoJson(tractCentroidSquares, options);
     unreliableLayer.addTo(mainMap);
-
     layerManager['unreliable'] = unreliableLayer
 
 
@@ -541,32 +537,24 @@ function populateMapWithChoropleth(fieldName) {
           div.innerHTML += '<i class="leftColorMapBox" style="background:' +
                            col + '"></i> ';
 
-
-          // Now, for each, format one way if not the last, otherwise
-          // the last one is that one value "and up", hence the plus sign
-   
-            // We can only create this if there is a "next" (this is
-            // not the last value)
-            // CVAP density, job density, population density
-            if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
-              console.log(limits.slice(0))
-              var decimalLimit = limits[1] < .01 ? 3 : limits[1] < .1 ? 2: 2;
-              var thisLimVal = (limits[i]).toFixed(decimalLimit).toString()
-              var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString();
-            } else {
-              var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
-              var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
-            }
-            
-            div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
-            
-            // Finally, add a break no matter what
-            div.innerHTML += '<br>';
+          // Controls for how to format numbers in the legend
+          if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
+            var decimalLimit = limits[1] < .01 ? 3 : limits[1] < .1 ? 2: 2; // How much to round the numbers
+            var thisLimVal = (limits[i]).toFixed(decimalLimit).toString()
+            var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString();
+          } else {
+            var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
+            var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
+          }
           
+          div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
+          
+          // Finally, add a break no matter what
+          div.innerHTML += '<br>';
+        
         }
 
         if (unreliableTracts.length > 0) {
-          console.log('yes')
           div.innerHTML += '<i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left; margin-top:4px;"></i>'
           div.innerHTML += '<span style="font-size:12px">Estimates that have a high'
           div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
@@ -593,7 +581,7 @@ function populateMapWithChoropleth(fieldName) {
           }
         },
 
-        // TODO: Currently we do not do anything when a
+        // If needed: Currently we do not do anything when a
         //       chloropleth geometry is clicked
         onEachFeature: function() {},
       };
