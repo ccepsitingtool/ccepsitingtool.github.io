@@ -49,39 +49,75 @@ function clearLayerManager() {
 
 }
 
+function quantilePointWeights(d){
+  var rdPrpl = {
+    0:'white',
+    1:'#fa9fb5',
+    2:'#f768a1',
+    3:'#c51b8a',
+    4:'#7a0177'
+  }
 
+  var classes =  siteWeightClasses['wtd_center_score']
+  var result =  d >= classes[4]  ? rdPrpl[4] :
+                d >= classes[3]  ? rdPrpl[3] :
+                d >= classes[2]  ? rdPrpl[2] :
+                d >= classes[1]  ? rdPrpl[1] :
+             rdPrpl[0] 
+      
+  return result;
+
+};
 
 function styleCircle(fileName, line){
+  var voteSiteWeight = .5;
+  var voteSiteOpacity = .8;
+
+
   var circleStyleLookup = {
-    'three_d_centers.csv': {
-        color: 'blue',
-        weight: .5,
-        opacity: .8,
-        fillColor: 'blue',
-        fillOpacity: 0.40,
-        radius: 800  
-    },
-    'ten_d_centers.csv': {
-        color: 'orange',
-        fillColor: 'orange',
-        weight: .5,
-        opacity: .8,
-        fillOpacity: 0.40,
-        radius: 800  
-    },
-    'dropoff_d_centers.csv': {
-        color: 'green',
-        fillColor: 'green',
-        weight: .5,
-        opacity: .8,
-        fillOpacity: 0.40,
-        radius: 800  
-    },
+    // 'three_d_centers.csv': {
+    //     color: 'blue',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillColor: 'blue',
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
+    // 'ten_d_centers.csv': {
+    //     color: 'orange',
+    //     fillColor: 'orange',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
+    // 'dropoff_d_centers.csv': {
+    //     color: 'green',
+    //     fillColor: 'green',
+    //     weight: .5,
+    //     opacity: .8,
+    //     fillOpacity: 0.40,
+    //     radius: 800  
+    // },
     'poi.csv': {
         color: 'black',
         fillColor: 'gray',
         fillOpacity: 0.45,
-        radius: 25,
+        radius: 35,
+        opacity: .5  
+    },
+    'poi_misc.csv': {
+        color: 'darkred',
+        fillColor: 'darkred',
+        fillOpacity: 0.45,
+        radius: 35,
+        opacity: .5  
+    },
+    'poi_govish.csv': {
+        color: 'red',
+        fillColor: 'darkorange',
+        fillOpacity: 0.45,
+        radius: 35,
         opacity: .5  
     },
     'transit_stops.csv': {
@@ -90,29 +126,106 @@ function styleCircle(fileName, line){
         fillOpacity: 0.6,
         radius: 10,
         opacity: .6  
+    },
+    'flp_selection.csv':{
+        color: 'black',
+        weight: 1.5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: 1,
+        radius: 400
+    },
+    'flp_selection_nocost.csv':{
+        color: 'yellow',
+        weight: 1.5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: 1,
+        radius: 400
+    },
+    'all_sites.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+    'all_4.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#7a0177',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_3.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#c51b8a',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_2.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#f768a1',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_1.csv':{
+        color: '#fcc5c0',
+        weight: .5,
+        fillColor: '#fa9fb5',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+      'all_0.csv':{
+        color: 'gray',
+        weight: .5,
+        fillColor: 'fcc5c0',
+        fillOpacity: voteSiteOpacity,
+        opacity: .6,
+        radius: 400
+    },
+    'geo_isolated.csv':{
+        color: 'black',
+        weight: 2,
+        fillColor: 'fcc5c0',
+        fillOpacity: 0,
+        opacity: 1,
+        radius: 400
     }
 
-}
+  }
   // At some point we may have a crosswalk that lies outside
   // this function
   return circleStyleLookup[fileName]
 };
 
 
-
 function circleInfoUpdate(e) {
-  // TODO: Add a binded popup
-  //      e.g.: e.target.bindPopup("some content").openPopup();
-
+  // Things we do when a vote site point is clicked. 
+  if (pointClick != null){
+      var specificVals = pointClick.registeredName[0] == 'flp_selection.csv' ? {'color':'black','weight':1.5} :
+                      pointClick.registeredName[0] == 'flp_selection_nocost.csv' ? {'color':'yellow','weight':1.5} : 
+                          {'color':'#fcc5c0','weight':.5};
+      pointClick.setStyle(specificVals)
+  }
   pointClick = e.target;
   closePointLegend();
   pointLegend.addTo(mainMap, e);
 
   $(".leafletMapBLBox.legend.indicatorLegend").insertBefore(".leafletMapBLBox.legend.pointLegend");
+
+
+  pointClick.setStyle({'color':'yellow','weight':2})
 }
 
 function populateMapWithPoints(fileName) {
-
   // This is a safer way to make sure that the .csv end
   // is not in the name
   var trimmedKey = fileName.replace('.csv', '');
@@ -150,32 +263,41 @@ function populateMapWithPoints(fileName) {
         pointsData[fileName] = {};
 
         processCSV(data).forEach(function(line) {
+          // console.log(line)
           //Save Line Data to Point Object
           pointsData[fileName][line.ID] = line;
-
           // Add a new circle shape to the map
           var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
 
 
           // // Do Different Things if POI/Transit vs. Model Points 
-          if (['poi.csv','transit_stops.csv'].indexOf(fileName) === -1 ){
-              // Add a Unique Identifier to the Point and Enable Click Options for the Legend
-              var circle = L.circle(loc, style).on("click", circleInfoUpdate);
-              circle.registeredName = [fileName, line.ID];
-          } else {
-              if (fileName == 'poi.csv') {
+          if (['poi.csv','transit_stops.csv','poi_misc.csv','poi_govish.csv'].indexOf(fileName) > -1 ){
+               if (['poi.csv','poi_misc.csv','poi_govish.csv'].indexOf(fileName) > -1 ) {
                 // Just Add a Popup
                 var popupContent = '<b>Type:</b> ' + toTitleCase(line['fclass']) + '<br>' + '<b>Name</b>: '+ line['name']
                 var circle = L.circle(loc, style).bindPopup(popupContent);
               } else {
                 var circle = L.circle(loc, style)
               }
+
+          } else {
+              // Add a Unique Identifier to the Point and Enable Click Options for the Legend
+              var circle = L.circle(loc, style).on("click", circleInfoUpdate);
+              circle.registeredName = [fileName, line.ID];
           }
 
           // Add to Map and Layer Management
           circle.addTo(mainMap);
           layerManager[fileName].push(circle);
+        });
+
+        // Need to Make Sure the Suggested Sites are always on top of "all sites"
+        var keys = Object.keys(layerManager);
+        keys.forEach(function(layer) {
+          if (['flp_selection.csv','flp_selection_nocost.csv'].indexOf(layer) > -1) {
+            layerManager[layer].forEach(function(d) {d.bringToFront()})
+          }
         });
 
     }
@@ -194,14 +316,13 @@ function populateMapWithPoints(fileName) {
 
 }
 
-function toTitleCase(str)
-{
-    str = str.replace('_',' ')
+function toTitleCase(str) { str = str.replace('_',' ')
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
 function closePointLegend(){
   mainMap.removeControl(pointLegend)
+  pointClick.setStyle({'color':'black'})
 }
 
 pointLegend.onAdd = function(map) {
@@ -229,13 +350,13 @@ pointLegend.onAdd = function(map) {
                 'prc.nonEngProf.std',
                 'prc.pov.std',
                 'prc.youth.std',
-                'rate.vbm.std',
-                'wtd_center_score'];
+                'rate.vbm.std'];
 
-  function highMedLowLookupColor(val) {
-    result = val >=  .67  ? ['High','#f03b20'] :
-            val >= .33  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
-    return result
+  function highMedLowLookupColor(val, fieldName) {
+      var classes = siteWeightClasses[fieldName]
+      result = val >=  classes[2]  ? ['High','#f03b20'] :
+              val >= classes[1]  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
+      return result
   }
 
   // Lookup for the div innerHtml conversion
@@ -251,31 +372,29 @@ pointLegend.onAdd = function(map) {
     'prc.pov.std': 'Percent of the Population in Poverty',
     'prc.youth.std': 'Percent of the Youth Population',
     'rate.vbm.std': 'Vote by Mail Rate',
-    'wtd_center_score': 'Weighted Score'
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<h5>Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</h5>'
-  div.innerHTML += '<span><b><i>' + cleanFiles[fileName]  + '</i></b></span><br><br>'
+  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</span>'
+  // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
+  console.log('Weighted Score=',pointData['wtd_center_score']) //Keep for reference
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);
-    var color =  highMedLowLookupColor(valAsFloat)[1]
-    var label = highMedLowLookupColor(valAsFloat)[0] 
+    var colorLabel = highMedLowLookupColor(valAsFloat, fields[i])
+    var color =  colorLabel[1]
+    var label = colorLabel[0] 
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-
+  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
+  div.innerHTML += '<span style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;"><a href="http://ccep.ucdavis.edu/">Methodology</a></span>'
   return div;
 }
 
-// TODO: This code is totally not legible and needs to be refactored
-//       asap - can't a simple lookup dictionary work here?
+
+
 function getColor(d , classify) {
-  // Function takes in d - a specific value and
-  // classify - a list of break points
-
-
   // We then pick the appropriate color relating the break points
   var colorObject = {
           0: '#ffffcc',
@@ -295,19 +414,8 @@ function getColor(d , classify) {
 }
 
 
-// Helps in getting colors for the maps
-function chloroQuantile(data, breaks){
-  var sorted = data.sort(function(a, b) {
-    return (a - b);
-  });
-  var quants = [];
-  quants = ss.jenks(sorted, breaks);
-  return quants
-  
-}
-
 function unreliableMarkers(unreliableTracts, fieldName) {
-
+  //Function to add the shapes that indicate the data is somewhat unreliable
  // Polygon Options - Add the polygon layers
   var options = {
     style: function(feature) {
@@ -325,7 +433,6 @@ function unreliableMarkers(unreliableTracts, fieldName) {
 
     unreliableLayer = L.geoJson(tractCentroidSquares, options);
     unreliableLayer.addTo(mainMap);
-
     layerManager['unreliable'] = unreliableLayer
 
 
@@ -417,8 +524,8 @@ function populateMapWithChoropleth(fieldName) {
         });
 
         // First, add the title
-        div.innerHTML += '<h5>Indicator Data</h5>';
-        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br><br>';
+        div.innerHTML += '<span class="legendTitle">Indicator Data</span>';
+        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br>';
 
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
@@ -430,29 +537,28 @@ function populateMapWithChoropleth(fieldName) {
           div.innerHTML += '<i class="leftColorMapBox" style="background:' +
                            col + '"></i> ';
 
-          var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
-
-          // Now, for each, format one way if not the last, otherwise
-          // the last one is that one value "and up", hence the plus sign
-          if (i == (limits.length - 1)) {
-            div.innerHTML += (thisLimVal + '+');
+          // Controls for how to format numbers in the legend
+          if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
+            var decimalLimit = limits[1] < .01 ? 3 : limits[1] < .1 ? 2: 2; // How much to round the numbers
+            var thisLimVal = (limits[i]).toFixed(decimalLimit).toString()
+            var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString();
           } else {
-            // We can only create this if there is a "next" (this is
-            // not the last value)
+            var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
             var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
-            div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
-            
-            // Finally, add a break no matter what
-            div.innerHTML += '<br>';
           }
+          
+          div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
+          
+          // Finally, add a break no matter what
+          div.innerHTML += '<br>';
+        
         }
 
         if (unreliableTracts.length > 0) {
-          console.log('yes')
-          div.innerHTML += '<br><i class="leftColorMapBox" style="background:black;  width:15px; float:left;"></i>'
-          div.innerHTML += "Indicates Unreliable" 
+          div.innerHTML += '<i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left; margin-top:4px;"></i>'
+          div.innerHTML += '<span style="font-size:12px">Estimates that have a high'
           div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
-          div.innerHTML +=  'ACS Estimates'
+          div.innerHTML +=  '<span style="font-size:12px">degree of uncertainty</span>'
         }
 
         // Return the newly created div
@@ -475,7 +581,7 @@ function populateMapWithChoropleth(fieldName) {
           }
         },
 
-        // TODO: Currently we do not do anything when a
+        // If needed: Currently we do not do anything when a
         //       chloropleth geometry is clicked
         onEachFeature: function() {},
       };

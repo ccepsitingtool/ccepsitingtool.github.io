@@ -2,7 +2,6 @@ function processCSV(data) {
   var allTextLines = data.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
   var lines = [];
-
   for (var i=1; i < allTextLines.length; i++) {
     var data = allTextLines[i].split(',');
     if (data.length == headers.length) {
@@ -17,7 +16,10 @@ function processCSV(data) {
 
       // Push each JSON to a list
       lines.push(tarr);
+    } else {
+      console.log('Headers Length Longer than Cols')
     }
+
   }
   return lines;
 }
@@ -40,6 +42,36 @@ function addCountyToMap(map) {
   });
 }
 
+// Code to Set Center
+function rad2degr(rad) { return rad * 180 / Math.PI; }
+function degr2rad(degr) { return degr * Math.PI / 180; }
+function getLatLngCenter(latLngInDegr) {
+    var LATIDX = 0;
+    var LNGIDX = 1;
+    var sumX = 0;
+    var sumY = 0;
+    var sumZ = 0;
+
+    for (var i=0; i<latLngInDegr.length; i++) {
+        var lat = degr2rad(latLngInDegr[i][LATIDX]);
+        var lng = degr2rad(latLngInDegr[i][LNGIDX]);
+        // sum of cartesian coordinates
+        sumX += Math.cos(lat) * Math.cos(lng);
+        sumY += Math.cos(lat) * Math.sin(lng);
+        sumZ += Math.sin(lat);
+    }
+
+    var avgX = sumX / latLngInDegr.length;
+    var avgY = sumY / latLngInDegr.length;
+    var avgZ = sumZ / latLngInDegr.length;
+
+    // convert average x, y, z coordinate to latitude and longtitude
+    var lng = Math.atan2(avgY, avgX);
+    var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
+    var lat = Math.atan2(avgZ, hyp);
+
+    return ([rad2degr(lat), rad2degr(lng)]);
+}
 // We will need to replace the accessToken before releasing (since
 // you are just using mine right now)
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q', {
@@ -82,6 +114,18 @@ mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
 addCountyToMap(mainMap);
 
 
+
+// Helps in getting colors for the maps
+function chloroQuantile(data, breaks){
+  var sorted = data.sort(function(a, b) {
+    return (a - b);
+  });
+  var quants = [];
+  quants = ss.jenks(sorted, breaks);
+  return quants
+  
+}
+
 // Make the Seach Box Always be Open
 $('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
@@ -89,5 +133,55 @@ var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
 // Add print tooling
 
+
+//Precalculate Quantile Values for Scores 
+var siteWeightValues = {};
+var siteWeightClasses = {};
+
+$.ajax({
+    type: 'GET',
+    url: `data/all_sites.csv`,
+    dataType: 'text',
+    success: function(data) {
+
+    var pointCols = ['dens.cvap.std',
+                    'dens.work.std',
+                    'popDens.std',
+                    'prc.CarAccess.std',
+                    'prc.ElNonReg.std' ,
+                    'prc.disabled.std',
+                    'prc.latino.std',
+                    'prc.nonEngProf.std',
+                    'prc.pov.std',
+                    'prc.youth.std',
+                    'rate.vbm.std',
+                    'wtd_center_score'];
+    var coords = [];
+
+      pointCols.forEach(function(col){
+        siteWeightValues[col] = [];
+      })
+
+      processCSV(data).forEach(function(line) {
+        pointCols.forEach(function(col){
+          siteWeightValues[col].push(+line[col])
+        })
+        coords.push([line['lat'],line['lon']])
+      });
+
+      Object.keys(siteWeightValues).forEach(function(k) {
+        if (['wtd_center_score'].indexOf(k) > -1){
+          siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 5)
+        } else {
+          siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 3)
+        }
+      })
+      var latlng = getLatLngCenter(coords)
+      var lat = latlng[0]-.19
+      var lon = latlng[1]
+      mainMap.setView([lat, lon], 10);
+
+    }
+  })
 
 
