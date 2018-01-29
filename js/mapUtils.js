@@ -293,7 +293,7 @@ function populateMapWithPoints(fileName) {
         });
 
         // Need to Make Sure the Suggested Sites are always on top of "all sites"
-        var keys = Object.keys(layerManager)
+        var keys = Object.keys(layerManager);
         keys.forEach(function(layer) {
           if (['flp_selection.csv','flp_selection_nocost.csv'].indexOf(layer) > -1) {
             layerManager[layer].forEach(function(d) {d.bringToFront()})
