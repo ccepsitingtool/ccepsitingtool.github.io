@@ -45,18 +45,12 @@ function clearLayerManager() {
 
     // Remove this legend
     closePointLegend();
+    mainMap.removeControl(rankPointLegend)
   });
 
 }
 
 function quantilePointWeights(d){
-  var rdPrpl = {
-    0:'white',
-    1:'#fa9fb5',
-    2:'#f768a1',
-    3:'#c51b8a',
-    4:'#7a0177'
-  }
 
   var classes =  siteWeightClasses['final_composite_score']
   var result =  d >= classes[4]  ? rdPrpl[4] :
@@ -68,6 +62,24 @@ function quantilePointWeights(d){
   return result;
 
 };
+
+rankPointLegend.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'leafletMapBLBox pointLegend legend');
+
+  var classes = siteWeightClasses['final_composite_score']
+  // First, add the title of the new points data legend
+  div.innerHTML += '<span class="legendTitle"> Site Scores </span>'
+  // Then iterate through the fields and add all the values data
+  div.innerHTML += '<span style="float:left; margin-right:5px; padding-top: 5px;"><b>Low</b></span>'
+  div.innerHTML += '<span style="float:right; margin-right:5px; padding-top: 5px;"><b>High</b></span>'
+
+  for  (var i = 0; i < classes.length-1; i++) {
+    var label = i ==0 ? 'Low&nbsp' : i == 2 ? 'Med&nbsp' : i == classes.length-2 ? 'High' : 'xxxx';
+    div.innerHTML += '<i class="leftColorMapBox" style="border-radius:20px;background:'+rdPrpl[i] +';height: 20px; width:20px; float:left; margin-top:4px;border:1px solid gray;"></i>'
+  }
+
+  return div;
+}
 
 function styleCircle(fileName, line){
   var voteSiteWeight = .5;
@@ -258,9 +270,10 @@ function populateMapWithPoints(fileName) {
         // Need to Make Sure the Suggested Sites are always on top of "all sites"
         var keys = Object.keys(layerManager);
         keys.forEach(function(layer) {
-          if (['flp_selection.csv','flp_selection_nocost.csv'].indexOf(layer) > -1) {
+          if (['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv','all_sites.csv'].indexOf(layer) > -1) {
             layerManager[layer].forEach(function(d) {d.bringToFront()})
           }
+
         });
 
     }
@@ -273,6 +286,20 @@ function populateMapWithPoints(fileName) {
       closePointLegend()
       }
 
+    // There are 3-4 files that are all styled the same way and require the same type of legend
+    // We need to tkeep this legend out when any of these datasets are selected so we ned to check 
+    // if any of them are selected. 
+     var voteSiteSearch = 0
+     keys.forEach(function(layer){
+       var searchVal = ['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv','all_sites.csv'].indexOf(layer) > -1;
+       voteSiteSearch += searchVal 
+     }) 
+
+     if (voteSiteSearch > 0) {
+        rankPointLegend.addTo(mainMap)
+     } else {
+      mainMap.removeControl(rankPointLegend)
+     }
     }
   });
 
@@ -287,6 +314,10 @@ function toTitleCase(str) { str = str.replace('_',' ')
 function closePointLegend(){
   mainMap.removeControl(pointLegend)
   resetCircleStyle()
+}
+
+function checkForVoteSiteLegend(){
+
 }
 
 pointLegend.onAdd = function(map) {
@@ -351,8 +382,8 @@ pointLegend.onAdd = function(map) {
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
-  div.innerHTML += '<span style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;"><a href="http://ccep.ucdavis.edu/">Methodology</a></span>'
+  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
+  div.innerHTML += '<span style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;"><a href="methodology.html">Methodology</a></span>'
   return div;
 }
 
@@ -402,6 +433,8 @@ function unreliableMarkers(unreliableTracts, fieldName) {
 
 
 }
+
+
 
 function populateMapWithChoropleth(fieldName) {
   // Controls for Adding Selection Indicator to the Button

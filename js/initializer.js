@@ -131,6 +131,8 @@ $('#searchtext13').css('display', 'block');
 // Adding Legend Stuff
 var legend = L.control({position: 'bottomleft'});
 var pointLegend = L.control({position: 'bottomleft'});
+var rankPointLegend = L.control({position: 'bottomright'});
+
 // Add print tooling
 
 

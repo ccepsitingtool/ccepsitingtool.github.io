@@ -221,7 +221,7 @@
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <div class="nav nav-pills nav-stacked collapsed h5 extradata" data-toggle="collapse" data-target="#collapsePOIS" aria-expanded="false" aria-controls="collapsePOIS" onclick="downArrow('poi_arrow')">
-          <i id="poi_arrow" class="arrow"></i> Points of Interest & Transit
+          <i id="poi_arrow" class="arrow"></i> Points of interest
         </div>
       </h5>
     </div>
@@ -237,9 +237,6 @@
         <li id='poi_misc'>
         <a onclick="populateMapWithPoints('poi_misc.csv')">Points of Interest (Misc.) </a>
       </li>
-      <li id='transit_stops'>
-        <a onclick="populateMapWithPoints('transit_stops.csv')">Transit Stops</a>
-      </li>
     </ul>
     </div>
   </div>
@@ -254,6 +251,9 @@
     </div>
     <div id="collapseIndicator" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
     <ul class="nav nav-pills nav-stacked layer-toggle-menu indicator-menu points-menu">
+            <li id='transit_stops'>
+        <a onclick="populateMapWithPoints('transit_stops.csv')">Transit Stops</a>
+      </li>
       <!-- These get added via the indicator_menu_fields.csv -->
     </ul>
     </div>
@@ -363,6 +363,14 @@
   var currentZoom = mainMap.getZoom();
   // Instantiate Google geocoder object
   var geocoder = new google.maps.Geocoder();
+
+  var rdPrpl = {
+    0:'white',
+    1:'#fa9fb5',
+    2:'#f768a1',
+    3:'#c51b8a',
+    4:'#7a0177'
+  }
   
 
   // Display Stuff
