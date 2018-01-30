@@ -64,7 +64,7 @@ function quantilePointWeights(d){
 };
 
 rankPointLegend.onAdd = function(map) {
-  var div = L.DomUtil.create('div', 'leafletMapBLBox pointLegend legend');
+  var div = L.DomUtil.create('div', 'leafletMapBLBox rankpointLegend legend');
 
   var classes = siteWeightClasses['final_composite_score']
   // First, add the title of the new points data legend
@@ -270,7 +270,7 @@ function populateMapWithPoints(fileName) {
         // Need to Make Sure the Suggested Sites are always on top of "all sites"
         var keys = Object.keys(layerManager);
         keys.forEach(function(layer) {
-          if (['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv','all_sites.csv'].indexOf(layer) > -1) {
+          if (['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv'].indexOf(layer) > -1) {
             layerManager[layer].forEach(function(d) {d.bringToFront()})
           }
 
@@ -588,6 +588,7 @@ function populateMapWithChoropleth(fieldName) {
 
       geoJsonLayer.targetCol = targetCol;
       layerManager['choropleth'] = geoJsonLayer;
+      console.log('hi !!!')
       legend.addTo(mainMap);
 
 

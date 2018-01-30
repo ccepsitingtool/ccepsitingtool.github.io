@@ -108,7 +108,8 @@ var mobileOpts = {
   marker: { icon: false }
 };
 
-mainMap.addControl(new L.Control.Search(mobileOpts));
+var searchControl = new L.Control.Search(mobileOpts)
+mainMap.addControl(searchControl);
 mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
 // Add the county to the map
 addCountyToMap(mainMap);
