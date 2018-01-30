@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <title>CCEP | Vote Center Siting Tool</title>
+  
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/county_select_style.css" />
+    <script src="data/california_counties.js"></script>
+
+</head>
+
+<body>
+
+
+
+
+<div class="navbar navbar-default">
+  <div class="col-lg-12 col-sm-12 test">
+    
+    <a style="padding: 20px 0"class="navbar-brand" href="http://ccep.ucdavis.edu/">
+      <img src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
+    </a>
+
+      <button class="btn btn-primary pull-right hidden-xs ccephome"
+            onclick="window.open('index.html','_self')"
+            style="margin-top: 10px;">
+      <span class="glyphicon glyphicon-home "></span>
+    </button>
+
+  </div>
+</div>
+
+<div class="row clearfix" style="width: 100%; overflow-x: hidden;">
+  
+      <div id="content-wrapper" class="col-lg-12 col-md-12 col-sm-12" style="overflow-y: scroll">
+
+      <br>
+      <div class="methodology_text">
+
+        <h1> Acknowledgments</h1>
+
+        <h2>Placeholder 1</h2>
+        <p>.....</p>
+
+        <h2>Placeholder 2</h2>
+        <p>.....</p>
+
+        <h2>Placeholder 3</h2>
+        <p>..... </p>
+
+      </div>
+      <br>      <br>
+
+    </div>
+
+
+
+</div>
+
+<div class="footer" id='methodfoot'>
+  <center>
+    <span onclick="goBack()" style="cursor:pointer;"> Previous Page</span> 
+
+        |
+        <a href="methodology.html">
+      Methodology
+    </a>
+
+    |
+        <a href="">
+      More Information on the Purpose of the Siting Tool
+    </a>
+
+    
+    
+  </center>
+</div>
+
+<!-- Libraries needed -->
+<script src="js/jquery.min.js"
+        type="text/javascript"></script>
+
+
+<!-- Leaflet related -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+
+
+
+<script type="text/javascript">
+
+  function goBack(){
+    window.history.back();
+  }
+</script>
+
+<!-- Global variables -->
+<script type="text/javascript">
+  
+</script>
+
+
+
+<!-- Remaining carry-over libraries -->
+<script src="js/queue.v1.min.js"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+</body>
+</html>

@@ -97,6 +97,27 @@
   display: block;
   margin-bottom: 5px;
 }
+
+.methodology_text {
+  margin-left: 140px;
+  margin-right: 50px;
+  padding-bottom: 100px;
+  padding-left: 40px;
+  border-left: .5px solid lightgray;
+} 
+
+ .ccephome {
+  margin-top: 10px;
+ }
+
+
+#methodfoot {
+  position:absolute;
+   bottom:0;
+   width:100%;
+ }
+
+
 /* Stuff from before */
 body {
   overflow-x: hidden;
