@@ -194,7 +194,7 @@ p {
 .menu-toggle {
   cursor: pointer;
   left: 0px;
-  top: 30px;
+  top: 55px;
   padding: 10px 15px;
   z-index: 250;
 }

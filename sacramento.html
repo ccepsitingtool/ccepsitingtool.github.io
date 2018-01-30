@@ -79,23 +79,53 @@
                 aria-hidden="true">&times;</button>
 
         <h3 class="modal-title" id="downloadModalLabel">
-          All data available for download
+          Data Description and Download Options
         </h3>
       </div>
 
       <div class="modal-body">
         <!-- Just add one of these for every dataset made available -->
-        <ol class="fullDownloadModalList">
-<!--           <li>
-            <a href="/data/three_d_centers.csv">Three Day Centers</a>
+         <h4>Data Descriptions</h4>
+        <h5>Suggested Voting Facility Data</h5>
+        <ol> 
+          <li>
+            <b>Suggested Sites</b>:  These are those sites that have been identified as being strategically located to voters and fulfilling requirements of SB450. This reflectes the minimum number of sites required. 
           </li>
           <li>
-            <a href="/data/ten_d_centers.csv">Ten Day Centers</a>
+            <b>Additinoal Suggested Sites</b>:  These are those sites that are suggested if additinal sites over ther required minimum are desired. These sites assume the existence of the other <b>Suggested Sites</b>. 
           </li>
           <li>
-            <a href="/data/dropoff_d_centers.csv">Dropoff Locations</a>
-          </li> -->
+            <b>All Suitable Sites</b>:  These are all sites that had a minimum of population, built environment etc where a vote site could potentially be located. This site can be used to identfy nearby sites with similary scores if the suggested site does not contain an actual reasonable voting location. 
+          </li>
+        </ol>
+        <h5>Indicator Data</h5>
+
+        <ol class="fullDataDescriptionModalList">
           <!-- This is populated in interface.js' populateNavBarIndicators() -->
+        </ol>
+
+        <br>
+        <h4>Data Downloads</h4>
+        <h5>Voting Facility Data</h5>
+          <ol>
+          <li> <a href="data/point_files/flp_selection.csv">Suggested Vote Sites </a></li>
+          <li> <a href="data/point_files/flp_dropoff_facilities.csv">Suggested Drop Off Sites </a></li>
+          <li> <a href="data/point_files/additional_sites.csv">Additional Vote Sites </a></li>
+          <li> <a href="data/point_files/all_sites.csv">All Potential Sites </a></li>
+
+        </ol>
+        <h5>Indicator Data</h5>
+        <ol class="fullDownloadModalList">
+          <!-- This is populated in interface.js' populateNavBarIndicators() -->
+          <li><b>Indicator Data </b>
+              <a href="data/indicator_files/indicator_data.csv">csv</a> | 
+              <a href="data/indicator_files/indicator_data.zip">shp</a>
+            </li>
+          <li><a href="data/point_files/transit_stops.csv">Transit Stops</a></li>
+          <li><a href="data/point_files/poi.csv">Points of Interest (ALL)</a></li>
+          <li><a href="data/point_files/poi_misc.csv">Points of Interest (Misc.)</a></li>
+          <li><a href="data/point_files/poi._govish.csv">Points of Interest (Gov.)</a></li>
+
         </ol>
       </div>
 
@@ -132,7 +162,7 @@
     <h1>Vote Center Siting Tool</h1>
 
     <p class="intro">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    This user-friendly, web-based tool is intended to connect election officials to information sources that complement their own direct knowledge of their counties’ profiles and needs. To assist in identifying potential Vote Center and Vote-by-Mail drop box locations, the tool incorporates data representing the criteria required by the Voter's Choice Act. These data can be used to generate interactive web maps indicating optimal geographic areas for locating prospective Vote Centers and Vote-by-Mail drop boxes. 
     </p>
 
   </div>
@@ -170,35 +200,17 @@
     
     <ul class="nav nav-pills nav-stacked models-menu points-menu ">
             <li id='flp_selection'>
-        <a onclick="populateMapWithPoints('flp_selection.csv')">Optimized Sites</a>
+        <a onclick="populateMapWithPoints('flp_selection.csv')">Suggested Vote Sites</a>
       </li>
-    <li id='flp_selection_nocost'>
-        <a onclick="populateMapWithPoints('flp_selection_nocost.csv')">Optimized Sites - No Cost</a>
+    <li id='flp_dropoff_facilities'>
+        <a onclick="populateMapWithPoints('flp_dropoff_facilities.csv')">Suggested Dropoff Sites</a>
+      </li>
+      <li id='additional_sites'>
+        <a onclick="populateMapWithPoints('additional_sites.csv')">Additional Suggested Vote Sites</a>
       </li>
       <li id='all_sites'>
-        <a onclick="populateMapWithPoints('all_sites.csv')">All Suitable Sites</a>
+        <a onclick="populateMapWithPoints('all_sites.csv')">All Potential Sites</a>
       </li>
-<!--       <li id='all_4'>
-        <a onclick="populateMapWithPoints('all_4.csv')">Suitable Sites (Q5)</a>
-      </li>
-            <li id='all_3'>
-        <a onclick="populateMapWithPoints('all_3.csv')">Suitable Sites (Q4)</a>
-      </li>
-            <li id='all_2'>
-        <a onclick="populateMapWithPoints('all_2.csv')">Suitable Sites (Q3)</a>
-      </li>
-            <li id='all_1'>
-        <a onclick="populateMapWithPoints('all_1.csv')">Suitable Sites (Q2)</a>
-      </li>
-            <li id='all_0'>
-        <a onclick="populateMapWithPoints('all_0.csv')">Suitable Sites (Q1)</a>
-      </li>
-                  <li id='geo_isolated'>
-        <a onclick="populateMapWithPoints('geo_isolated.csv')">Geographically Isolated</a>
-      </li> -->
-<!--         <li id='dropoff_d_centers'>
-        <a onclick="populateMapWithPoints('dropoff_d_centers.csv')">Ballot Drop Box</a>
-      </li> -->
     </ul>
 
 <div style='padding: 10px'></div>
@@ -295,7 +307,7 @@
 
 <div class="footer">
   <center>
-    <a href="">
+    <a href="http://bit.ly/2ByQwTi">
       Methodology
     </a>
 

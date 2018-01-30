@@ -58,7 +58,7 @@ function quantilePointWeights(d){
     4:'#7a0177'
   }
 
-  var classes =  siteWeightClasses['wtd_center_score']
+  var classes =  siteWeightClasses['final_composite_score']
   var result =  d >= classes[4]  ? rdPrpl[4] :
                 d >= classes[3]  ? rdPrpl[3] :
                 d >= classes[2]  ? rdPrpl[2] :
@@ -75,30 +75,6 @@ function styleCircle(fileName, line){
 
 
   var circleStyleLookup = {
-    // 'three_d_centers.csv': {
-    //     color: 'blue',
-    //     weight: .5,
-    //     opacity: .8,
-    //     fillColor: 'blue',
-    //     fillOpacity: 0.40,
-    //     radius: 800  
-    // },
-    // 'ten_d_centers.csv': {
-    //     color: 'orange',
-    //     fillColor: 'orange',
-    //     weight: .5,
-    //     opacity: .8,
-    //     fillOpacity: 0.40,
-    //     radius: 800  
-    // },
-    // 'dropoff_d_centers.csv': {
-    //     color: 'green',
-    //     fillColor: 'green',
-    //     weight: .5,
-    //     opacity: .8,
-    //     fillOpacity: 0.40,
-    //     radius: 800  
-    // },
     'poi.csv': {
         color: 'black',
         fillColor: 'gray',
@@ -130,7 +106,15 @@ function styleCircle(fileName, line){
     'flp_selection.csv':{
         color: 'black',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillOpacity: voteSiteOpacity,
+        opacity: 1,
+        radius: 400
+    },
+    'flp_dropoff_facilities.csv':{
+        color: 'black',
+        weight: 1.5,
+        fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -138,7 +122,7 @@ function styleCircle(fileName, line){
     'flp_selection_nocost.csv':{
         color: 'yellow',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -146,49 +130,17 @@ function styleCircle(fileName, line){
     'all_sites.csv':{
         color: '#fcc5c0',
         weight: .5,
-        fillColor: quantilePointWeights(+line['wtd_center_score']),
+        fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
         opacity: .6,
         radius: 400
     },
-    'all_4.csv':{
-        color: '#fcc5c0',
-        weight: .5,
-        fillColor: '#7a0177',
+    'additional_sites.csv':{
+        color: 'yellow',
+        weight: 2,
+        fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
-        opacity: .6,
-        radius: 400
-    },
-      'all_3.csv':{
-        color: '#fcc5c0',
-        weight: .5,
-        fillColor: '#c51b8a',
-        fillOpacity: voteSiteOpacity,
-        opacity: .6,
-        radius: 400
-    },
-      'all_2.csv':{
-        color: '#fcc5c0',
-        weight: .5,
-        fillColor: '#f768a1',
-        fillOpacity: voteSiteOpacity,
-        opacity: .6,
-        radius: 400
-    },
-      'all_1.csv':{
-        color: '#fcc5c0',
-        weight: .5,
-        fillColor: '#fa9fb5',
-        fillOpacity: voteSiteOpacity,
-        opacity: .6,
-        radius: 400
-    },
-      'all_0.csv':{
-        color: 'gray',
-        weight: .5,
-        fillColor: 'fcc5c0',
-        fillOpacity: voteSiteOpacity,
-        opacity: .6,
+        opacity: 1,
         radius: 400
     },
     'geo_isolated.csv':{
@@ -207,14 +159,25 @@ function styleCircle(fileName, line){
 };
 
 
-function circleInfoUpdate(e) {
-  // Things we do when a vote site point is clicked. 
-  if (pointClick != null){
-      var specificVals = pointClick.registeredName[0] == 'flp_selection.csv' ? {'color':'black','weight':1.5} :
-                      pointClick.registeredName[0] == 'flp_selection_nocost.csv' ? {'color':'yellow','weight':1.5} : 
+
+function resetCircleStyle(e){
+    if (pointClick != null){
+      var regName = pointClick.registeredName[0];
+      var specificVals = regName == 'flp_selection.csv' ? 
+                                                          {'color':'black'  ,'weight':1.5} :
+                         regName == 'flp_selection_nocost.csv' ? 
+                                                          {'color':'yellow' ,'weight':1.5} : 
+                         regName == 'additional_sites.csv' ? 
+                                                          {'color':'white'  ,'weight':1.5} :                                  
+
                           {'color':'#fcc5c0','weight':.5};
       pointClick.setStyle(specificVals)
   }
+}
+
+function circleInfoUpdate(e) {
+  // Things we do when a vote site point is clicked. 
+  resetCircleStyle(e)
   pointClick = e.target;
   closePointLegend();
   pointLegend.addTo(mainMap, e);
@@ -237,7 +200,7 @@ function populateMapWithPoints(fileName) {
   // Then run an asyn task to acquire the actual data
   $.ajax({
     type: 'GET',
-    url: `data/${fileName}`,
+    url: `data/point_files/${fileName}`,
     dataType: 'text',
     success: function(data) {
       // First check if this layer is already on the map
@@ -265,7 +228,7 @@ function populateMapWithPoints(fileName) {
         processCSV(data).forEach(function(line) {
           // console.log(line)
           //Save Line Data to Point Object
-          pointsData[fileName][line.ID] = line;
+          pointsData[fileName][line.idnum] = line;
           // Add a new circle shape to the map
           var loc = [line.lat, line.lon];
           var style = styleCircle(fileName, line);
@@ -284,7 +247,7 @@ function populateMapWithPoints(fileName) {
           } else {
               // Add a Unique Identifier to the Point and Enable Click Options for the Legend
               var circle = L.circle(loc, style).on("click", circleInfoUpdate);
-              circle.registeredName = [fileName, line.ID];
+              circle.registeredName = [fileName, line.idnum];
           }
 
           // Add to Map and Layer Management
@@ -320,9 +283,10 @@ function toTitleCase(str) { str = str.replace('_',' ')
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+
 function closePointLegend(){
   mainMap.removeControl(pointLegend)
-  pointClick.setStyle({'color':'black'})
+  resetCircleStyle()
 }
 
 pointLegend.onAdd = function(map) {
@@ -375,9 +339,9 @@ pointLegend.onAdd = function(map) {
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['ID'] + ')</span>'
+  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
   // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
-  console.log('Weighted Score=',pointData['wtd_center_score']) //Keep for reference
+  console.log('Weighted Score=',pointData['final_composite_score']) //Keep for reference
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);

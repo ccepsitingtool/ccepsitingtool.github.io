@@ -17,7 +17,7 @@ function processCSV(data) {
       // Push each JSON to a list
       lines.push(tarr);
     } else {
-      console.log('Headers Length Longer than Cols')
+      console.log('Headers may be Length Longer than Cols - check if error')
     }
 
   }
@@ -140,7 +140,7 @@ var siteWeightClasses = {};
 
 $.ajax({
     type: 'GET',
-    url: `data/all_sites.csv`,
+    url: `data/point_files/all_sites.csv`,
     dataType: 'text',
     success: function(data) {
 
@@ -155,7 +155,7 @@ $.ajax({
                     'prc.pov.std',
                     'prc.youth.std',
                     'rate.vbm.std',
-                    'wtd_center_score'];
+                    'final_composite_score'];
     var coords = [];
 
       pointCols.forEach(function(col){
@@ -170,14 +170,14 @@ $.ajax({
       });
 
       Object.keys(siteWeightValues).forEach(function(k) {
-        if (['wtd_center_score'].indexOf(k) > -1){
+        if (['final_composite_score'].indexOf(k) > -1){
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 5)
         } else {
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 3)
         }
       })
       var latlng = getLatLngCenter(coords)
-      var lat = latlng[0]-.19
+      var lat = latlng[0]-.14
       var lon = latlng[1]
       mainMap.setView([lat, lon], 10);
 

@@ -1,4 +1,5 @@
 function populateNavBarIndicators(){
+
   $.ajax({
     type: 'GET',
     url: `data/indicator_menu_fields.csv`,
@@ -7,6 +8,7 @@ function populateNavBarIndicators(){
       processCSV(data).forEach(function(line) {
         var bn = line['basename'];
         var cn = line['cleanname'];
+        var desc = line['description'];
         cleanFiles[bn] = cn
         var li = '<li id=' + bn + '><a onclick=' +
                  '"populateMapWithChoropleth(\'' +
@@ -14,11 +16,15 @@ function populateNavBarIndicators(){
         
         // Add to the menu list
         $('.indicator-menu').append(li)
-
+        console.log(bn)
+        // fullDataDescriptionModalList
         // Also need to add to the list of items to download
-        var fdlLi = '<li><a href="/data/indicator_files/' + bn +
-                    '.csv">' + cn + '</a></li>';
-        $('.fullDownloadModalList').append(fdlLi);
+        // var fdlLi = '<li><a href="/data/indicator_files/' + bn +
+        //             '.csv">' + cn + '</a></li>';
+        var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
+        // $('.fullDownloadModalList').append(fdlLi);
+        $('.fullDataDescriptionModalList').append(dataDesclLi);
+
       });
     }
    });
