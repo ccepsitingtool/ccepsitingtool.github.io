@@ -64,7 +64,7 @@ function quantilePointWeights(d){
 };
 
 rankPointLegend.onAdd = function(map) {
-  var div = L.DomUtil.create('div', 'leafletMapBLBox rankpointLegend legend');
+  var div = L.DomUtil.create('div', 'leafletMapBLBox legend rankpointLegend');
 
   var classes = siteWeightClasses['final_composite_score']
   // First, add the title of the new points data legend

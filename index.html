@@ -76,14 +76,17 @@
       Methodology
     </a>
 
-    |
-        <a href="">
-      More Information on the Purpose of the Siting Tool
-    </a>
-    |
-        <a href="acknowledgments.html">
+    |         
+    <a href="acknowledgments.html">
       Acknowledgments
+    </a> 
+    |
+      
+    <a href="mailto:msromero@ucdavis.edu?Subject=Vote%20Center%20Siting%20Tool">
+      Contact
     </a>
+    
+
     
   </center>
 </div>
@@ -250,7 +253,7 @@ function addCountiesToMap(california_counties) {
     availableCountiesKeys = availableCountiesKeys.sort()
 
     availableCountiesKeys.forEach(function(listItem) {
-      var listHtml = '<li> <a href="' + availableCounties[listItem].url + '">' +availableCounties[listItem].name + '</a></li>'
+      var listHtml = '<li> <h4><a href="' + availableCounties[listItem].url + '">' +availableCounties[listItem].name + '</a></h4></li>'
       $('#county_list').append(listHtml)
     })
     createMapInterfaces()

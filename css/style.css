@@ -51,6 +51,11 @@
   color: #555;
 }
 
+/*.rankpointLegend {
+  margin-left: 150px !important ;
+  top: -38px !important;
+}*/
+
 .leafletMapBLBox .leftColorMapBox {
   width: 30px;
   height: 15px;
