@@ -361,8 +361,8 @@ pointLegend.onAdd = function(map) {
 
   function highMedLowLookupColor(val, fieldName) {
       var classes = siteWeightClasses[fieldName]
-      result = val >=  classes[2]  ? ['High','#f03b20'] :
-              val >= classes[1]  ? ['Med&nbsp','#feb24c']: ['Low&nbsp','#ffeda0']
+      result = val >=  classes[2]  ? ['High','#BF4946'] :
+              val >= classes[1]  ? ['Med&nbsp','#F9B373']: ['Low&nbsp','#FEEF96']
       return result
   }
 
@@ -382,7 +382,9 @@ pointLegend.onAdd = function(map) {
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
+  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (1 mi. Diameter)</span>'
+
+  // div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
   // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
   console.log('Weighted Score=',pointData['final_composite_score']) //Keep for reference
   // Then iterate through the fields and add all the values data
@@ -533,7 +535,6 @@ function populateMapWithChoropleth(fieldName) {
         });
 
         // First, add the title
-        div.innerHTML += '<span class="legendTitle">Indicator Data</span>';
         div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br>';
 
         // Loop through our density intervals to generate a label

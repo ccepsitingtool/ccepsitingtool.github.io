@@ -37,7 +37,7 @@
 /* Added by @mdgis */
 .leafletMapBLBox {
   padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
+  font: 13px/15px Arial, Helvetica, sans-serif;
   background: rgba(255,255,255,0.9);
   border-radius: 0;
 }
@@ -49,12 +49,22 @@
 .leafletMapBLBox .legend {
   line-height: 18px;
   color: #555;
+
 }
 
-/*.rankpointLegend {
-  margin-left: 150px !important ;
-  top: -38px !important;
-}*/
+
+.rankpointLegend  {
+  margin-bottom: 2px !important;
+}
+
+.pointLegend  {
+  margin-bottom: 2px !important;
+}
+
+.indicatorLegend {
+    margin-bottom: 2px !important;
+
+}
 
 .leafletMapBLBox .leftColorMapBox {
   width: 30px;
@@ -90,7 +100,7 @@
 
 .legendTitle {
   font-weight: bold;
-  font-size: 17px;
+  font-size: 13px;
   display: block;
   margin-bottom: 2px; 
 
@@ -127,6 +137,7 @@
 /* Stuff from before */
 body {
   overflow-x: hidden;
+  font-size: 13px;
 }
 body, h1, h2, h3, h4, h5 {
   font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -222,7 +233,7 @@ p {
   cursor: pointer;
   left: 0px;
   top: 55px;
-  padding: 10px 15px;
+  padding: 7px 15px;
   z-index: 250;
 }
 .menu-toggle strong {

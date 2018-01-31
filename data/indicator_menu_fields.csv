@@ -6,7 +6,7 @@ tot_elignonreg_prc_final,Eligible Non-Registered Voter Rate,The percentage of vo
 job_dens,Worker Density,The density of employed county residents.
 prc_poplatino_final,Percent Latino Population,The percentage of the population that is Hispanic or Latino.
 prc_nonengprof_final,Percent Limited English Proficient Population,The percenetage of the population that has limited English proficiency.
-pollvoter_dens,Density of Polling Place Voters,The density of voters who vote at a polling placerelative to the county's total number of polling place voters.
+pollvoter_dens,Density of Polling Place Voters,The density of voters who vote at a polling place relative to the county's total number of polling place voters.
 popdens,Population Density,The total population density.
 prc_pov_final,Percent of the Population in Poverty,The percentage of the population with income below the poverty level.
 vbm_rate_asn,Vote by Mail Rate (Asian),The percentage of Asian American voters who voted by mail.

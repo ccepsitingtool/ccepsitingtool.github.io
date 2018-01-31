@@ -12,8 +12,9 @@
         integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
         crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/leaflet-search.css" />
+
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/leaflet-search.css" />
 </head>
 
 <body>
@@ -86,13 +87,13 @@
       <div class="modal-body">
         <!-- Just add one of these for every dataset made available -->
          <h4>Data Descriptions</h4>
-        <h5>Suggested Voting Facility Data</h5>
+        <h5>Suggested Vote Center Data</h5>
         <ol> 
           <li>
-            <b>Suggested Sites</b>:  These are those sites that have been identified as being strategically located to voters and fulfilling requirements of SB450. This reflectes the minimum number of sites required. 
+            <b>Suggested Sites</b>: Sites that have been identified as being strategically located to voters and fulfilling requirements of SB450. This reflectes the minimum number of sites required. 
           </li>
           <li>
-            <b>Additinoal Suggested Sites</b>:  These are those sites that are suggested if additinal sites over ther required minimum are desired. These sites assume the existence of the other <b>Suggested Sites</b>. 
+            <b>Additional Suggested Sites</b>:  These are those sites that are suggested if additinal sites over ther required minimum are desired. These sites assume the existence of the other <b>Suggested Sites</b>. 
           </li>
           <li>
             <b>All Suitable Sites</b>:  These are all sites that had a minimum of population, built environment etc where a vote site could potentially be located. This site can be used to identfy nearby sites with similary scores if the suggested site does not contain an actual reasonable voting location. 
@@ -106,7 +107,7 @@
 
         <br>
         <h4>Data Downloads</h4>
-        <h5>Voting Facility Data</h5>
+        <h5>Vote Center Data</h5>
           <ol>
           <li> <a href="data/point_files/three_day_sites.csv">Suggested 3 Day Vote Sites </a></li>
           <li> <a href="data/point_files/ten_day_sites.csv">Suggested 10 Day Vote Sites </a></li>
@@ -164,7 +165,7 @@
     <h1>Vote Center Siting Tool</h1>
 
     <p class="intro">
-    This user-friendly, web-based tool is intended to connect election officials to information sources that complement their own direct knowledge of their counties’ profiles and needs. To assist in identifying potential Vote Center and Vote-by-Mail drop box locations, the tool incorporates data representing the criteria required by the Voter's Choice Act. These data can be used to generate interactive web maps indicating optimal geographic areas for locating prospective Vote Centers and Vote-by-Mail drop boxes. 
+The Vote Center Siting Tool is designed to help county election officials identify optimal sites for potential Vote Center and Vote-by-Mail drop boxes. The tool uses a facility allocation model that incorporates the siting criteria included in the California Voter's Choice Act. The resulting interactive web maps are intended to supplement what election officials and stakeholders already know about their counties' profiles and needs.
     </p>
 
   </div>
@@ -198,26 +199,26 @@
       </li>
     </ul>
     
-    <h4 class="">Suggested Vote Facility Locations (1 Mile Diameter)</h4>
+    <h4 class="">Suggested Vote Center Areas</h4>
 
     <ul class="nav nav-pills nav-stacked models-menu points-menu ">
             <li id='three_day_sites'>
-        <a onclick="populateMapWithPoints('three_day_sites.csv')">Suggested 3 Day Vote Sites</a>
+        <a onclick="populateMapWithPoints('three_day_sites.csv')">Suggested Areas for 4 Day Vote Centers</a>
       </li>
     <li id='ten_day_sites'>
-        <a onclick="populateMapWithPoints('ten_day_sites.csv')">Suggested 10 Day Vote Sites</a>
+        <a onclick="populateMapWithPoints('ten_day_sites.csv')">Suggested Areas for 11 Day Vote Centers</a>
       </li>
       <li id='dropbox_sites'>
-        <a onclick="populateMapWithPoints('dropbox_sites.csv')">Suggested Drop Box Sites </a>
+        <a onclick="populateMapWithPoints('dropbox_sites.csv')">Suggested Areas for Ballot Drop Boxes </a>
       </li>
       <li id='all_sites'>
-        <a onclick="populateMapWithPoints('all_sites.csv')">All Potential Sites</a>
+        <a onclick="populateMapWithPoints('all_sites.csv')">All Potential Areas</a>
       </li>
       <li id='additional_sites_model'>
-        <a onclick="populateMapWithPoints('additional_sites_model.csv')">Additional Vote Sites (Model)</a>
+        <a onclick="populateMapWithPoints('additional_sites_model.csv')">Addtl. Suggested Areas for Vote Centers (Model)</a>
       </li>
       <li id='additional_sites_distance'>
-        <a onclick="populateMapWithPoints('additional_sites_distance.csv')">Additional Vote Sites (Distance)</a>
+        <a onclick="populateMapWithPoints('additional_sites_distance.csv')">Addtl. Suggested Areas for Vote Centers (Distance)</a>
       </li>
 
     </ul>
@@ -237,13 +238,13 @@
     <div id="collapsePOIS" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
     <ul class="nav nav-pills nav-stacked poi-menu points-menu">
       <li id='poi'>
-        <a onclick="populateMapWithPoints('poi.csv')">Points of Interest (ALL) </a>
+        <a onclick="populateMapWithPoints('poi.csv')">Points of Interest (All) </a>
       </li>
         <li id='poi_govish'>
         <a onclick="populateMapWithPoints('poi_govish.csv')">Points of Interest (Government) </a>
       </li>
         <li id='poi_misc'>
-        <a onclick="populateMapWithPoints('poi_misc.csv')">Points of Interest (Misc.) </a>
+        <a onclick="populateMapWithPoints('poi_misc.csv')">Points of Interest (Non-Government) </a>
       </li>
     </ul>
     </div>
@@ -253,7 +254,7 @@
     <div class="card-header" id="headingThree">
       <h5 class="mb-0">
         <div class="nav nav-pills nav-stacked h5 collapsed extradata" data-toggle="collapse" data-target="#collapseIndicator" aria-expanded="false" aria-controls="collapseIndicator" onclick="downArrow('indicator_arrow')" >
-         <i id="indicator_arrow" class="arrow"></i>   Indicator Data
+         <i id="indicator_arrow" class="arrow"></i>   Individual Data Layers
         </div>
       </h5>
     </div>
@@ -302,7 +303,7 @@
 <div class="footer">
   <center>
     <a href="methodology.html">
-      Methodology
+      More Information on the Purpose and Creation of the Siting Tool
     </a>
 
     |
@@ -364,11 +365,11 @@
   var geocoder = new google.maps.Geocoder();
 
   var rdPrpl = {
-    0:'white',
-    1:'#fa9fb5',
-    2:'#f768a1',
-    3:'#c51b8a',
-    4:'#7a0177'
+    0:'#f1eef6',
+    1:'#d7b5d8',
+    2:'#df65b0',
+    3:'#dd1c77',
+    4:'#980043'
   }
   
 
