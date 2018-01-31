@@ -115,7 +115,7 @@ function styleCircle(fileName, line){
         radius: 10,
         opacity: .6  
     },
-    'flp_selection.csv':{
+    'three_day_sites.csv':{
         color: 'black',
         weight: 1.5,
         fillColor: quantilePointWeights(+line['final_composite_score']),
@@ -123,7 +123,7 @@ function styleCircle(fileName, line){
         opacity: 1,
         radius: 400
     },
-    'flp_dropoff_facilities.csv':{
+    'ten_day_sites.csv':{
         color: 'black',
         weight: 1.5,
         fillColor: quantilePointWeights(+line['final_composite_score']),
@@ -131,8 +131,8 @@ function styleCircle(fileName, line){
         opacity: 1,
         radius: 400
     },
-    'flp_selection_nocost.csv':{
-        color: 'yellow',
+    'dropbox_sites.csv':{
+        color: 'red',
         weight: 1.5,
         fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
@@ -147,19 +147,19 @@ function styleCircle(fileName, line){
         opacity: .6,
         radius: 400
     },
-    'additional_sites.csv':{
-        color: 'yellow',
+    'additional_sites_model.csv':{
+        color: 'blue',
         weight: 2,
         fillColor: quantilePointWeights(+line['final_composite_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
     },
-    'geo_isolated.csv':{
-        color: 'black',
+    'additional_sites_distance.csv':{
+        color: 'blue',
         weight: 2,
-        fillColor: 'fcc5c0',
-        fillOpacity: 0,
+        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
     }
@@ -175,12 +175,16 @@ function styleCircle(fileName, line){
 function resetCircleStyle(e){
     if (pointClick != null){
       var regName = pointClick.registeredName[0];
-      var specificVals = regName == 'flp_selection.csv' ? 
+      var specificVals = regName == 'three_day_sites.csv' ? 
                                                           {'color':'black'  ,'weight':1.5} :
-                         regName == 'flp_selection_nocost.csv' ? 
-                                                          {'color':'yellow' ,'weight':1.5} : 
-                         regName == 'additional_sites.csv' ? 
-                                                          {'color':'white'  ,'weight':1.5} :                                  
+                         regName == 'ten_day_sites.csv' ? 
+                                                          {'color':'black'  ,'weight':1.5} :
+                         regName == 'dropbox_sites.csv' ? 
+                                                          {'color':'red' ,'weight':1.5} : 
+                         regName == 'additional_sites_model.csv' ? 
+                                                          {'color':'blue'  ,'weight':1.5} :    
+                         regName == 'additional_sites_distance.csv' ? 
+                                                          {'color':'blue'  ,'weight':1.5} :                                
 
                           {'color':'#fcc5c0','weight':.5};
       pointClick.setStyle(specificVals)
@@ -238,7 +242,6 @@ function populateMapWithPoints(fileName) {
         pointsData[fileName] = {};
 
         processCSV(data).forEach(function(line) {
-          // console.log(line)
           //Save Line Data to Point Object
           pointsData[fileName][line.idnum] = line;
           // Add a new circle shape to the map
@@ -270,7 +273,11 @@ function populateMapWithPoints(fileName) {
         // Need to Make Sure the Suggested Sites are always on top of "all sites"
         var keys = Object.keys(layerManager);
         keys.forEach(function(layer) {
-          if (['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv'].indexOf(layer) > -1) {
+          if (['three_day_sites.csv',
+              'ten_day_sites.csv',
+              'dropbox_sites.csv',
+              'additional_sites_distance.csv',
+              'additional_sites_model.csv'].indexOf(layer) > -1) {
             layerManager[layer].forEach(function(d) {d.bringToFront()})
           }
 
@@ -291,7 +298,12 @@ function populateMapWithPoints(fileName) {
     // if any of them are selected. 
      var voteSiteSearch = 0
      keys.forEach(function(layer){
-       var searchVal = ['flp_selection.csv','additional_sites.csv','flp_dropoff_facilities.csv','all_sites.csv'].indexOf(layer) > -1;
+       var searchVal = ['three_day_sites.csv',
+                        'ten_day_sites.csv',
+                        'dropbox_sites.csv',
+                        'all_sites.csv',
+                        'additional_sites_model.csv',
+                        'additional_sites_distance.csv'].indexOf(layer) > -1;
        voteSiteSearch += searchVal 
      }) 
 
@@ -588,7 +600,6 @@ function populateMapWithChoropleth(fieldName) {
 
       geoJsonLayer.targetCol = targetCol;
       layerManager['choropleth'] = geoJsonLayer;
-      console.log('hi !!!')
       legend.addTo(mainMap);
 
 
