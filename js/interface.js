@@ -2,7 +2,7 @@ function populateNavBarIndicators(){
 
   $.ajax({
     type: 'GET',
-    url: `data/indicator_menu_fields.csv`,
+    url: `data/indicator_files/indicator_menu_fields.csv`,
     dataType: 'text',
     success: function(data) {
       processCSV(data).forEach(function(line) {
@@ -20,6 +20,7 @@ function populateNavBarIndicators(){
         // Also need to add to the list of items to download
         // var fdlLi = '<li><a href="/data/indicator_files/' + bn +
         //             '.csv">' + cn + '</a></li>';
+        console.log(desc)
         var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
         // $('.fullDownloadModalList').append(fdlLi);
         $('.fullDataDescriptionModalList').append(dataDesclLi);
