@@ -535,8 +535,15 @@ function populateMapWithChoropleth(fieldName) {
         });
 
         // First, add the title
-        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span><br>';
+        div.innerHTML += '<span><b><i>' + cleanFiles[targetCol] + '</i></b></span>';
 
+
+        var addtlLegendContext = 
+                  targetCol == 'popdens' ? ' (per sq km)' :
+                  targetCol == 'job_dens' ? ' (% of county total)' :
+                  targetCol == 'cvapdens' ? ' (% of county total)' : '';
+
+        div.innerHTML += addtlLegendContext + '<br>'
         // Loop through our density intervals to generate a label
         // with a colored square for each interval
         for (var i = 0; i < limits.length-1; i++) {
@@ -551,10 +558,10 @@ function populateMapWithChoropleth(fieldName) {
           //                  color + '"></i> ';
 
           // Controls for how to format numbers in the legend
-          if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
+          if (['popdens'].indexOf(targetCol) > -1){
             var decimalLimit = limits[1] < .01 ? 3 : limits[1] < .1 ? 2: 2; // How much to round the numbers
             var thisLimVal = (limits[i]).toFixed(decimalLimit).toString()
-            var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString();
+            var nextLimVal = (limits[i + 1]).toFixed(decimalLimit).toString() 
           } else {
             var thisLimVal = (limits[i] * 100).toFixed(1).toString() + '%'
             var nextLimVal = (limits[i + 1]*100).toFixed(1).toString() + '%';
