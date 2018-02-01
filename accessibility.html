@@ -12,9 +12,8 @@
         integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
         crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/county_select_style.css" />
-      <link rel="stylesheet" href="css/style.css" />
-
     <script src="data/california_counties.js"></script>
 
 </head>
@@ -30,7 +29,7 @@
     <a style="padding: 20px 0"class="navbar-brand" href="http://ccep.ucdavis.edu/">
       <img src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
     </a>
-      
+
       <button class="btn btn-primary pull-right hidden-xs ccephome"
             onclick="window.open('index.html','_self')"
             style="margin-top: 10px;">
@@ -47,18 +46,19 @@
       <br>
       <div class="methodology_text">
 
-        <h1> More Information on the Purpose and Creation of the Siting Tool</h1>
+        <h1> Accessibility Resources</h1>
 
-        <h2>Suitable Sites</h2>
-        <p>The entirety of the “suitable sites” - .5 mile grid cells covering each county were created using a combined approach for road density and “points of interest” density.  A grid cell needed to either contain a sufficient density of roads or at least two points of interest.  Points of interest were defined by the research team to be both governmental and non-governmental buildings (reflective as two different layers in the tool) that could serve as potential polling sites.</p>
+        <h2>Google Chrome</h2>
+        <p>.....</p>
 
-        <h2>Facility Location</h2>
-        <p>The suggest sites layer provides one view of suggested locations for polling sites.  This layer is created using a facility location model (the basic code framework is here, and here is an interactive demo.)  Suitable site grid cells were grouped using a <a href ="https://en.wikipedia.org/wiki/K-means_clustering">k-means</a> cluster analysis where sites were clustered on the registered voter population.  The facility location model was run on these clusters, with a cost function being constructed based on commute time.  Clusters were selected for site inclusion, and within each cluster the highest diversity scoring site was recommended for the location of the polling site. 
-        Additional sites</p>
+        <h2>Firefox</h2>
+        <p>.....</p>
 
-        <h2>Scoring model</h2>
-        <p>Following a long tradition of scoring for potential siting locations (from fields such as construction, emergency management and others) all suitable sites were scored for their performance on the SB 450 metrics. </p>
+        <h2>Internet Explorer</h2>
+        <p>..... </p>
 
+        <h2>Safari</h2>
+        <p>..... </p>
       </div>
       <br>      <br>
 
@@ -72,19 +72,21 @@
   <center>
     <span onclick="goBack()" style="cursor:pointer;"> Previous Page</span> 
 
-
+        |
+        <a href="methodology.html">
+      More Information on the Purpose and Creation of the Siting Tool
+    </a>
     |
         <a href="acknowledgments.html">
       Acknowledgments
-    </a>    |
+    </a>
+    |
         <a href="mailto:msromero@ucdavis.edu?Subject=Vote%20Center%20Siting%20Tool">
       Contact
     </a>
-      | 
+
     
-    <a href="accessibility.html"><img src="assets/accessibility.svg"/></a>
-
-
+    
   </center>
 </div>
 
@@ -102,15 +104,14 @@
 
 <script type="text/javascript">
 
-
+  function goBack(){
+    window.history.back();
+  }
 </script>
 
 <!-- Global variables -->
 <script type="text/javascript">
   
-  function goBack(){
-    window.history.back();
-  }
 </script>
 
 

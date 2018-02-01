@@ -841,8 +841,8 @@ L.Control.Search = L.Control.extend({
 					this.showLocation(loc, this._input.value);
 					var killIcon = L.icon({
 							    iconUrl: 'assets/close.png',
-							    iconSize:     [13, 13], // size of the icon
-							    iconAnchor:   [-3, 12], // point of the icon which will correspond to marker's location
+							    iconSize:     [14, 14], // size of the icon
+							    iconAnchor:   [-3, 14], // point of the icon which will correspond to marker's location
 							});
 
 					clickKillIcon  = L.marker([loc.lat, loc.lng], {icon: killIcon})
@@ -909,7 +909,7 @@ L.Control.Search.Marker = L.Marker.extend({
 		circle: {
 			radius: 10,
 			weight: 3,
-			color: '#e03',
+			color: 'yellow',
 			stroke: true,
 			fill: false
 		}

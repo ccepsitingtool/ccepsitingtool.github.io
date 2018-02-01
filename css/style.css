@@ -132,7 +132,10 @@
    width:100%;
  }
 
-
+.legendLinkSpan:hover  {
+  text-decoration: underline ;
+}
+}
 
 /* Stuff from before */
 body {

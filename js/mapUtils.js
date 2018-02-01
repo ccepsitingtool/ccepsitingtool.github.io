@@ -396,8 +396,8 @@ pointLegend.onAdd = function(map) {
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
-  div.innerHTML += '<span onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
-  div.innerHTML += '<span style="font-weight:bold;color:blue;cursor:pointer;margin-top:2px;"><a href="methodology.html">Methodology</a></span>'
+  div.innerHTML += '<span class="legendLinkSpan" onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
+  div.innerHTML += '<span style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;"><a style="color:black" href="methodology.html">Methodology</a></span>'
   return div;
 }
 
@@ -578,11 +578,11 @@ function populateMapWithChoropleth(fieldName) {
           div.innerHTML += '<i class="leftColorMapBox" style="background:black;  height: 10px; width:10px; float:left; margin-top:4px;"></i>'
           div.innerHTML += '<span style="font-size:12px">Estimates that have a high'
           div.innerHTML += '<br><i class="leftColorMapBox" style="opacity:0;  width:16px; float:left;"></i>'
-          div.innerHTML +=  '<span style="font-size:12px">degree of uncertainty</span>'
+          div.innerHTML +=  '<span style="font-size:12px">degree of uncertainty</span><br>'
         }
 
         // Return the newly created div
-        div.innerHTML += '<span style="font-size:12px;font-weight:bold;color:blue;cursor:pointer;margin-top:2px;" onclick="launchDataDesc()">Data Descriptions</span>'
+        div.innerHTML += '<span class = "legendLinkSpan" style="font-size:12px;font-weight:bold;color:black;cursor:pointer;margin-top:2px;" onclick="launchDataDesc()">Data Descriptions</span>'
 
         return div;
       };
