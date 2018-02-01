@@ -456,7 +456,7 @@ function populateMapWithChoropleth(fieldName) {
     if (layerManager['choropleth']['targetCol'] != fieldName) {
       $('#'+layerManager['choropleth']['targetCol']).toggleClass('selected')
   }
-}
+  }
   $('#'+fieldName).toggleClass('selected')
 
 
@@ -542,10 +542,13 @@ function populateMapWithChoropleth(fieldName) {
         for (var i = 0; i < limits.length-1; i++) {
           // This basically ties each break to its exact color value for
           // that level
-          var col = getColor(limits[i], limits);
+          var color = getColor(limits[i], limits);
           // Add a new layer inside of the legend
-          div.innerHTML += '<i class="leftColorMapBox" style="background:' +
-                           col + '"></i> ';
+
+          div.innerHTML += '<span class="leftNumVal"  style="width:30px;display:inline-block;margin-right:4px;margin-bottom:2px;background:'+ color + '">&nbsp' 
+
+          // div.innerHTML += '<i class="leftColorMapBox" style="background:' +
+          //                  color + '"></i> ';
 
           // Controls for how to format numbers in the legend
           if (['cvapdens','popdens','job_dens'].indexOf(targetCol) > -1){
@@ -560,7 +563,7 @@ function populateMapWithChoropleth(fieldName) {
           div.innerHTML += (thisLimVal + ' &ndash; ' + nextLimVal);
           
           // Finally, add a break no matter what
-          div.innerHTML += '<br>';
+          div.innerHTML +=  '</span> <br>';
         
         }
 
@@ -572,6 +575,8 @@ function populateMapWithChoropleth(fieldName) {
         }
 
         // Return the newly created div
+        div.innerHTML += '<span style="font-size:12px;font-weight:bold;color:blue;cursor:pointer;margin-top:2px;" onclick="launchDataDesc()">Data Descriptions</span>'
+
         return div;
       };
 
@@ -621,4 +626,9 @@ function populateMapWithChoropleth(fieldName) {
 
   });
 
+}
+
+
+function launchDataDesc(){
+  $('#downloadModal').modal('toggle');
 }
