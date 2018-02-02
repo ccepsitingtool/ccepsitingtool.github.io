@@ -219,6 +219,9 @@ p {
   background-color: #C6CEDA;
   color: #000;
 }
+
+
+
 #main-container {
   top: 0px;
   left: 0px;
@@ -323,7 +326,15 @@ circle.poi:hover {
 }
 
 #nav-panel .nav > li > a {
-  padding: 5px 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#nav-panel .nav > li.selected > a {
+    padding-right: 25px;
+
 }
 
 #nav-panel .label {
@@ -343,21 +354,7 @@ circle.poi:hover {
   border-radius: 16px;
 }
 
-.selected#three_d_centers a:after {
-  background: blue;
-}
 
-.selected#dropoff_d_centers a:after {
-  background: green;
-}
-
-.selected#all_test_points a:after {
-  background: red ;
-}
-
-.selected#ten_d_centers a:after {
-  background: orange ;
-}
 
 .schools-menu .selected a:after {
   background: #d75452;
