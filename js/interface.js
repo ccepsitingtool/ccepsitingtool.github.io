@@ -24,6 +24,25 @@ function populateNavBarIndicators(){
       });
     }
    });
+
+  $.ajax({
+    type: 'GET',
+    url: `data/site_area_count.csv`,
+    dataType: 'text',
+    success: function(data) {
+      processCSV(data).forEach(function(line) {
+        var fln = line['file'];
+        var cnt = line['count'];
+        var aCnt = '<b> (' + cnt + ')<b>'
+        // Add to the menu list
+        $('#'+fln + ' a').append(aCnt)
+  
+
+      });
+    }
+   });
+
+
 }
 
 function toggleMenu() {

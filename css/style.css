@@ -142,8 +142,19 @@
 .legendLinkSpan:hover  {
   text-decoration: underline ;
 }
+
+.kbdkeys {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
+.accessItem {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
 /* Stuff from before */
 body {
   overflow-x: hidden;
