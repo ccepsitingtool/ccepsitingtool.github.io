@@ -16,11 +16,7 @@ function populateNavBarIndicators(){
         
         // Add to the menu list
         $('.indicator-menu').append(li)
-        // fullDataDescriptionModalList
-        // Also need to add to the list of items to download
-        // var fdlLi = '<li><a href="/data/indicator_files/' + bn +
-        //             '.csv">' + cn + '</a></li>';
-        console.log(desc)
+   
         var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
         // $('.fullDownloadModalList').append(fdlLi);
         $('.fullDataDescriptionModalList').append(dataDesclLi);

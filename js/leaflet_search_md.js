@@ -851,8 +851,8 @@ L.Control.Search = L.Control.extend({
 						mainMap.removeLayer(clickKillIcon)
 					}).on('zoomstart',function(d){
 						mainMap.removeLayer(clickKillIcon)
-					}).on('zoomend', function(d){
-						clickKillIcon.addTo(mainMap)
+					}).on('moovend', function(d){
+						clickKillIcon.set
 					});
 					this.fire('search:locationfound', {
 							latlng: loc,
