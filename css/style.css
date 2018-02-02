@@ -155,6 +155,29 @@
   font-size: 18px;
   margin-bottom: 5px;
 }
+
+
+.beta-version {
+  font-size: inherit;
+  background-color: #f0ad4c;
+}
+
+
+.dk-how-to{
+  margin-bottom: 20px;
+}
+.dk-bottom-right {
+    position: absolute;
+    bottom: -1px;
+    right: 12px;
+    background-color: white;
+    padding: 5px 5px;
+    border-top-left-radius:5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
 /* Stuff from before */
 body {
   overflow-x: hidden;
@@ -321,22 +344,22 @@ circle.poi:hover {
 /* TODO: This is the wrong way to have these images in that pop
          up modal; these should be moved into the HTML and this should
          just be one style rule for all of them */
-#how-to .one {
-  background: url("../assets/one.png") center no-repeat;
-  height: 200px;
+/*#how-to .one {
+  background: url("../assets/click_menu.png") center no-repeat;
+  height: 400px;
   margin-bottom: 10px;
-}
+}*/
 
-#how-to .two {
+/*#how-to .two {
   background: url("../assets/two.png") center no-repeat;
   height: 200px;
   margin-bottom: 10px;
-}
+}*/
 
-#how-to .three {
+/*#how-to .three {
   background: url("../assets/three.png") center no-repeat;
   height: 200px;
-}
+}*/
 
 #nav-panel {
   /*height: 600px;*/
