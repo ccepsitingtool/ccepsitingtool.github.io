@@ -130,6 +130,13 @@
   position:absolute;
    bottom:0;
    width:100%;
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    position: fixed;
+    bottom: 0pt;
+    left: 0pt;
  }
 
 .legendLinkSpan:hover  {
