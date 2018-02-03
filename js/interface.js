@@ -2,7 +2,7 @@ function populateNavBarIndicators(){
 
   $.ajax({
     type: 'GET',
-    url: `data/indicator_files/indicator_menu_fields.csv`,
+    url: 'data/' + targetSiteId + '/indicator_files/indicator_menu_fields.csv',
     dataType: 'text',
     success: function(data) {
       processCSV(data).forEach(function(line) {
@@ -27,7 +27,7 @@ function populateNavBarIndicators(){
 
   $.ajax({
     type: 'GET',
-    url: `data/site_area_count.csv`,
+    url: 'data/' + targetSiteId + '/site_area_count.csv',
     dataType: 'text',
     success: function(data) {
       processCSV(data).forEach(function(line) {

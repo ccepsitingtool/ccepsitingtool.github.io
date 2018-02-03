@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/index_style.css" />
   <link rel="stylesheet" href="css/county_select_style.css" />
-  <script src="data/california_counties.js"></script>
 
 </head>
 
@@ -127,6 +126,9 @@
   // Then bind it to be called every time the page window is changed in size
   $(window).resize(adjustSizing);
 </script>
+
+<!-- Load in global GeoJSON feature collections -->
+<script src="data/california_counties.js"></script>
 
 <!-- Global variables -->
 <script type="text/javascript">
@@ -272,7 +274,7 @@
   // Check Available Counties Create Map Interfaces, Update Maps
    $.ajax({
       type: 'GET',
-      url: `data/available_counties.csv`,
+      url: 'data/available_counties.csv',
       dataType: 'text',
       success: function(data) {
       

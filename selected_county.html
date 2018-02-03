@@ -414,6 +414,8 @@
 
 <!-- Global variables -->
 <script type="text/javascript">
+  // Used everywhere to figure out which subfolder to use
+  var targetSiteId = new URL(window.location.href).searchParams.get('id');
   var mainMap = L.map('leaflet_map', {zoomControl: false});
   var layerManager = { choropleth: null , unreliable: null};
   var pointsData = {}
@@ -421,7 +423,6 @@
   var currentZoom = mainMap.getZoom();
   var cleanFiles = {}
   var cleanFields = {}
-
 
   // Instantiate Google geocoder object
   var geocoder = new google.maps.Geocoder();

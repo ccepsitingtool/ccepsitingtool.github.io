@@ -216,7 +216,7 @@ function populateMapWithPoints(fileName) {
   // Then run an asyn task to acquire the actual data
   $.ajax({
     type: 'GET',
-    url: `data/point_files/${fileName}`,
+    url: 'data/' + targetSiteId + '/point_files/' + fileName,
     dataType: 'text',
     success: function(data) {
       // First check if this layer is already on the map
@@ -460,7 +460,7 @@ function populateMapWithChoropleth(fieldName) {
   $('#'+fieldName).toggleClass('selected')
 
 
-  var loc = 'data/indicator_files/' + fieldName + '.csv';
+  var loc = 'data/' + targetSiteId + '/indicator_files/' + fieldName + '.csv';
   // We need to create a local variable of fieldName to keep and
   // be able to access in the success callback function
   var targetCol = fieldName;

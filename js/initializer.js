@@ -27,7 +27,7 @@ function processCSV(data) {
 function addCountyToMap(map) {
   $.ajax({
     type: 'GET',
-    url: 'data/county.json',
+    url: 'data/' + targetSiteId + '/county.json',
     dataType: 'json',
     success: function(data) {
       var county = L.geoJSON(data, {
@@ -143,7 +143,7 @@ var siteWeightClasses = {};
 
 $.ajax({
     type: 'GET',
-    url: `data/point_files/all_sites.csv`,
+    url: 'data/' + targetSiteId + '/point_files/all_sites.csv',
     dataType: 'text',
     success: function(data) {
 
