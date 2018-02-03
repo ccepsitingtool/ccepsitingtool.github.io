@@ -436,11 +436,21 @@
   }
   
 
-  // Display Stuff
-  function downArrow(e){
-    $("#"+e).toggleClass('down')
-      
-      }
+  // Display left hand content on click and, if open, scroll down
+  function downArrow(divId) {
+    $("#" + divId).toggleClass('down');
+
+    // Now check if we toggled it open
+    var isOpen = $('#indicator_arrow').hasClass('down');
+    if (isOpen) {
+      // If we did, we want to simulate some scrolling to get contents in
+      // at least partial view
+      $('.posabs').scroll();
+      $('.posabs').animate({
+        scrollTop: $("#" + divId).offset().top - 100,
+      }, 2000);
+    }
+  }
 
 
 </script>
