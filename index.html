@@ -131,9 +131,79 @@
 <!-- Global variables -->
 <script type="text/javascript">
   var countyContext = L.control();
-  var availableCounties ={};
-  var availableCountiesKeys = [];
+  var availableCounties = {};
   var countiesLayer;
+
+  // Leaflet Map Stuff
+  var countyMap = L.map('countyLeafletMap', {zoomControl: false}).setView([37.35, -119.7], 6);
+  // TODO: We will need to replace the accessToken before releasing (since
+  //       you are just using mine right now)
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 6,
+    minZoom: 6,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q'
+  }).addTo(countyMap);
+
+  // For this view, no dragging (view is locked in)
+  countyMap.dragging.disable();
+
+  // Add the polygon layers
+  function addCountiesToMap(california_counties) {
+    var options = {
+      style: function(feature) {
+        var countyId = feature.properties['countyfp']
+        return {
+          // Color the counties we have data for in yellow
+          fillColor: Object.keys(availableCounties).indexOf(countyId) > -1 ? 'yellow' : 'white',
+          weight: 1,
+          opacity: 0.5,
+          color: 'black',
+          fillOpacity: 0.5
+        }
+      },
+
+      // bind mouse actions to each geometry
+      onEachFeature: function(feature, layer) {
+        layer.on({
+          mouseover: function(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+              weight: 5,
+              color: 'black',
+              dashArray: '',
+              fillOpacity: 0.15 
+            });
+
+            // Some IE bs apparently...
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+              layer.bringToFront();
+            }
+
+            // Run update to update legend
+            countyContext.update(layer.feature.properties);
+          },
+
+          mouseout: function resetHighlight(e) {
+            countiesLayer.resetStyle(e.target);
+            countyContext.update();
+          },
+          
+          click: function (e) {
+            var countyId = e.target.feature.properties['countyfp'];
+            if (Object.keys(availableCounties).indexOf(countyId) > -1) {
+              window.open(availableCounties[countyId].url,'_self');
+            }              
+          }
+        });
+      }
+    };
+    // Add to Map
+    countiesLayer = L.geoJson(california_counties, options);
+    countiesLayer.addTo(countyMap);
+  }
 
   function processCSV(data) {
     var allTextLines = data.split(/\r\n|\n/);
@@ -159,90 +229,44 @@
     return lines;
   }
 
-  // Leaflet Map Stuff
-  var countyMap = L.map('countyLeafletMap', {zoomControl: false}).setView([37.35, -119.7], 6);
-  // TODO: We will need to replace the accessToken before releasing (since
-  //       you are just using mine right now)
-  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 6,
-    minZoom: 6,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q'
-  }).addTo(countyMap);
-  countyMap.dragging.disable();
-
-
-  function createMapInterfaces(){
+  function createMapInterfaces() {
+    // Adds a div to the upper right hand corner of the map
     countyContext.onAdd = function (map) {
+      // TODO: Does override same name/key cause the old div to
+      //       be destroyed/removed? Or are we causing a layering
+      //       issue here?
       this._div = L.DomUtil.create('div', 'leafletMapBLBox');
       this.update();
       return this._div;
-      };
+    };
 
+    // Bind the geojson click actions to legend updates
     countyContext.update = function (props) {
-      if (props != undefined && (availableCountiesKeys.indexOf(props['countyfp']) > -1 ) ){
-        var hasVoteSitePage =  '<span style="color:steelblue">Click County to See Vote Sites</span>' 
-        } else {
-        var hasVoteSitePage =  '<span style="color:red">Not a VCA adopting county</span>'
+      // Default no-data message:
+      var hasVoteSitePage = '<span style="color:red">Not a VCA adopting county</span>';
+
+      // If we have that counties data, we can show a positive message
+      var hasProps = ((props != undefined) &&
+        (Object.keys(availableCounties).indexOf(props['countyfp']) > -1));
+      if (hasProps) {
+        // Override the default no-data message
+        hasVoteSitePage = '<span style="color:steelblue">Click County to See Vote Sites</span>';
+
+        // Update the legend accordingly
+        this._div.innerHTML = (
+          '<h4>County Name</h4><span class="countyTitle">' +
+          props.name + '</span>' + hasVoteSitePage);
+      
+      // Otherwise the default div innerHTML
+      } else {
+        this._div.innerHTML = '<h4>County Name</h4>Hover over a county';
       }
       
-      this._div.innerHTML = '<h4>County Name</h4>' +  (props ?
+      // Update the legend accordingly
+      this._div.innerHTML = '<h4>County Name</h4>' +  (hasProps ?
         '<span class="countyTitle">' + props.name + '</span>'  + hasVoteSitePage
         : 'Hover over a county');
     };
-  }
-
-  function addCountiesToMap(california_counties) {
-
-   // Polygon Options - Add the polygon layers
-    var options = {
-      style: function(feature) {
-        var countyId = feature.properties['countyfp']
-        return {
-          fillColor: availableCountiesKeys.indexOf(countyId) > -1 ? 'yellow' : 'white',
-          weight: 1,
-          opacity: .5,
-          color: 'black',
-          fillOpacity:  .5
-        }
-      },
-      onEachFeature:  function(feature, layer) {
-        layer.on({
-          mouseover:  function(e) {
-                          var layer = e.target;
-
-                          layer.setStyle({
-                            weight: 5,
-                            color: 'black',
-                            dashArray: '',
-                            fillOpacity: 0.15 
-                          });
-
-                          if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                            layer.bringToFront();
-                          }
-
-                          countyContext.update(layer.feature.properties);
-                        } ,
-          mouseout:   function resetHighlight(e) {
-                            countiesLayer.resetStyle(e.target);
-                            countyContext.update();
-    },
-          click:  function (e) {
-              var countyId = e.target.feature.properties['countyfp']
-
-              if (availableCountiesKeys.indexOf(countyId) > -1 ) {
-                window.open(availableCounties[countyId].url,'_self');
-              }
-              
-        }
-        });
-      }
-    };
-    // Add to Map
-    countiesLayer = L.geoJson(california_counties, options);
-    countiesLayer.addTo(countyMap);
   }
 
   // Check Available Counties Create Map Interfaces, Update Maps
@@ -251,20 +275,28 @@
       url: `data/available_counties.csv`,
       dataType: 'text',
       success: function(data) {
+      
+      // Pull in csv data as an array of JSONs
       processCSV(data).forEach(function(line) {
-        //Save Line Data to Point Object
+        // Update the global availCounties dict
         availableCounties[line['id']] = line
-        availableCountiesKeys.push(line['id'])
       })
-      availableCountiesKeys = availableCountiesKeys.sort()
 
-      availableCountiesKeys.forEach(function(listItem) {
-        var listHtml = '<li> <h4><a href="' + availableCounties[listItem].url + '">' +availableCounties[listItem].name + '</a></h4></li>'
+      // Add each as a list item to the main text content
+      Object.keys(availableCounties).sort().forEach(function(listItem) {
+        // TODO: There is a better way to add divs than in-line text HTML...
+        var listHtml = '<li><h4><a href="' +
+          availableCounties[listItem].url + '">' +
+          availableCounties[listItem].name + '</a></h4></li>';
         $('#countyList').append(listHtml)
       })
-      createMapInterfaces()
+
+      // First we need to populate the map with these new components
+      createMapInterfaces();
+      addCountiesToMap(california_counties);
+
+      // Then we can bind the county context controller to the map
       countyContext.addTo(countyMap);
-      addCountiesToMap(california_counties)
       }
     });
 </script>
