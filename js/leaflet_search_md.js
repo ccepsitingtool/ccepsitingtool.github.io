@@ -74,11 +74,11 @@ L.Control.Search = L.Control.extend({
 		casesensitive: false,			//search elements in case sensitive text
 		autoType: true,					//complete input with first suggested result and select this filled-in text.
 		delayType: 400,					//delay while typing for show tooltip
-		tooltipLimit: -1,				//limit max results to show in tooltip. -1 for no limit, 0 for no results
+		tooltipLimit: 1,				//limit max results to show in tooltip. -1 for no limit, 0 for no results
 		tipAutoSubmit: true,			//auto map panTo when click on tooltip
 		firstTipSubmit: false,			//auto select first result con enter click
 		autoResize: true,				//autoresize on input change
-		collapsed: true,				//collapse search control at startup
+		collapsed: false,				//collapse search control at startup
 		autoCollapse: false,			//collapse search control after submit(on button or on tips if enabled tipAutoSubmit)
 		autoCollapseTime: 1200,			//delay for autoclosing alert and collapse after blur
 		textErr: 'Location not found',	//error message

@@ -115,7 +115,7 @@ function styleCircle(fileName, line){
         radius: 10,
         opacity: .6  
     },
-    'three_day_sites.csv':{
+    'four_day_sites.csv':{
         color: 'black',
         weight: 1.5,
         fillColor: quantilePointWeights(+line['final_composite_score']),
@@ -123,7 +123,7 @@ function styleCircle(fileName, line){
         opacity: 1,
         radius: 400
     },
-    'ten_day_sites.csv':{
+    'eleven_day_sites.csv':{
         color: 'black',
         weight: 1.5,
         fillColor: quantilePointWeights(+line['final_composite_score']),
@@ -175,9 +175,9 @@ function styleCircle(fileName, line){
 function resetCircleStyle(e){
     if (pointClick != null){
       var regName = pointClick.registeredName[0];
-      var specificVals = regName == 'three_day_sites.csv' ? 
+      var specificVals = regName == 'four_day_sites.csv' ? 
                                                           {'color':'black'  ,'weight':1.5} :
-                         regName == 'ten_day_sites.csv' ? 
+                         regName == 'eleven_day_sites.csv' ? 
                                                           {'color':'black'  ,'weight':1.5} :
                          regName == 'dropbox_sites.csv' ? 
                                                           {'color':'red' ,'weight':1.5} : 
@@ -273,8 +273,8 @@ function populateMapWithPoints(fileName) {
         // Need to Make Sure the Suggested Sites are always on top of "all sites"
         var keys = Object.keys(layerManager);
         keys.forEach(function(layer) {
-          if (['three_day_sites.csv',
-              'ten_day_sites.csv',
+          if (['four_day_sites.csv',
+              'eleven_day_sites.csv',
               'dropbox_sites.csv',
               'additional_sites_distance.csv',
               'additional_sites_model.csv'].indexOf(layer) > -1) {
@@ -298,8 +298,8 @@ function populateMapWithPoints(fileName) {
     // if any of them are selected. 
      var voteSiteSearch = 0
      keys.forEach(function(layer){
-       var searchVal = ['three_day_sites.csv',
-                        'ten_day_sites.csv',
+       var searchVal = ['four_day_sites.csv',
+                        'eleven_day_sites.csv',
                         'dropbox_sites.csv',
                         'all_sites.csv',
                         'additional_sites_model.csv',

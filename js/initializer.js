@@ -17,7 +17,7 @@ function processCSV(data) {
       // Push each JSON to a list
       lines.push(tarr);
     } else {
-      console.log('Headers may be Length Longer than Cols - check if error')
+      // console.log('Headers may be Length Longer than Cols - check if error')
     }
 
   }

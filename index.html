@@ -153,7 +153,7 @@ function processCSV(data) {
 
 
 // Leaflet Map Stuff
-var countyMap = L.map('county_leaflet_map', {zoomControl: false}).setView([37.7, -119.7], 6);
+var countyMap = L.map('county_leaflet_map', {zoomControl: false}).setView([37.35, -119.7], 6);
 // countyMap.removeControl(countyMap.zoomControl);
 // We will need to replace the accessToken before releasing (since
 // you are just using mine right now)
@@ -180,7 +180,7 @@ function createMapInterfaces(){
     if (props != undefined && (availableCountiesKeys.indexOf(props['countyfp']) > -1 ) ){
       var hasVoteSitePage =  '<span style="color:steelblue">Click County to See Vote Sites</span>' 
       } else {
-      var hasVoteSitePage =  '<span style="color:red">Vote Sites Not Yet Available</span>'
+      var hasVoteSitePage =  '<span style="color:red">Not a VCA adopting county</span>'
     }
     
     this._div.innerHTML = '<h4>County Name</h4>' +  (props ?
