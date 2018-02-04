@@ -177,12 +177,17 @@
     font-weight: bold;
 }
 
-
-/* Stuff from before */
 body {
   overflow-x: hidden;
   font-size: 13px;
 }
+
+
+.slideOverOnMenu {
+  margin-right: 310px !important;
+}
+/* Stuff from before */
+
 body, h1, h2, h3, h4, h5 {
   font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

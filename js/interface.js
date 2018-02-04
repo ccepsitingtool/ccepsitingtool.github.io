@@ -53,14 +53,21 @@ function toggleMenu() {
   if (isToggled) {
     var animDir = { 'left' : 0 };
     toggleMenu.parent().animate(animDir, 350, function() {
+      console.log('in menu')
       $('#main-container').removeClass('toggled'); 
     });
+    $(baseControlButtons._container).toggleClass('slideOverOnMenu')
+    $(zoomControlButtons._container).toggleClass('slideOverOnMenu')
+
   } else {
     var navWidth = $('#nav-panel').width();
     var animDir = { 'left' : navWidth };
     toggleMenu.parent().animate(animDir, 350, function() {
       $('#main-container').addClass('toggled');
     });
+    $(baseControlButtons._container).addClass('slideOverOnMenu')
+    $(zoomControlButtons._container).toggleClass('slideOverOnMenu')
+
   }
 }
 

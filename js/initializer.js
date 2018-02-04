@@ -42,6 +42,7 @@ function addCountyToMap(map) {
   });
 }
 
+
 // Code to Set Center
 function rad2degr(rad) { return rad * 180 / Math.PI; }
 function degr2rad(degr) { return degr * Math.PI / 180; }
@@ -94,14 +95,17 @@ var leafletLayer_Satellite = L.tileLayer(leafletAccessURL, {
   accessToken: mbAccessToken,
 });
 
+
 // Add the satellite to the map as the default
 leafletLayer_Streets.addTo(mainMap);
 
 // Add the new layers to the map as a layer manager as well
-L.control.layers({
+var baseMapChoice = L.control.layers({
   'Streets': leafletLayer_Streets,
   'Satellite': leafletLayer_Satellite,
-}).addTo(mainMap);
+})
+baseControlButtons = baseMapChoice;
+baseMapChoice.addTo(mainMap);
 
 // Add geocoding search tool
 var mobileOpts = {
@@ -132,7 +136,8 @@ var mobileOpts = {
 
 var searchControl = new L.Control.Search(mobileOpts)
 mainMap.addControl(searchControl);
-mainMap.addControl(new L.Control.Zoom({'position':'topright'}));
+zoomControlButtons = new L.Control.Zoom({'position':'topright'})
+mainMap.addControl(zoomControlButtons);
 // Add the county to the map
 addCountyToMap(mainMap);
 
