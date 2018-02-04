@@ -526,7 +526,7 @@ function populateMapWithChoropleth(fieldName) {
       var geoIdLookup = {}
       processCSV(data).forEach(function(line) {
         var targetField = Number(line[targetCol]);
-        var geoId = Number(line['geoid']);
+        var geoId = +Number(line['geoid']);
 
         if (line.unreliable_flag == 1) {
           unreliableTracts.push(line.geoid)
@@ -622,7 +622,7 @@ function populateMapWithChoropleth(fieldName) {
       // Polygon Options - Add the polygon layers
       var options = {
         style: function(feature) {
-          var geoId = Number(feature.properties['GEOID']);
+          var geoId = Number(feature.properties['geoid']);
           var val = Number(geoIdLookup[geoId]);
           var qColor = getColor(val, dataQuants);
           return {
