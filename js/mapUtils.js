@@ -1,3 +1,13 @@
+// TODO: This should not be a global, find a way to isolate it better to this page
+// colorLookup used to be called "rdPrpl"
+var colorLookup = {
+  0:'#f1eef6',
+  1:'#d7b5d8',
+  2:'#df65b0',
+  3:'#dd1c77',
+  4:'#980043'
+}
+
 // Rendering data
 function clearLayerManager() {
   // First check if this layer is already on the map
@@ -51,15 +61,6 @@ function clearLayerManager() {
 }
 
 function quantilePointWeights(d) {
-  // colorLookup used to be called "rdPrpl"
-  var colorLookup = {
-    0:'#f1eef6',
-    1:'#d7b5d8',
-    2:'#df65b0',
-    3:'#dd1c77',
-    4:'#980043'
-  }
-
   var classes =  siteWeightClasses['final_composite_score']
   var result =  d >= classes[4] ? colorLookup[4] :
                 d >= classes[3] ? colorLookup[3] :
@@ -74,15 +75,28 @@ rankPointLegend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'leafletMapBLBox legend rankpointLegend');
 
   var classes = siteWeightClasses['final_composite_score']
+  
   // First, add the title of the new points data legend
   div.innerHTML += '<span class="legendTitle"> Site Scores </span>'
-  // Then iterate through the fields and add all the values data
+
+  // Now add other legend headers
   div.innerHTML += '<span style="float:left; margin-right:5px; padding-top: 5px;"><b>Low</b></span>'
   div.innerHTML += '<span style="float:right; margin-right:5px; padding-top: 5px;"><b>High</b></span>'
 
-  for  (var i = 0; i < classes.length-1; i++) {
-    var label = i ==0 ? 'Low&nbsp' : i == 2 ? 'Med&nbsp' : i == classes.length-2 ? 'High' : 'xxxx';
-    div.innerHTML += '<i class="leftColorMapBox" style="border-radius:20px;background:'+rdPrpl[i] +';height: 20px; width:20px; float:left; margin-top:4px;border:1px solid gray;"></i>'
+  // Then iterate through the fields and add all the values data
+  for  (var i = 0; i < classes.length - 1; i++) {
+    var label = (
+      i == 0 ? 'Low&nbsp' :
+      i == 2 ? 'Med&nbsp' :
+      i == classes.length - 2 ? 'High'
+      : 'xxxx'
+    );
+
+    // Once you get the label, add it to the next row
+    // TODO: Deal with inline styles here
+    var bgc = colorLookup[i];
+    div.innerHTML += ('<i class="leftColorMapBox" style="border-radius:20px; background:' + 
+      bgc + ';height: 20px; width:20px; float:left; margin-top:4px;border:1px solid gray;"></i>');
   }
 
   return div;
@@ -180,21 +194,32 @@ function styleCircle(fileName, line){
 
 
 function resetCircleStyle(e){
-    if (pointClick != null){
-      var regName = pointClick.registeredName[0];
-      var specificVals = regName == 'four_day_sites.csv' ? 
-                                                          {'color':'black'  ,'weight':1.5} :
-                         regName == 'eleven_day_sites.csv' ? 
-                                                          {'color':'black'  ,'weight':1.5} :
-                         regName == 'dropbox_sites.csv' ? 
-                                                          {'color':'red' ,'weight':1.5} : 
-                         regName == 'additional_sites_model.csv' ? 
-                                                          {'color':'blue'  ,'weight':1.5} :    
-                         regName == 'additional_sites_distance.csv' ? 
-                                                          {'color':'blue'  ,'weight':1.5} :                                
+  // Some default styles that are applied
+  var blkAnd15 = {
+    color: 'black',
+    weight: 1.5
+  };
+  var redAnd15 = {
+    color: 'red',
+    weight: 1.5
+  };
+  var bluAnd15 = {
+    color: 'blue',
+    weight: 1.5
+  };
+  if (pointClick != null){
+    var regName = pointClick.registeredName[0];
+    var specificVals = (
+      regName == 'four_day_sites.csv' ? blkAnd15 :
+      regName == 'eleven_day_sites.csv' ? blkAnd15 :
+      regName == 'dropbox_sites.csv' ? redAnd15 :
+      regName == 'additional_sites_model.csv' ? bluAnd15 :
+      regName == 'additional_sites_distance.csv' ? bluAnd15 :
+      // Else default fallback
+      {'color':'#fcc5c0','weight':.5}
+    );
 
-                          {'color':'#fcc5c0','weight':.5};
-      pointClick.setStyle(specificVals)
+    pointClick.setStyle(specificVals)
   }
 }
 
