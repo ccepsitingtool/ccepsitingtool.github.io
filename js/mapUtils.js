@@ -50,17 +50,24 @@ function clearLayerManager() {
 
 }
 
-function quantilePointWeights(d){
+function quantilePointWeights(d) {
+  // colorLookup used to be called "rdPrpl"
+  var colorLookup = {
+    0:'#f1eef6',
+    1:'#d7b5d8',
+    2:'#df65b0',
+    3:'#dd1c77',
+    4:'#980043'
+  }
 
   var classes =  siteWeightClasses['final_composite_score']
-  var result =  d >= classes[4]  ? rdPrpl[4] :
-                d >= classes[3]  ? rdPrpl[3] :
-                d >= classes[2]  ? rdPrpl[2] :
-                d >= classes[1]  ? rdPrpl[1] :
-             rdPrpl[0] 
+  var result =  d >= classes[4] ? colorLookup[4] :
+                d >= classes[3] ? colorLookup[3] :
+                d >= classes[2] ? colorLookup[2] :
+                d >= classes[1] ? colorLookup[1] :
+             colorLookup[0] 
       
   return result;
-
 };
 
 rankPointLegend.onAdd = function(map) {

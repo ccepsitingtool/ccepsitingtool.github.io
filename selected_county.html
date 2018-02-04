@@ -402,25 +402,33 @@
 <script type="text/javascript">
   // Used everywhere to figure out which subfolder to use
   var targetSiteId = new URL(window.location.href).searchParams.get('id');
+
+
+  // Loading in all reference (geo)JSONs as globals
+  var tracts;
+  $.getJSON('data/' + targetSiteId + '/tracts.json', function(data) {
+    tracts = data;
+  });
+
+  var tractCentroidSquares;
+  $.getJSON('data/' + targetSiteId + '/tract_centroid.json', function(data) {
+    tractCentroidSquares = data;
+  });
+
+  // Leaflet map-management related
   var mainMap = L.map('leaflet_map', {zoomControl: false});
-  var layerManager = { choropleth: null , unreliable: null};
-  var pointsData = {}
-  var pointClick = null;
   var currentZoom = mainMap.getZoom();
-  var cleanFiles = {}
-  var cleanFields = {}
+  var layerManager = { choropleth: null , unreliable: null};
 
   // Instantiate Google geocoder object
   var geocoder = new google.maps.Geocoder();
-
-  var rdPrpl = {
-    0:'#f1eef6',
-    1:'#d7b5d8',
-    2:'#df65b0',
-    3:'#dd1c77',
-    4:'#980043'
-  }
   
+  // Reference layers management
+  var pointsData = {};
+  var pointClick = null;
+  
+  var cleanFiles = {};
+  var cleanFields = {};
 
   // Display left hand content on click and, if open, scroll down
   function downArrow(divId) {
@@ -439,32 +447,6 @@
   }
 
 
-</script>
-
-<!-- TODO: This data loading should happen async -->
-<script type="text/javascript">
-
-
-  // document.body.appendChild(Object.assign(document.createElement('script'), {
-  //   type: 'text/javascript',
-  //   src: 'data/' + targetSiteId + '/tracts.js',
-  // }));
-
-  var tracts;
-  $.getJSON('data/'+targetSiteId+'/tracts.json', function(json) {
-    tracts = json;
-  });
-
-  var tractCentroidSquares;
-  $.getJSON('data/'+targetSiteId+'/tract_centroid.json', function(json) {
-    tractCentroidSquares = json;
-  });
-
-
-  // document.body.appendChild(Object.assign(document.createElement('script'), {
-  //   type: 'text/javascript',
-  //   src: 'data/' + targetSiteId + '/tract_centroid.js',
-  // }));
 </script>
 
 <!-- Initialization library -->
