@@ -81,6 +81,8 @@ function printScreen() {
 
 
 function populateDataDownLoads() {
+    // Need to populate the data download lists - was hardcoded
+    // but now that we have data changing based on site id I moved here
 
     var voteOlItem = $('#voteCenterDl');
     var indicatorOlItem = $('#indicatorDl');
@@ -91,19 +93,19 @@ function populateDataDownLoads() {
               ['additional_sites_model.csv','Addtl. Suggested Areas for Vote Centers (Based on Model)'],
               ['additional_sites_distance.csv','Addtl. Suggested Areas for Vote Centers (Based on Distance)'],
               ['all_sites.csv','All Potential Areas']
-              ]
+              ];
     var miscDlItems = [
           ["transit_stops.csv","Transit Stops"],
           ["poi.csv","Points of Interest (All)"],
           ["poi_misc.csv", "Points of Interest (Non-Government"],
           ["poi_govish.csv", "Points of Interest (Government)"]
-    ]
+    ];
 
 
-
+  // Below is hacky but it is the only one that has csv or shp - if we have more then make more reproducable.
   pointDlItems.forEach(function(item){
-    flNm = item[0]
-    flLbl = item[1]
+    var flNm = item[0];
+    var flLbl = item[1];
     voteOlItem.append('<li> <a href="data/' + targetSiteId + '/point_files/' + flNm + '">' + flLbl + '</a></li>')
   })     
 
@@ -113,12 +115,11 @@ function populateDataDownLoads() {
 
   indicatorOlItem.append(indicatorDlItem);
   miscDlItems.forEach(function(item){
-      flNm = item[0]
-      flLbl = item[1]
+      var flNm = item[0];
+      var flLbl = item[1];
       indicatorOlItem.append('<li> <a href="data/' + targetSiteId + '/point_files/' + flNm + '">' + flLbl + '</a></li>')
     })          
     
-
 
 }
 
