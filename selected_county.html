@@ -411,7 +411,7 @@
   });
 
   var tractCentroidSquares;
-  $.getJSON('data/' + targetSiteId + '/tract_centroid.json', function(data) {
+  $.getJSON('data/' + targetSiteId + '/tract_centroid_squares.json', function(data) {
     tractCentroidSquares = data;
   });
 
@@ -453,16 +453,6 @@
 <!-- TODO: This data loading should happen async -->
 <script type="text/javascript">
 
-
-  var tracts;
-  $.getJSON('data/'+targetSiteId+'/tracts.json', function(json) {
-    tracts = json;
-  });
-
-  var tractCentroidSquares;
-  $.getJSON('data/'+targetSiteId+'/tract_centroid_squares.json', function(json) {
-    tractCentroidSquares = json;
-  });
 
 
 </script>
