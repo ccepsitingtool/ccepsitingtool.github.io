@@ -443,15 +443,28 @@
 
 <!-- TODO: This data loading should happen async -->
 <script type="text/javascript">
-  document.body.appendChild(Object.assign(document.createElement('script'), {
-    type: 'text/javascript',
-    src: 'data/' + targetSiteId + '/tracts.js',
-  }));
 
-  document.body.appendChild(Object.assign(document.createElement('script'), {
-    type: 'text/javascript',
-    src: 'data/' + targetSiteId + '/tract_centroid.js',
-  }));
+
+  // document.body.appendChild(Object.assign(document.createElement('script'), {
+  //   type: 'text/javascript',
+  //   src: 'data/' + targetSiteId + '/tracts.js',
+  // }));
+
+  var tracts;
+  $.getJSON('data/'+targetSiteId+'/tracts.json', function(json) {
+    tracts = json;
+  });
+
+  var tractCentroidSquares;
+  $.getJSON('data/'+targetSiteId+'/tract_centroid.json', function(json) {
+    tractCentroidSquares = json;
+  });
+
+
+  // document.body.appendChild(Object.assign(document.createElement('script'), {
+  //   type: 'text/javascript',
+  //   src: 'data/' + targetSiteId + '/tract_centroid.js',
+  // }));
 </script>
 
 <!-- Initialization library -->
