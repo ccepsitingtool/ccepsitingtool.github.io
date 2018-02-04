@@ -164,19 +164,12 @@
         <br>
         <h4>Data Downloads</h4>
         <h5>Vote Center Data</h5>
-          <ol>
-          <li> <a href="data/point_files/four_day_sites.csv">Suggested Areas for 4 Day Vote Centers</a></li>
-          <li> <a href="data/point_files/eleven_day_sites.csv">Suggested Areas for 11 Day Vote Centers</a></li>
-          <li> <a href="data/point_files/dropbox_sites.csv">Suggested Areas for Ballot Drop Boxes </a></li>
-          <li> <a href="data/point_files/additional_sites_model.csv">Addtl. Suggested Areas for Vote Centers (Based on Model) </a></li>
-          <li> <a href="data/point_files/additional_sites_distance.csv">Addtl. Suggested Areas for Vote Centers (Based on Distance) </a></li>
-          <li> <a href="data/point_files/all_sites.csv">All Potential Areas </a></li>
-
+          <ol id ='voteCenterDl'>
+            <!-- Populated in Interface populateDataDownLoads() -->
         </ol>
         <h5>Indicator Data</h5>
-        <ol class="fullDownloadModalList">
-          <!-- This is populated in interface.js' populateNavBarIndicators() -->
-          <li><b>Indicator Data </b>
+        <ol id="indicatorDl" class="fullDownloadModalList">
+<!--           <li><b>Indicator Data </b>
               <a href="data/indicator_files/indicator_data.csv">csv</a> | 
               <a href="data/indicator_files/indicator_data.zip">shp</a>
             </li>
@@ -184,7 +177,7 @@
           <li><a href="data/point_files/poi.csv">Points of Interest (All)</a></li>
           <li><a href="data/point_files/poi_misc.csv">Points of Interest (Non-Government)</a></li>
           <li><a href="data/point_files/poi._govish.csv">Points of Interest (Government)</a></li>
-
+ -->
         </ol>
       </div>
 
@@ -448,7 +441,7 @@
       $('.posabs').scroll();
       $('.posabs').animate({
         scrollTop: $("#" + divId).offset().top - 100,
-      }, 2000);
+      }, 700);
     }
   }
 
