@@ -449,6 +449,24 @@
 
 </script>
 
+
+<!-- TODO: This data loading should happen async -->
+<script type="text/javascript">
+
+
+  var tracts;
+  $.getJSON('data/'+targetSiteId+'/tracts.json', function(json) {
+    tracts = json;
+  });
+
+  var tractCentroidSquares;
+  $.getJSON('data/'+targetSiteId+'/tract_centroid_squares.json', function(json) {
+    tractCentroidSquares = json;
+  });
+
+
+</script>
+
 <!-- Initialization library -->
 <script src="js/initializer.js" type="text/javascript"></script>
 <script src="js/interface.js" type="text/javascript"></script>
