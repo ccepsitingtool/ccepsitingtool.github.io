@@ -183,6 +183,15 @@ body {
 }
 
 
+.header-buttons img {
+  width: 300px;
+}
+
+.header-buttons {
+  padding: 20px;
+
+}
+
 .slideOverOnMenu {
   margin-right: 310px !important;
 }
@@ -232,9 +241,12 @@ p {
 .navbar-brand {
   padding: 0px 15px 0px 0px;
 }
+
 .navbar-brand img {
   width: 300px;
 }
+
+
 .navbar .btn.pull-right {
   margin: 0 0 5px 5px;
 }
