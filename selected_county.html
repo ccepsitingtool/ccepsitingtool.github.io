@@ -181,6 +181,52 @@
   </div>
 </div>
 
+
+<!-- Pop up modal (#3) -->
+<div class="modal fade"
+     id="screenModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="screendModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+
+        <h2 class="modal-title" id="screendModalLabel">
+          Printing / Screen-Shotting Help
+        </h2>
+
+        <h2>Windows Computers</h2>
+        <ul>
+          <li class="accessItem"><b>Print Whole Screen</b>:Press the <span class='kbdkeys'><kbd>Print Screen</kbd></span> or
+           <span class='kbdkeys'><kbd>PrtSc  </kbd></span> button</li>
+          <li class="accessItem"><b>Screenshot Portion of Screen</b>: Use the <a href="https://support.microsoft.com/en-us/help/13776/windows-use-snipping-tool-to-capture-screenshots"> Snipping Tool. </a> </li>
+        </ul>
+
+        <h2>Macintosh Computers</h2>
+        <ul>
+          <li class="accessItem"><b>Print Whole Screen</b>:Press <span class='kbdkeys'><kbd>Command</kbd></span> + 
+                                              <span class='kbdkeys'><kbd>Shift</kbd></span> + 
+                                              <span class='kbdkeys'><kbd> 3</kbd></span> </li>
+          <li class="accessItem"><b>Screenshot Portion of Screen</b>: Press <span class='kbdkeys'><kbd>Command</kbd></span> + 
+                                              <span class='kbdkeys'><kbd>Shift</kbd></span> + 
+                                              <span class='kbdkeys'><kbd> 4</kbd></span> </li>
+        </ul>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="navbar navbar-default">
   <div class="col-lg-12 col-sm-12 test">
     
@@ -194,7 +240,9 @@
     </button>
 
     <button class="btn btn-primary pull-right hidden-xs"
-            onclick="printScreen()">
+            data-toggle="modal"
+            data-target="#screenModal"
+    >
       <span class="glyphicon glyphicon-print"></span>
     </button>
 
