@@ -236,14 +236,7 @@ p {
 .posrel { position: relative; }
 .posabs { position: absolute; }
 .posfixed { position: fixed; }
-/* navbar */
-.navbar {
-  margin-bottom: 0px;
-  padding-right: 15px;
-}
-.navbar .btn.pull-right {
-  margin: 0 0 5px 5px;
-}
+
 #nav-panel {
   background-color: #f8f8f8;
   width: 300px;
@@ -672,9 +665,7 @@ small {
   div#legend-panel {
     display: none !important;
   }
-  .navbar {
-    padding-right: 0px;
-  }
+  
   .btn.pull-right.visible-xs {
     margin-bottom: 20px;
   }
