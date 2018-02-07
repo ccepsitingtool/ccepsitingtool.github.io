@@ -12,109 +12,110 @@
         integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
         crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/county_select_style.css" />
-      <link rel="stylesheet" href="css/style.css" />
-
-    <script src="data/california_counties.js"></script>
-
+  
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-
-
-
 <div class="navbar navbar-default">
   <div class="col-lg-12 col-sm-12 test">
-    
     <a href="http://ccep.ucdavis.edu/">
       <img class="header-logo"  src="assets/ccep_logo.png" alt="California Civic Engagement Project (CCEP)">
     </a>
       
-      <button class="btn btn-primary pull-right hidden-xs ccephome"
+    <button class="btn btn-primary pull-right hidden-xs ccephome"
             onclick="window.open('index.html','_self')"
             style="margin-top: 10px;">
       <span class="glyphicon glyphicon-home "></span>
     </button>
-
   </div>
 </div>
 
+<!-- TODO: Get rid of all this inline styling -->
 <div class="row clearfix" style="width: 100%; overflow-x: hidden;">
-  
-      <div id="content-wrapper" class="col-lg-12 col-md-12 col-sm-12" style="padding-right: 60px;">
+  <div id="content-wrapper"
+       class="col-lg-12 col-md-12 col-sm-12"
+       style="padding-right: 60px;">
 
-      <br>
-      <div class="methodology_text">
+    <!-- TODO: @mdgis what is happening here with these breaks -->
+    <br>
 
-        <h1> More Information on the Purpose and Creation of the Siting Tool</h1>
+    <div class="methodology_text">
+      <h1>
+        More Information on the Purpose and Creation of the Siting Tool
+      </h1>
 
-        <h2>Suitable Sites</h2>
-        <p>The entirety of the “suitable sites” - .5 mile grid cells covering each county were created using a combined approach for road density and “points of interest” density.  A grid cell needed to either contain a sufficient density of roads or at least two points of interest.  Points of interest were defined by the research team to be both governmental and non-governmental buildings (reflective as two different layers in the tool) that could serve as potential polling sites.</p>
+      <h2>
+        Suitable Sites
+      </h2>
+      
+      <p>
+        The entirety of the “suitable sites” - .5 mile grid cells covering each county were created using a combined approach for road density and “points of interest” density.  A grid cell needed to either contain a sufficient density of roads or at least two points of interest.  Points of interest were defined by the research team to be both governmental and non-governmental buildings (reflective as two different layers in the tool) that could serve as potential polling sites.
+      </p>
 
-        <h2>Facility Location</h2>
-        <p>The suggest sites layer provides one view of suggested locations for polling sites.  This layer is created using a facility location model (the basic code framework is here, and here is an interactive demo.)  Suitable site grid cells were grouped using a <a href ="https://en.wikipedia.org/wiki/K-means_clustering">k-means</a> cluster analysis where sites were clustered on the registered voter population.  The facility location model was run on these clusters, with a cost function being constructed based on commute time.  Clusters were selected for site inclusion, and within each cluster the highest diversity scoring site was recommended for the location of the polling site. 
-        Additional sites</p>
+      <h2>
+        Facility Location
+      </h2>
+      
+      <p>
+        The suggest sites layer provides one view of suggested locations for polling sites.  This layer is created using a facility location model (the basic code framework is here, and here is an interactive demo.)  Suitable site grid cells were grouped using a <a href ="https://en.wikipedia.org/wiki/K-means_clustering">k-means</a> cluster analysis where sites were clustered on the registered voter population.  The facility location model was run on these clusters, with a cost function being constructed based on commute time.  Clusters were selected for site inclusion, and within each cluster the highest diversity scoring site was recommended for the location of the polling site.
+      </p>
 
-        <h2>Scoring model</h2>
-        <p>Following a long tradition of scoring for potential siting locations (from fields such as construction, emergency management and others) all suitable sites were scored for their performance on the SB 450 metrics. </p>
-
-      </div>
-      <br>      <br>
-
+      <h2>
+        Scoring model
+      </h2>
+      <p>
+        Following a long tradition of scoring for potential siting locations (from fields such as construction, emergency management and others) all suitable sites were scored for their performance on the SB 450 metrics.
+      </p>
     </div>
 
-
-
+    <!-- TODO: @mdgis what is happening here with these breaks -->
+    <br>
+    <br>
+  </div>
 </div>
 
 <div class="footer" id='methodfoot'>
   <center>
     <span onclick="goBack()" style="cursor:pointer;"> Previous Page</span> 
-
-
-        <span class="glyphicon glyphicon-chevron-right"></span> 
-        <a href="acknowledgments.html">
+    <span class="glyphicon glyphicon-chevron-right"></span> 
+    <a href="acknowledgments.html">
       Acknowledgments
-    </a>        <span class="glyphicon glyphicon-chevron-right"></span> 
+    </a>
 
-        <a href="mailto:msromero@ucdavis.edu?Subject=Vote%20Center%20Siting%20Tool">
+    <span class="glyphicon glyphicon-chevron-right"></span> 
+
+    <a href="mailto:msromero@ucdavis.edu?Subject=Vote%20Center%20Siting%20Tool">
       Contact
     </a>
+
     <span class="glyphicon glyphicon-chevron-right"></span> 
     
     <a href="accessibility.html"><img src="assets/accessibility.svg"/></a>
-
-
   </center>
 </div>
+
+<!-- Global variables -->
+<!-- TODO: Why is this being included on this page? -->
+<script src="data/california_counties.js"></script>
 
 <!-- Libraries needed -->
 <script src="js/jquery.min.js"
         type="text/javascript"></script>
-
 
 <!-- Leaflet related -->
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
         crossorigin=""></script>
 
-
-
 <script type="text/javascript">
-
-
-</script>
-
-<!-- Global variables -->
-<script type="text/javascript">
-  
-  function goBack(){
+  function goBack() {
     window.history.back();
   }
 </script>
-
-
 
 <!-- Remaining carry-over libraries -->
 <script src="js/queue.v1.min.js"></script>

@@ -1,0 +1,5 @@
+/* If the header is going to be the same in both files use one stylesheet */
+.header-logo {
+  padding: 20px;
+  width: 300px;
+}
