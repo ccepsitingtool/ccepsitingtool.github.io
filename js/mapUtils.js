@@ -414,7 +414,7 @@ pointLegend.onAdd = function(map) {
   };
 
   // First, add the title of the new points data legend
-  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (1 mi. Diameter)</span>'
+  div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (0.5 mi. Diameter)</span>'
 
   // div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
   // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
