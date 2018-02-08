@@ -437,7 +437,7 @@
   function adjustSizing() {
     var wdh = $(window).height();
     var nbh = $('.navbar').height();
-    var bottomBarH = 36;
+    var bottomBarH = $('.footer').outerHeight();
     $('#leaflet_map').height(wdh - nbh - bottomBarH);
   }
 

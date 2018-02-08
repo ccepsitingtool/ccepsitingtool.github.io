@@ -22,7 +22,7 @@
 <body>
 
 <!-- Top header -->
-<div class="navbar navbar-default">
+<div class="navbar navbar-default" id="select-county-navbar">
   <!-- TODO: Understand why the other page is getting a top line margin
              and this page is not -->
   <div class="col-lg-12 col-sm-12" style="margin-top: 20px;">
@@ -73,12 +73,7 @@
     <!-- Leaflet map of counties gets added here -->
     <div id="countyLeafletMap"></div>
 
-    <div id="source">
-      <h3 id="sources" class="panel-title">
-        Sources
-      </h3>
-      <a id="source-title"></a>
-    </div>
+
 
   </div>
 </div>
@@ -117,7 +112,7 @@
   function adjustSizing() {
     var wdh = $(window).height();
     var nbh = $('.navbar').height();
-    var bottomBarH = 36 ;
+    var bottomBarH = $('.footer').outerHeight();
     var targetHeight = wdh - nbh - bottomBarH;
     $('#mainContentWrapper').height(targetHeight);
     $('#countyLeafletMap').height(targetHeight)
