@@ -112,7 +112,7 @@
   function adjustSizing() {
     var wdh = $(window).height();
     var nbh = $('.navbar').height();
-    var bottomBarH = $('.footer').outerHeight();
+    var bottomBarH = $('.footer').outerHeight()+2;
     var targetHeight = wdh - nbh - bottomBarH;
     $('#mainContentWrapper').height(targetHeight);
     $('#countyLeafletMap').height(targetHeight)
