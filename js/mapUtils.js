@@ -85,18 +85,10 @@ rankPointLegend.onAdd = function(map) {
 
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < classes.length - 1; i++) {
-    var label = (
-      i == 0 ? 'Low&nbsp' :
-      i == 2 ? 'Med&nbsp' :
-      i == classes.length - 2 ? 'High'
-      : 'xxxx'
-    );
-
-    // Once you get the label, add it to the next row
     // TODO: Deal with inline styles here
     var bgc = colorLookup[i];
-    div.innerHTML += ('<i class="leftColorMapBox" style="border-radius:20px; background:' + 
-      bgc + ';height: 20px; width:20px; float:left; margin-top:4px;border:1px solid gray;"></i>');
+    div.innerHTML += ('<i class="leftColorMapBox rankpointLegend-i" style="background:' + 
+      bgc + ';"></i>');
   }
 
   return div;
@@ -104,7 +96,7 @@ rankPointLegend.onAdd = function(map) {
 
 function styleCircle(fileName, line){
   var voteSiteWeight = .5;
-  var voteSiteOpacity = .8;
+  var voteSiteOpacity = .6;
 
 
   var circleStyleLookup = {
@@ -425,7 +417,10 @@ pointLegend.onAdd = function(map) {
     var colorLabel = highMedLowLookupColor(valAsFloat, fields[i])
     var color =  colorLabel[1]
     var label = colorLabel[0] 
-    div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ color + '">&nbsp' + label + '</span>  ' +
+    console.log('label',label)
+    var textColor = label === 'High' ? '#ffa5a5' : label === 'Med&nbsp' ? '#674526' : label === 'Low&nbsp' ? '#8a7600' : 'black' ;
+    div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ 
+                    color + ';color:'+ textColor  + ';">&nbsp' + label + '</span>  ' +
                      cleanFields[fields[i]] + '<br>';
   }
   div.innerHTML += '<span class="legendLinkSpan" onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "

@@ -53,9 +53,7 @@
 }
 
 
-.rankpointLegend  {
-  margin-bottom: 2px !important;
-}
+
 
 .pointLegend  {
   margin-bottom: 2px !important;
@@ -76,6 +74,20 @@
 
 .leafletMapBLBox .leftNumVal {
   padding-right: 10px;
+}
+
+
+.rankpointLegend  {
+  margin-bottom: 2px !important;
+}
+
+.rankpointLegend-i {
+  border-radius: 20px;
+  height: 20px !important; 
+  width: 20px !important; 
+  float: left; 
+  margin-top: 4px;
+  border: 1px solid gray;
 }
 
 .extradata {

@@ -5,7 +5,7 @@ prcdisabled_final,Percent Disabled Population,The percentage of the population t
 tot_elignonreg_prc_final,Eligible Non-Registered Voter Rate,The percentage of voting age citizens who are not registered to vote.
 job_dens,Worker Density,The density of employed county residents per square kilometer.
 prc_poplatino_final,Percent Latino Population,The percentage of the population that is Hispanic or Latino.
-prc_nonengprof_final,Percent Limited English Proficient Population,The percenetage of the population that has limited English proficiency.
+prc_nonengprof_final,Percent Limited English Proficient Population,The percentage of the population that has limited English proficiency.
 pollvoter_dens,Density of Polling Place Voters,The density of voters who vote at a polling place relative to the county's total number of polling place voters.
 popdens,Population Density,The total population density per square kilometer.
 prc_pov_final,Percent of the Population in Poverty,The percentage of the population with income below the poverty level.
