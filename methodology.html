@@ -43,41 +43,158 @@
        class="col-lg-12 col-md-12 col-sm-12"
        style="padding-right: 60px;">
 
-    <!-- TODO: @mdgis what is happening here with these breaks -->
-    <br>
 
     <div class="methodology_text">
-      <h1>
-        More Information on the Purpose and Creation of the Siting Tool
-      </h1>
 
-      <h2>
-        Suitable Sites
-      </h2>
-      
+
+    <h1>
+       More Information on the Purpose of this tool
+    </h1>
+    <p>
+      The Vote Center Siting Tool is designed to help county election officials identify optimal sites for potential vote center and Vote by Mail drop box locations. The tool uses a facility allocation model that incorporates the siting criteria included in the California Voter's Choice Act (SB 450). The resulting interactive web maps are intended to supplement what election officials and stakeholders already know about their counties' profiles and needs. 
+    </p>
+
+      <h2>Methodology</h2>
       <p>
-        The entirety of the “suitable sites” - .5 mile grid cells covering each county were created using a combined approach for road density and “points of interest” density.  A grid cell needed to either contain a sufficient density of roads or at least two points of interest.  Points of interest were defined by the research team to be both governmental and non-governmental buildings (reflective as two different layers in the tool) that could serve as potential polling sites.
+        This tool identifies optimal geographic areas for potential vote center and drop box locations. The CCEP acknowledges that there are many factors that go into the decision-making process for site selection. Therefore, due to the limitations of data and the need to incorporate local on-the-ground knowledge, this tool does not identify exact sites to be used.. 
       </p>
 
-      <h2>
-        Facility Location
-      </h2>
-      
+    <h3>Suitable Areas</h3>
+    <p>
+      We identified all areas that were potentially suitable for hosting a site. We created a grid made up of 0.5 mile cells covering the entire county, where each cell is a potential area to host a site. These “suitable areas”  were determined using a combined approach for road density and “points of interest” density. A suitable area needed to contain either a sufficient density of roads or at least two points of interest, while also avoiding bodies of water. This means that suitable areas are areas that have some concentration of activity and therefore are more likely to have buildings and infrastructure.
+      </p>
       <p>
-        The suggest sites layer provides one view of suggested locations for polling sites.  This layer is created using a facility location model (the basic code framework is here, and here is an interactive demo.)  Suitable site grid cells were grouped using a <a href ="https://en.wikipedia.org/wiki/K-means_clustering">k-means</a> cluster analysis where sites were clustered on the registered voter population.  The facility location model was run on these clusters, with a cost function being constructed based on commute time.  Clusters were selected for site inclusion, and within each cluster the highest diversity scoring site was recommended for the location of the polling site.
+      Points of interest were sourced from <a href="https://www.openstreetmap.org/#map=5/38.007/-95.844">OpenStreetMap</a> and were defined by the research team to be both governmental and non-governmental buildings (shown as two different layers in the tool) that could serve as potential vote center or drop box sites. 
       </p>
 
-      <h2>
-        Scoring model
-      </h2>
-      <p>
-        Following a long tradition of scoring for potential siting locations (from fields such as construction, emergency management and others) all suitable sites were scored for their performance on the SB 450 metrics.
-      </p>
-    </div>
 
-    <!-- TODO: @mdgis what is happening here with these breaks -->
-    <br>
-    <br>
+      <h3>Facility Location</h3>
+      <p>
+      The SB 450 requirements determined the minimum number of sites that the suggested site layers had to provide. To generate the suggested sites for each layer, we used a k-means model and a series of facility location models.
+     </p>
+      <p>
+      First we conducted a k-means cluster analysis to aggregate populated census block sites into a smaller number of computationally manageable geographic clusters. These clusters were created by clustering on latitude/longitude. Next we estimated travel time from every census block cluster to every potential area for a vote center site (defined by the “suitable areas” grid).
+     </p>
+      <p>
+      We then used a facility location model to determine optimal locations. The inputs our facility location model used were: the cost of site creation (which included the area score and the presence of points of interest), the travel time to neighboring sites, and the estimated capacity of the site to meet SB 450 requirements.
+     </p>
+      <p>
+      The facility location model selected for both the highest gain (most voters served), and the lowest penalty (high travel time and low weighted scores). These scores were generated by the indicators listed in the Data section below, and weighted based on importance. The total score was defined as the sum of individual scores across indicators, multiplied by the weights. The facility location model prefers to locate potential voting areas on sites that are near a high number of voters and/or are near a site with a high score.
+     </p>
+      <p>
+      The model first selects a certain number of 11-day sites. These sites become fixed points for the 4-day site selection, and the sites from both the 11-day and 4-day selection are fixed when running the model to include additional sites.  The number of final points is defined by the facility to population ratio defined by SB 450.  Proposed sites for vote centers and ballot drop boxes were calculated separately and allowed to overlap. 
+    </p>
+
+
+    <h3>Scoring model</h3>
+    <p>
+      All suitable areas were scored for how well their characteristics met the requirements of SB 450. The data were normalized and combined in a weighted average. The weighting schema is described below in the section Variable Weights. The score of suitable areas is a combination of all data being used to represent the SB 450 criteria (see the list of input data below), where a higher score indicates that the area has more characteristics that SB 450 considers priority for a vote center or ballot drop off box. A higher score indicates that there were multiple priority characteristics, whereas a medium score indicates that this area has some priority characteristics, but not all.  For example, an area with a higher rate of eligible non-registered voter population, a higher percent disabled population and a higher percent limited English proficient population (just to name a few variables) would receive a score that is higher than an area with a lower rate of eligible non-registered voter population, lower percent disabled population, and lower percent limited English proficient population. 
+    </p>
+
+    <h3>Data</h3>
+    <p>
+      The following are the indicators we have included in the siting tool model. These data address the criteria referenced in Senate Bill 450.  We have also noted the limitations of each data set. For more information on the source and calculation of these variables, please see the Metadata document.
+    </p>
+
+    <ul>
+      <li>
+        <b>Transit Stops</b>
+              : Transit points indicate the location of transit stops in the county and are sourced from regional GTFS data feeds. Transit stops have been ranked from low to high use based on the frequency of service to the individual stop.
+      </li>
+      <li>
+        <b>Percent of Population with Vehicle Access</b>
+              : The percentage of the population with access to a vehicle.
+      </li>
+      <li>
+        <b>Density of Voting Age Citizens</b>
+            : The rate of citizens in this area who are voting age, relative to the county's total number of voting age citizens.
+      </li>
+      <li>
+        <b>Percent Disabled Population</b>
+            : The percentage of the population that is disabled.
+      </li>
+      <li>
+        <b>Eligible Non-Registered Voter Rate</b>
+          : The percentage of voting age citizens who are not registered to vote.
+      </li>
+      <li>
+        <b>Worker Density</b>
+          : The density of employed county residents per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+        <b>Percent Latino Population</b>
+          : The percentage of the population that is Hispanic or Latino.
+      </li>
+      <li>
+        <b>Percent Limited English Proficient Population</b>
+          : The percentage of the population that has limited English proficiency.
+      </li>
+      <li>
+        <b> Density of Polling Place Voters</b>
+          : The density of voters who vote at a polling place relative to the county's total number of polling place voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+        <b> Population Density</b>
+          : The total population density per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+       <b> Percent of the Population in Poverty</b>
+        : The percentage of the population with income below the poverty level.
+      </li>
+      <li>
+        <b> Vote by Mail Rate (Asian)</b>
+          : The percentage of Asian American voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+        <b> Vote by Mail Rate (Latino)</b>
+          : The percentage of Latino voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+       <b> Vote by Mail Rate (Total)</b>
+          : The percentage of voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+        <b> Vote by Mail Rate (Youth)</b>
+          : The percentage of voters between the age of 18 and 24 years old. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+      </li>
+      <li>
+        <b> Percent of the Youth Population</b>
+        : The percentage of the population between the age of 18 and 24 years old. 
+      </li>
+    </ul>
+
+
+    <h3>Variable weights</h3>
+    <p>
+      In this prototype version variables were weighted equally with the exception of several variables that will receive additional weight due to being flagged as high priority by SB 450. The variables that received higher weighting were voters with disabilities, voters with limited English proficiency, and areas with high populations of eligible non registered voters, areas with low VBM use for Latino and Youth voters and areas with relatively high worker density. The variables that received the highest weight were areas with low total VBM use, areas close to public transit stops and areas with relatively high population density.
+    </p>
+    <p>
+      The same weighting system was used for modeling optimal ballot drop box areas, with the exception of areas with eligible non registered voters, which received no extra weight.  
+    </p>
+    <p>
+    As creating variable weights is more of an art than a science, we welcome feedback on what users feel are high value indicator variables for potential iterations in the prototype weighting process.
+  </p>
+
+
+  <h3>Assessing Gaps in Vote Center Coverage</h3>
+  <p>
+    After the model selects optimal areas for vote centers, we identify areas for additional siting coverage either by geographic distance or by additional need. We might consider these areas to be service gaps.  As the number of vote centers required by SB 450 is a minimum and not a maximum, we are interested in seeing where additional vote centers could be placed to minimize the number of people that are more than 20 minutes travel time distance from a vote center, or to minimize the overall travel cost of all voters. The number of additional suggested areas is 10% of the total minimum required facilities. 
+  </p>
+
+  <h3> Reliability of Estimates</h3>
+  <p>
+    Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol. The uncertain estimates were interpolated to improved the standard error by pooling estimates with the tract’s contiguous neighbors and calculating a population-weighted mean of the estimate and margin of error were calculated. The CV was recalculated based on the pooled and averaged estimates.
+   </p>
+
+  <h3>Metadata</h3>
+  <p>
+    To view indicator metadata, including data sources and indicator calculation methods, please see our metadata document.
+  </p>
+
+
+    </div> <!-- End Methodology HMTL -->
+
+
   </div>
 </div>
 
