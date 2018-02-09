@@ -249,18 +249,14 @@
       var hasVoteSitePage = '<span style="color:red">Not a VCA adopting county</span>';
 
       // If we have that counties data, we can show a positive message
-      var hasProps = ((props != undefined) &&
-        (Object.keys(availableCounties).indexOf(props['countyfp']) > -1));
+      var hasProps = (props != undefined) 
+        
       if (hasProps) {
         // Override the default no-data message
-        hasVoteSitePage = '<span style="color:steelblue">Click County to See Vote Sites</span>';
+        if (Object.keys(availableCounties).indexOf(props['countyfp']) > -1){
+          hasVoteSitePage = '<span style="color:steelblue">Click County to See Vote Sites</span>';
+        }
 
-        // Update the legend accordingly
-        this._div.innerHTML = (
-          '<h4>County Name</h4><span class="countyTitle">' +
-          props.name + '</span>' + hasVoteSitePage);
-      
-      // Otherwise the default div innerHTML
       } else {
         this._div.innerHTML = '<h4>County Name</h4>Hover over a county';
       }
