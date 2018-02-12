@@ -382,8 +382,8 @@ pointLegend.onAdd = function(map) {
                 'prc.pov.std',
                 'prc.youth.std',
                 'rate.vbm.std',
-                'dens.poll.std',
-                'transit.score.std'];
+                'dens.poll.std'
+                                ];
 
   function highMedLowLookupColor(val, fieldName) {
       var classes = siteWeightClasses[fieldName]
@@ -405,8 +405,7 @@ pointLegend.onAdd = function(map) {
     'prc.pov.std': 'Percent of the Population in Poverty',
     'prc.youth.std': 'Percent of the Youth Population',
     'rate.vbm.std': 'Vote by Mail Rate (Total)',
-    'dens.poll.std': 'Polling Place Voter Percentage',
-    'transit.score.std': 'Weighted Transit Score'
+    'dens.poll.std': 'Polling Place Voter Percentage'
   };
 
   // First, add the title of the new points data legend
