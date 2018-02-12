@@ -251,6 +251,17 @@ body {
 .dk-header-btn{
   margin-right: 2px;
 }
+
+p {
+  font-size: 1.1em;
+  line-height: 1.4em;
+  margin-bottom: 15px;
+}
+
+.dk-data-details {
+  margin-bottom: 3px;
+  margin-top: 20px;
+}
 /* Stuff from before - that might still be used*/
 
 body, h1, h2, h3, h4, h5 {
@@ -259,11 +270,7 @@ body, h1, h2, h3, h4, h5 {
 h1, h2, h3, h4, h5 {
   font-weight: bold;
 }
-p {
-  font-size: 1.1em;
-  line-height: 1.4em;
-  margin-bottom: 15px;
-}
+
 
 .nav > li.disabled.nav-header > a {
   cursor: default;

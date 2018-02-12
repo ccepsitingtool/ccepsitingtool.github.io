@@ -187,6 +187,359 @@
     Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol. The uncertain estimates were interpolated to improved the standard error by pooling estimates with the tract’s contiguous neighbors and calculating a population-weighted mean of the estimate and margin of error were calculated. The CV was recalculated based on the pooled and averaged estimates.
    </p>
 
+   <h3>Detailed Explanation of Data</h3>
+   <p>More information on the calculations and limitations of the data:</p>
+
+   <p class="dk-data-details" ><b>Transit Stops:</b> Transit points indicate the location of transit stops in the county and are sourced from regional General Transit Feeds (GTFS). Where GTFS data is missing local transit agency data is used instead. </p>
+   <ul>
+    <li><i>Data sources</i>: GTFS and local transit agencies.</li>
+    <li><i>Calculation</i>: Frequency of service to each transit stops was normalized to a range of 1-4 that indicates low to high service.</li>
+    <li><i>Scale</i>: Point</li>
+    <li><i>Rationale</i>: SB 450 stipulates vote center/drop off be proximal to public transportation.</li>
+    <li><i>Limitations</i>:
+       Assessment of quality will be general based on published timetables that are subject to change. </li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>Percent of Population with Vehicle Accesss:</b> The percentage of the population with access to a vehicle.  </p>
+   <ul >
+    <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B25044. </li>
+    <li><i>Calculation</i>: The percent of households with access to at least one vehicle available. The direction of this variable is inverted before it enters the model score, so that areas with a high percentage of car access receive lower priority for siting.
+  </li>
+    <li><i>Scale</i>: Census Tract</li>
+    <li><i>Rationale</i>: SB 450 stipulates vote center/drop off to be proximal to communities with low rates of household vehicle ownership.</li>
+    <li><i>Limitations</i>:
+       Data shows where people live, not where they work.</li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>County Percentage of Voting Age Citizens:</b> The number of citizens in this tract who are voting age, divided by the county's total number of voting age citizens. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2011-2015). </li>
+      <li><i>Calculation</i>: The percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Rationale</i>:SB 450 stipulates vote center/drop off to be proximal to population centers.</li>
+      <li><i>Limitations</i>:
+         Estimates can have high margins of error for small samples. Assumes people spread evenly across census tract.
+    </li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>Percent Disabled Population:</b> 
+    The percentage of the population that is disabled. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B23024. </li>
+      <li><i>Calculation</i>: The percent of residents with disabilities in a census tract out of the total population in the census tract.
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Rationale</i>:SB 450 stipulates vote center/drop off to be proximal to voters with disabilities.</li>
+      <li><i>Limitations</i>:
+         Data shows where people live, not where they work. Data shows disabled population, not voters.
+    </li>
+   </ul>
+
+      <p class="dk-data-details"><b>Eligible Non-Registered Voter Rate:</b> 
+  The percentage of voting age citizens who are not registered to vote. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: Statewide Database voter registration data (2012 General Election, 2014 General Election); American Community Survey 5-Year Estimate (2011-2015); Census 2010.
+       </li>
+      <li><i>Calculation</i>: Convert voter data to the tract level and average voter registration totals for 2012 and 2014. Subtract the average number of registered voters from the citizen voting age population (CVAP). Divide by the total CVAP estimate in the tract. Where the incarcerated population is over 25% of the CVAP, use the 2010 Census estimate for non-institutionalized populations instead of CVAP.
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Rationale</i>:SB 450 stipulates vote center/drop off to be proximal to communities of eligible voters who aren’t registered to vote.</li>
+      <li><i>Limitations</i>:
+         Imperfect conversion of precinct to tract level. The 2010 Census is the most recent estimate for incarcerated and non-institutionalized populations at the tract level.
+    </li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>County Worker Percentage:</b> 
+    The percent of employed county residents in a tract out of the total employed county residents in the county. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: Census LEHD Origin-Destination Employment Statistics (LODES) 2015, workplace area characteristics. </li>
+      <li><i>Calculation</i>: TThe percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Rationale</i>:SB 450 stipulates vote center/drop off to be proximal to communities with low rates of household vehicle ownership.</li>
+      <li><i>Limitations</i>:
+         Data shows where people live, not where they work.
+    </li>
+   </ul>
+
+   <p class="dk-data-details"><b>Percent Latino Population:</b> 
+    The percentage of the population that is Hispanic or Latino. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B03002.</li>
+      <li><i>Calculation</i>: TThe percent of residents that are Hispanic or Latino in a tract out of the total tract population.
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Rationale</i>SB 450 stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds Latino voters have lower VBM use.
+      </li>
+      <li><i>Limitations</i>:
+        Data shows where people live, not where they work. Assumes people spread evenly across census tract.
+    </li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>Percent Limited English Proficient Population:</b> 
+  The percentage of the population that has limited English proficiency. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+        American Community Survey 5-Year Estimate (2011-2015), Table B16001.
+      </li>
+      <li><i>Calculation</i>: 
+        The percent of the population with limited English proficiency in a Census tract. Limited English proficiency is defined as people who speak English “less than very well”.
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract
+    </li>
+      <li><i>Rationale</i>
+        SB 450 stipulates vote center/drop off to be proximal to language minority communities.
+      </li>
+      <li><i>Limitations</i>:
+    Data shows where people live, not where they work. At the time of publication the 2012-2016 data had not yet been released.
+    </li>
+   </ul>
+
+
+      <p class="dk-data-details"><b>
+      Polling Place Voter Percentage:
+    </b> 
+    The number of voters who voted at a polling place divided by the total number of voters who voted at a polling place in the county. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      Statewide Database  (2016 General Election).
+      </li>
+      <li><i>Calculation</i>: 
+        Convert precinct to block. Calculate the percent of polling place voters in a block out of the county total. Divide the number of people who voted at a polling place in the 2016 General Election in the block by the total number of people who voted at a polling place in the 2016 General Election. 
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract -  Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. 
+
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds Latino voters have lower VBM use.
+      </li>
+      <li><i>Limitations</i>:
+       Data shows where people live, not where they work. Assumes people spread evenly across census tract.
+    </li>
+   </ul>
+
+
+
+      <p class="dk-data-details"><b>
+      Population Density:    </b> 
+    The total population density per square kilometer. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+     Census 2010.
+      </li>
+      <li><i>Calculation</i>: 
+       Divide the total block population by the area of the block (square kilometers).
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. 
+
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to population centers.
+
+      </li>
+      <li><i>Limitations</i>:
+      Data shows where people live, not where they work. Most recent block level population estimate is from 2010.   
+       </li>
+   </ul>
+
+
+      <p class="dk-data-details"><b>
+      Percent of the Population in Poverty:    </b> 
+    The percentage of the population with income below the poverty level. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      American Community Survey 5-Year Estimate (2012-2016), Table B17001.
+      </li>
+      <li><i>Calculation</i>: 
+      The percent of residents living below poverty in a Census tract
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to low-income communities.
+
+      </li>
+      <li><i>Limitations</i>:
+      Data shows where people live, not where they work. 
+      </li>
+   </ul>
+
+
+         <p class="dk-data-details"><b>
+      Vote by Mail Rate (Asian):    </b> 
+    The percentage of Asian American voters who voted by mail out of total Asian American voters. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      Statewide Database  (2016 General Election).
+      </li>
+      <li><i>Calculation</i>: 
+      Convert from precinct to block level, calculate as percent of total vote. Calculate the VBM rate for the Asian American vote by dividing the number of Asian American voters who voted by mail by the total number of Asian American voters who voted. The direction of this variable is inverted before it enters the model score, so that areas with a high VBM rate receive lower priority for siting.
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with low VBM usage. CCEP research shows that VBM use varies throughout the Asian American community.
+      </li>
+      <li><i>Limitations</i>:
+      Imperfect conversion of precinct to block.
+      </li>
+   </ul>
+
+
+  <p class="dk-data-details"><b>
+      Vote by Mail Rate (Latino):    </b> 
+  The percentage of Latino voters who voted by mail out of total Latino voters. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      Statewide Database  (2016 General Election).
+      </li>
+      <li><i>Calculation</i>: 
+     Convert from precinct to block level, calculate as percent of total vote. Calculate the VBM rate for the Latino vote by dividing the number of Latino voters who voted by mail by the total number of Latino voters who voted. The direction of this variable is inverted before it enters the model score, so that areas with a high VBM rate receive lower priority for siting.
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with low VBM usage. 
+      </li>
+      <li><i>Limitations</i>:
+      Imperfect conversion of precinct to block.
+      </li>
+   </ul>
+
+
+     <p class="dk-data-details"><b>
+      Vote by Mail Rate (Total):    </b> 
+    The percentage of voters who voted by mail out of total voters. 
+  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      Statewide Database  (2016 General Election).
+      </li>
+      <li><i>Calculation</i>: 
+     Convert from precinct to block level, calculate as percent of total vote. Calculate the VBM rate for the total vote by dividing the number of voters who voted by mail by the total number of voters who voted. The direction of this variable is inverted before it enters the model score, so that areas with a high VBM rate receive lower priority for siting.
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with low VBM usage. 
+      </li>
+      <li><i>Limitations</i>:
+      Imperfect conversion of precinct to block.
+      </li>
+   </ul>
+
+
+     <p class="dk-data-details"><b>
+      Vote by Mail Rate (Youth):    </b> 
+    The percentage of voters between the age of 18 and 24 years old who voted by mail out of total youth voters.  </p>
+   <ul >
+      <li><i>Data sources</i>: 
+      Statewide Database  (2016 General Election).
+      </li>
+      <li><i>Calculation</i>: 
+    Convert from precinct to block level, calculate as percent of total vote. Calculate the VBM rate for the youth vote by dividing the number of youth voters who voted by mail by the total number of youth voters who voted. The direction of this variable is inverted before it enters the model score, so that areas with a high VBM rate receive lower priority for siting.
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with low VBM usage. 
+      </li>
+      <li><i>Limitations</i>:
+      Imperfect conversion of precinct to block.
+      </li>
+   </ul>
+
+        <p class="dk-data-details"><b>
+      Percent of the Youth Population:    </b> 
+    The percentage of the population between the age of 18 and 24 years old. 
+   <ul >
+      <li><i>Data sources</i>: 
+    American Community Survey 5-Year Estimate (2012-2016), Table B01001.
+      </li>
+      <li><i>Calculation</i>: 
+   The percent of residents between the ages of 18 to 24 years in a tract out of the total tract population.
+
+    </li>
+      <li><i>Scale</i>: 
+      Census Tract 
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds youth have lower VBM use.
+      </li>
+      <li><i>Limitations</i>:
+        Data shows where people live, not where they work. Assume people spread evenly across census tract.      </li>
+   </ul>
+
+           <p class="dk-data-details"><b>
+      Geographically isolated community:    </b> 
+
+   <ul >
+      <li><i>Data sources</i>: 
+      Model
+      </li>
+      <li><i>Calculation</i>: 
+    The model accounts for geographically isolated communities encouraging dispersion of sites. The additional suggested areas based on distance account for any remaining communities that have a greater travel time to a suggested site.
+    </li>
+      <li><i>Scale</i>: 
+      NA
+    </li>
+      <li><i>Rationale</i>
+      SB 450 stipulates vote center/drop off boxes to be proximal to geographically isolated communities. 
+      </li>
+      <li><i>Limitations</i>:
+       There is no clear definition or data source for geographically isolated communities.   </li>
+   </ul>
+
+   
+           <p class="dk-data-details"><b>
+     Travel time by car:    </b> 
+
+   <ul >
+      <li><i>Data sources</i>: 
+      OpenStreetMap
+
+      </li>
+      <li><i>Calculation</i>: 
+   Use k-means clustering to create groups of computationally-manageable census blocks. Calculate travel time from each group of blocks to each potential siting area using road network analysis. The time is estimated for travel by vehicle, assuming standard rates of travel. This data does not go into the score, but is used to locate sites throughout the county.
+
+    </li>
+      <li><i>Scale</i>: 
+      NA
+    </li>
+      <li><i>Rationale</i>
+SB 450 stipulates the distance/time voter must travel by car to vote center/drop off.
+      </li>
+      <li><i>Limitations</i>:
+       Assessment of how travel time is affected by traffic is imperfect. 
+  </li>
+   </ul>
+
+
   <h3>Metadata</h3>
   <p>
     To view indicator metadata, including data sources and indicator calculation methods, please see our metadata document.
