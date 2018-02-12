@@ -381,7 +381,9 @@ pointLegend.onAdd = function(map) {
                 'prc.nonEngProf.std',
                 'prc.pov.std',
                 'prc.youth.std',
-                'rate.vbm.std'];
+                'rate.vbm.std',
+                'dens.poll.std',
+                'transit.score.std'];
 
   function highMedLowLookupColor(val, fieldName) {
       var classes = siteWeightClasses[fieldName]
@@ -392,8 +394,8 @@ pointLegend.onAdd = function(map) {
 
   // Lookup for the div innerHtml conversion
   var cleanFields = {
-    'dens.cvap.std': 'Density of Voting Age Citizens',
-    'dens.work.std': 'Worker Density',
+    'dens.cvap.std': 'County Percentage of Voting Age Citizens',
+    'dens.work.std': 'County Worker Percentage',
     'popDens.std': 'Population Density',
     'prc.CarAccess.std': 'Percent of Population with Vehicle Access',
     'prc.ElNonReg.std' : 'Eligible Non-Registered Voter Rate',
@@ -402,7 +404,9 @@ pointLegend.onAdd = function(map) {
     'prc.nonEngProf.std':'Percent Limited English Proficient Population',
     'prc.pov.std': 'Percent of the Population in Poverty',
     'prc.youth.std': 'Percent of the Youth Population',
-    'rate.vbm.std': 'Vote by Mail Rate',
+    'rate.vbm.std': 'Vote by Mail Rate (Total)',
+    'dens.poll.std': 'Polling Place Voter Percentage',
+    'transit.score.std': 'Weighted Transit Score'
   };
 
   // First, add the title of the new points data legend
@@ -417,7 +421,6 @@ pointLegend.onAdd = function(map) {
     var colorLabel = highMedLowLookupColor(valAsFloat, fields[i])
     var color =  colorLabel[1]
     var label = colorLabel[0] 
-    console.log('label',label)
     var textColor = label === 'High' ? '#ffa5a5' : label === 'Med&nbsp' ? '#674526' : label === 'Low&nbsp' ? '#8a7600' : 'black' ;
     div.innerHTML += '<span class="leftNumVal"  style="width:40px;display:inline-block;margin-bottom:2px;background:'+ 
                     color + ';color:'+ textColor  + ';">&nbsp' + label + '</span>  ' +
@@ -625,7 +628,7 @@ function populateMapWithChoropleth(fieldName) {
             weight: 1.2,
             opacity: .25,
             color: 'black',
-            fillOpacity: .75
+            fillOpacity: .90
 
           }
         },

@@ -185,6 +185,8 @@ $.ajax({
                     'prc.pov.std',
                     'prc.youth.std',
                     'rate.vbm.std',
+                    'dens.poll.std',
+                    'transit.score.std',
                     'final_composite_score'];
     var coords = [];
 

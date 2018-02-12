@@ -1,6 +1,6 @@
 basename,cleanname,description
 prc_caraccess_final,Percent of Population with Vehicle Access,The percentage of the population with access to a vehicle.
-cvapdens,County Percentage of Voting Age Citizens,The number of citizens in this tract who are voting age, divided by the county's total number of voting age citizens.
+cvapdens,County Percentage of Voting Age Citizens,The number of citizens in this tract who are voting age divided by the county's total number of voting age citizens.
 prcdisabled_final,Percent Disabled Population,The percentage of the population that is disabled.
 tot_elignonreg_prc_final,Eligible Non-Registered Voter Rate,The percentage of voting age citizens who are not registered to vote.
 job_dens,County Worker Percentage,The percent of employed county residents in a tract out of the total employed county residents in the county.
