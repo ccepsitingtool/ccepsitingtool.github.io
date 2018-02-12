@@ -61,7 +61,7 @@
 
     <h3>Suitable Areas</h3>
     <p>
-      We identified all areas that were potentially suitable for hosting a site. We created a grid made up of 0.5 mile cells covering the entire county, where each cell is a potential area to host a site. These “suitable areas”  were determined using a combined approach for road density and “points of interest” density. A suitable area needed to contain either a sufficient density of roads or at least two points of interest, while also avoiding bodies of water. This means that suitable areas are areas that have some concentration of activity and therefore are more likely to have buildings and infrastructure.
+      We identified all areas that were potentially suitable for hosting a site. We created a grid made up of 0.5 mile cells covering the entire county, where each cell is a potential area to host a site. These “suitable areas”  were determined using a combined approach for road density and “points of interest” density. A suitable area needed to contain either a sufficient density of roads or at least two points of interest, while also avoiding bodies of water. This means that suitable areas are areas that have some concentration of activity and therefore are more likely to have buildings and infrastructure. Note that we are not suggesting that all points of interest are suitable sites to host a vote center, but that the presence of a point of interest suggests a general concentration of infrastructure.
       </p>
       <p>
       Points of interest were sourced from <a href="https://www.openstreetmap.org/#map=5/38.007/-95.844">OpenStreetMap</a> and were defined by the research team to be both governmental and non-governmental buildings (shown as two different layers in the tool) that could serve as potential vote center or drop box sites. 
@@ -103,63 +103,64 @@
       </li>
       <li>
         <b>Percent of Population with Vehicle Access</b>
-              : The percentage of the population with access to a vehicle.
+              : The percentage of the population with access to a vehicle. Data source: American Community Survey 5-Year Estimate (2012-2016).
       </li>
       <li>
-        <b>Density of Voting Age Citizens</b>
-            : The rate of citizens in this area who are voting age, relative to the county's total number of voting age citizens.
+        <b>County Percentage of Voting Age Citizens</b>
+            : The number of citizens in this tract who are voting age, divided by the county's total number of voting age citizens. Data source: American Community Survey 5-Year Estimate (2011-2015).
       </li>
       <li>
         <b>Percent Disabled Population</b>
-            : The percentage of the population that is disabled.
+            : The percentage of the population that is disabled. Data source: American Community Survey 5-Year Estimate (2012-2016).
+
       </li>
       <li>
         <b>Eligible Non-Registered Voter Rate</b>
-          : The percentage of voting age citizens who are not registered to vote.
+          : The percentage of voting age citizens who are not registered to vote. Data sources: Statewide Database voter registration data (2012 General Election, 2014 General Election); American Community Survey 5-Year Estimate (2011-2015); Census 2010.
       </li>
       <li>
-        <b>Worker Density</b>
-          : The density of employed county residents per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
-      </li>
+        <b>County Worker Percentage</b>
+          : The percent of employed county residents in a tract out of the total employed county residents in the county. Data source: Census LEHD Origin-Destination Employment Statistics (LODES) 2015.
+        </li>
       <li>
         <b>Percent Latino Population</b>
-          : The percentage of the population that is Hispanic or Latino.
+          : The percentage of the population that is Hispanic or Latino. Data source: American Community Survey 5-Year Estimate (2012-2016).
       </li>
       <li>
         <b>Percent Limited English Proficient Population</b>
-          : The percentage of the population that has limited English proficiency.
+          : The percentage of the population that has limited English proficiency. Data source: American Community Survey 5-Year Estimate (2011-2015).
       </li>
       <li>
-        <b> Density of Polling Place Voters</b>
-          : The density of voters who vote at a polling place relative to the county's total number of polling place voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+        <b>Polling Place Voter Percentage</b>
+          : The number of voters who voted at a polling place divided by the total number of voters who voted at a polling place in the county. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
       </li>
       <li>
         <b> Population Density</b>
-          : The total population density per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+          :  The total population density per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Census 2010.
       </li>
       <li>
        <b> Percent of the Population in Poverty</b>
-        : The percentage of the population with income below the poverty level.
+        : The percentage of the population with income below the poverty level. Data source: American Community Survey 5-Year Estimate (2012-2016).
       </li>
       <li>
         <b> Vote by Mail Rate (Asian)</b>
-          : The percentage of Asian American voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+          :  The percentage of Asian American voters who voted by mail out of total Asian American voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
       </li>
       <li>
         <b> Vote by Mail Rate (Latino)</b>
-          : The percentage of Latino voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+          : The percentage of Latino voters who voted by mail out of total Latino voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
       </li>
       <li>
        <b> Vote by Mail Rate (Total)</b>
-          : The percentage of voters who voted by mail. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+          : The percentage of voters who voted by mail out of total voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.  Data source: Statewide Database  (2016 General Election).
       </li>
       <li>
         <b> Vote by Mail Rate (Youth)</b>
-          : The percentage of voters between the age of 18 and 24 years old. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+          : The percentage of voters between the age of 18 and 24 years old who voted by mail out of total youth voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
       </li>
       <li>
         <b> Percent of the Youth Population</b>
-        : The percentage of the population between the age of 18 and 24 years old. 
+        : The percentage of the population between the age of 18 and 24 years old. Data source: American Community Survey 5-Year Estimate (2012-2016).
       </li>
     </ul>
 
