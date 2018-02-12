@@ -281,10 +281,14 @@ p {
 .posabs { position: absolute; }
 .posfixed { position: fixed; }
 
+#dk-fixed-nav{
+  width: 300px;
+}
+
 #nav-panel {
   background-color: #f8f8f8;
   width: 300px;
-  top: 0px;
+  top: 60px;
   bottom: 0px;
   left: 0px;
 }
