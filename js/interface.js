@@ -96,12 +96,12 @@ function populateDataDownLoads() {
     var voteOlItem = $('#voteCenterDl');
     var indicatorOlItem = $('#indicatorDl');
     var pointDlItems = [
-              ['four_day_sites.csv','Suggested Areas for 4 Day Vote Centers'],
-              ['eleven_day_sites.csv','Suggested Areas for 11 Day Vote Centers'],
-              ['dropbox_sites.csv','Suggested Areas for Ballot Drop Boxes'],
-              ['additional_sites_model.csv','Addtl. Suggested Areas for Vote Centers (Based on Model)'],
-              ['additional_sites_distance.csv','Addtl. Suggested Areas for Vote Centers (Based on Distance)'],
-              ['all_sites.csv','All Potential Areas']
+              ['four_day_sites_shp.zip','Suggested Areas for 4 Day Vote Centers'],
+              ['eleven_day_sites_shp.zip','Suggested Areas for 11 Day Vote Centers'],
+              ['dropbox_sites_shp.zip','Suggested Areas for Ballot Drop Boxes'],
+              ['additional_sites_model_shp.zip','Addtl. Suggested Areas for Vote Centers (Based on Model)'],
+              ['additional_sites_distance_shp.zip','Addtl. Suggested Areas for Vote Centers (Based on Distance)'],
+              ['all_sites_scored_shp.zip','All Potential Areas']
               ];
     var miscDlItems = [
           ["transit_stops.csv","Transit Stops"],
