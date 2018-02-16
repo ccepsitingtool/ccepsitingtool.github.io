@@ -454,6 +454,10 @@
 <script src="js/simple_statistics.js"
         type="text/javascript"></script>
 
+<!-- IE Polyfill -->
+<script src="https://unpkg.com/url-search-params-polyfill@2.0.3/index.js"
+        type="text/javascript"></script>
+
 <!-- Leaflet related -->
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
@@ -482,7 +486,15 @@
 <!-- Global variables -->
 <script type="text/javascript">
   // Used everywhere to figure out which subfolder to use
-  var targetSiteId = new URL(window.location.href).searchParams.get('id');
+  function getTargetSiteId () {
+    var fullAddress = window.location.href;
+    var lastPartOfURL = fullAddress.split('?').slice(1).join('');
+    var urlSearchTool = new URLSearchParams(lastPartOfURL);
+    var targetSiteId = urlSearchTool.get('id');
+    return targetSiteId;
+  }
+
+  var targetSiteId = getTargetSiteId();
 
 
   // Loading in all reference (geo)JSONs as globals
