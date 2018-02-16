@@ -61,7 +61,7 @@ function clearLayerManager() {
 }
 
 function quantilePointWeights(d) {
-  var classes =  siteWeightClasses['final_composite_score']
+  var classes =  siteWeightClasses['center_score']
   var result =  d >= classes[4] ? colorLookup[4] :
                 d >= classes[3] ? colorLookup[3] :
                 d >= classes[2] ? colorLookup[2] :
@@ -74,7 +74,7 @@ function quantilePointWeights(d) {
 rankPointLegend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'leafletMapBLBox legend rankpointLegend');
 
-  var classes = siteWeightClasses['final_composite_score']
+  var classes = siteWeightClasses['center_score']
   
   // First, add the title of the new points data legend
   div.innerHTML += '<span class="legendTitle"> Site Scores </span>'
@@ -131,7 +131,7 @@ function styleCircle(fileName, line){
     'four_day_sites.csv':{
         color: 'black',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -139,7 +139,7 @@ function styleCircle(fileName, line){
     'eleven_day_sites.csv':{
         color: 'black',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -147,15 +147,15 @@ function styleCircle(fileName, line){
     'dropbox_sites.csv':{
         color: 'red',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
     },
-    'all_sites.csv':{
+    'all_sites_scored.csv':{
         color: '#fcc5c0',
         weight: .5,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: .6,
         radius: 400
@@ -163,7 +163,7 @@ function styleCircle(fileName, line){
     'additional_sites_model.csv':{
         color: 'blue',
         weight: 2,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -171,7 +171,7 @@ function styleCircle(fileName, line){
     'additional_sites_distance.csv':{
         color: 'blue',
         weight: 2,
-        fillColor: quantilePointWeights(+line['final_composite_score']),
+        fillColor: quantilePointWeights(+line['center_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
@@ -413,7 +413,7 @@ pointLegend.onAdd = function(map) {
 
   // div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
   // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
-  console.log('Weighted Score=',pointData['final_composite_score']) //Keep for reference
+  console.log('Weighted Score=',pointData['center_score']) //Keep for reference
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);

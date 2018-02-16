@@ -1,0 +1,16 @@
+basename,cleanname,description
+prc_caraccess_final,Percent of Population with Vehicle Access,The percentage of the population with access to a vehicle.
+cvapdens,County Percentage of Voting Age Citizens,The number of citizens in this tract who are voting age divided by the county's total number of voting age citizens.
+prcdisabled_final,Percent Disabled Population,The percentage of the population that is disabled.
+tot_elignonreg_prc_final,Eligible Non-Registered Voter Rate,The percentage of voting age citizens who are not registered to vote.
+job_dens,County Worker Percentage,The percent of employed county residents in a tract out of the total employed county residents in the county.
+prc_poplatino_final,Percent Latino Population,The percentage of the population that is Hispanic or Latino.
+prc_nonengprof_final,Percent Limited English Proficient Population,The percentage of the population that has limited English proficiency.
+pollvoter_dens,Polling Place Voter Percentage,The number of voters who voted at a polling place divided by the total number of voters who voted at a polling place in the county.
+popdens,Population Density,The total population density per square kilometer.
+prc_pov_final,Percent of the Population in Poverty,The percentage of the population with income below the poverty level.
+vbm_rate_asn,Vote by Mail Rate (Asian),The percentage of Asian American voters who voted by mail.
+vbm_rate_lat,Vote by Mail Rate (Latino),The percentage of Latino voters who voted by mail.
+vbm_rate_tot,Vote by Mail Rate (Total),The percentage of voters who voted by mail.
+vbm_rate_youth,Vote by Mail Rate (Youth),The percentage of voters between the age of 18 and 24 years old who voted by mail.
+prc_youth_final,Percent of the Youth Population,The percentage of the population between the age of 18 and 24 years old.

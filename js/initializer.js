@@ -1,3 +1,4 @@
+console.log(countyMapInitInfo[targetSiteId])
 function processCSV(data) {
   var allTextLines = data.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
@@ -44,35 +45,35 @@ function addCountyToMap(map) {
 
 
 // Code to Set Center
-function rad2degr(rad) { return rad * 180 / Math.PI; }
-function degr2rad(degr) { return degr * Math.PI / 180; }
-function getLatLngCenter(latLngInDegr) {
-    var LATIDX = 0;
-    var LNGIDX = 1;
-    var sumX = 0;
-    var sumY = 0;
-    var sumZ = 0;
+// function rad2degr(rad) { return rad * 180 / Math.PI; }
+// function degr2rad(degr) { return degr * Math.PI / 180; }
+// function getLatLngCenter(latLngInDegr) {
+//     var LATIDX = 0;
+//     var LNGIDX = 1;
+//     var sumX = 0;
+//     var sumY = 0;
+//     var sumZ = 0;
 
-    for (var i=0; i<latLngInDegr.length; i++) {
-        var lat = degr2rad(latLngInDegr[i][LATIDX]);
-        var lng = degr2rad(latLngInDegr[i][LNGIDX]);
-        // sum of cartesian coordinates
-        sumX += Math.cos(lat) * Math.cos(lng);
-        sumY += Math.cos(lat) * Math.sin(lng);
-        sumZ += Math.sin(lat);
-    }
+//     for (var i=0; i<latLngInDegr.length; i++) {
+//         var lat = degr2rad(latLngInDegr[i][LATIDX]);
+//         var lng = degr2rad(latLngInDegr[i][LNGIDX]);
+//         // sum of cartesian coordinates
+//         sumX += Math.cos(lat) * Math.cos(lng);
+//         sumY += Math.cos(lat) * Math.sin(lng);
+//         sumZ += Math.sin(lat);
+//     }
 
-    var avgX = sumX / latLngInDegr.length;
-    var avgY = sumY / latLngInDegr.length;
-    var avgZ = sumZ / latLngInDegr.length;
+//     var avgX = sumX / latLngInDegr.length;
+//     var avgY = sumY / latLngInDegr.length;
+//     var avgZ = sumZ / latLngInDegr.length;
 
-    // convert average x, y, z coordinate to latitude and longtitude
-    var lng = Math.atan2(avgY, avgX);
-    var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
-    var lat = Math.atan2(avgZ, hyp);
+//     // convert average x, y, z coordinate to latitude and longtitude
+//     var lng = Math.atan2(avgY, avgX);
+//     var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
+//     var lat = Math.atan2(avgZ, hyp);
 
-    return ([rad2degr(lat), rad2degr(lng)]);
-}
+//     return ([rad2degr(lat), rad2degr(lng)]);
+// }
 // We will need to replace the accessToken before releasing (since
 // you are just using mine right now)
 var mbAccessToken = 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q';
@@ -170,9 +171,10 @@ var siteWeightClasses = {};
 
 $.ajax({
     type: 'GET',
-    url: 'data/' + targetSiteId + '/point_files/all_sites.csv',
+    url: 'data/' + targetSiteId + '/point_files/all_sites_scored.csv',
     dataType: 'text',
     success: function(data) {
+
 
     var pointCols = ['dens.cvap.std',
                     'dens.work.std',
@@ -186,14 +188,16 @@ $.ajax({
                     'prc.youth.std',
                     'rate.vbm.std',
                     'dens.poll.std',
-                    'final_composite_score'];
+                    'center_score'];
     var coords = [];
 
       pointCols.forEach(function(col){
         siteWeightValues[col] = [];
       })
 
+      var lineCount = 0
       processCSV(data).forEach(function(line) {
+        lineCount += 1
         pointCols.forEach(function(col){
           siteWeightValues[col].push(+line[col])
         })
@@ -201,16 +205,16 @@ $.ajax({
       });
 
       Object.keys(siteWeightValues).forEach(function(k) {
-        if (['final_composite_score'].indexOf(k) > -1){
+        if (['center_score'].indexOf(k) > -1){
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 5)
         } else {
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 3)
         }
       })
-      var latlng = getLatLngCenter(coords)
-      var lat = latlng[0]-.14
+      var latlng = countyMapInitInfo[targetSiteId]['coord_center']
+      var lat = latlng[0]
       var lon = latlng[1]
-      mainMap.setView([lat, lon], 10);
+      mainMap.setView([lat, lon], countyMapInitInfo[targetSiteId]['initZoom']);
 
     }
   })

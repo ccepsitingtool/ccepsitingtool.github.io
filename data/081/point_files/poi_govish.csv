@@ -1,0 +1,97 @@
+,gid,osm_id,code,fclass,name,lon,lat
+0,9830,358830559,2005,post_office,El Granada Post Office,-122.4694214,37.503274
+1,9836,358830581,2005,post_office,Moss Beach Post Office,-122.5140266,37.528734
+2,22033,597505555,2001,police,"San Mateo County Sheriff, Moss Beach Substation",-122.5129344,37.5277267
+3,23278,698884012,2002,fire_station,point montara,-122.5159896,37.5322693
+4,9912,358831222,2005,post_office,Loma Mar Post Office,-122.3088593,37.2693878
+5,9913,358831226,2005,post_office,San Gregorio Post Office,-122.3871959,37.3271651
+6,58648,3106233092,2002,fire_station,Kings Mountain Fire Station,-122.3208368,37.4358117
+7,16027,368170001,2007,library,McKeon Memorial Library,-122.1681293,37.4593024
+8,29942,1260283177,2007,library,USGS Library,-122.1704637,37.4568845
+9,49389,2449686618,2007,library,Claremont Way Little Free Library,-122.1698054,37.4491931
+10,9878,358830899,2005,post_office,Station A San Mateo Post Office,-122.3080246,37.5435476
+11,15191,368167173,2099,public_building,San Mateo County Community College District Office,-122.3373653,37.5304194
+12,15298,368167653,2002,fire_station,Fire Station Number 7,-122.3331522,37.5223949
+13,19791,480664465,2002,fire_station,Fire Station 15,-122.3037383,37.5125701
+14,57062,2975197133,2005,post_office,The UPS Store,-122.3284082,37.5334711
+15,15613,368168625,2002,fire_station,Menlo Park Fire District Station 2,-122.1410656,37.4682649
+16,16023,368169991,2007,library,East Palo Alto Branch San Mateo County Library,-122.1398877,37.4723381
+17,16862,368171839,2008,town_hall,East Palo Alto City Hall,-122.1401211,37.4723893
+18,7829,358816532,2005,post_office,Oak Grove Station Menlo Park Post Office,-122.1846977,37.4535259
+19,16024,368169992,2007,library,Atherton Branch San Mateo County Library,-122.1966319,37.4629938
+20,16859,368171834,2008,town_hall,Atherton City Hall,-122.1971719,37.4635609
+21,46516,2296368402,2005,post_office,US Postal Office,-122.1840943,37.4787295
+22,54589,2776428890,2001,police,Atherton Police Station,-122.1976496,37.4636271
+23,9908,358831205,2005,post_office,Station A Redwood City Post Office,-122.2277437,37.457716
+24,15612,368168624,2002,fire_station,Menlo Park Fire District Station 3,-122.2066667,37.4625
+25,52866,2648526025,2001,police,San Mateo County Sheriff,-122.2055444,37.4729757
+26,52870,2648526029,2001,police,South Fair Oaks Substation,-122.2054911,37.4729448
+27,9909,358831210,2005,post_office,West Menlo Park Branch Menlo Park Post Office,-122.202058,37.4316515
+28,15614,368168627,2002,fire_station,Menlo Park Fire District Station 4,-122.2063889,37.4338889
+29,37983,1744846254,2005,post_office,The UPS Store,-122.1932822,37.4017912
+30,22692,640501219,2002,fire_station,Fire Station 16,-122.2635726,37.4891579
+31,75934,4236834411,2005,post_office,Fed-Ex,-122.2401865,37.4904509
+32,9905,358831179,2005,post_office,Woodside Post Office,-122.2529593,37.4290697
+33,15615,368168629,2002,fire_station,Fire Station 10,-122.2541667,37.4652778
+34,15616,368168631,2002,fire_station,Fire Station 12,-122.2394444,37.475
+35,16025,368169993,2007,library,Woodside Branch San Mateo County Library,-122.2580225,37.4291056
+36,16026,368169996,2007,library,Portola Valley Branch San Mateo County Library,-122.2298959,37.3819277
+37,16031,368170012,2007,library,Schaberg Branch Redwood City Public Library,-122.2431104,37.4664994
+38,16860,368171836,2008,town_hall,Woodside City Hall,-122.2510315,37.4280214
+39,16861,368171837,2008,town_hall,Portola Valley Town Hall,-122.2287914,37.382015
+40,84913,4703925820,2005,post_office,US Postal Service,-122.2288906,37.4557859
+41,9862,358830736,2005,post_office,Belmont Post Office,-122.2754864,37.5226151
+42,15299,368167655,2002,fire_station,Fire Station Number 6,-122.2877275,37.549599
+43,16036,368170021,2007,library,San Carlos Branch San Mateo County Library,-122.2623329,37.5036158
+44,16037,368170027,2007,library,Marina Branch San Mateo Public Library,-122.2930992,37.5564368
+45,16038,368170032,2007,library,Belmont Branch San Mateo County Library,-122.2931762,37.5088328
+46,16864,368171843,2008,town_hall,San Carlos City Hall,-122.2626929,37.5043417
+47,16868,368171850,2008,town_hall,Belmont City Hall,-122.2733007,37.5174368
+48,24569,811843844,2005,post_office,Foster City Post Office,-122.2639037,37.5504315
+49,28728,1211004418,2005,post_office,The UPS Store,-122.2757252,37.5216334
+50,29735,1251634957,2005,post_office,San Carlos Post Office,-122.2576101,37.5037222
+51,30598,1312469122,2008,town_hall,City Hall,-122.276772,37.5181
+52,57121,2975364110,2005,post_office,The UPS Store,-122.256566,37.5533969
+53,74151,4128740359,2001,police,San Carlos Police Station,-122.2623927,37.504088
+54,9788,358830381,2005,post_office,Chestnut Station South San Francisco Post Office,-122.4314604,37.6552802
+55,9789,358830384,2005,post_office,Coloma Post Office,-122.4513617,37.6699337
+56,9801,358830428,2005,post_office,Pacifica Post Office,-122.4926665,37.6492489
+57,9829,358830558,2005,post_office,Daly City Post Office,-122.4655281,37.6907663
+58,15267,368167575,2009,courthouse,San Mateo County Court Building,-122.4352503,37.6649337
+59,15297,368167652,2002,fire_station,Buri Buri Fire Station,-122.4385838,37.6571563
+60,20313,529895129,2002,fire_station,Fire Station 71,-122.4902205,37.6461832
+61,35488,1573607155,2007,library,Serramonte Main Library,-122.4704306,37.6630595
+62,287,262935495,2001,police,Burlingame Police Department,-122.3820117,37.5951382
+63,9810,358830469,2005,post_office,South San Francisco Post Office,-122.3989544,37.6285587
+64,9853,358830667,2005,post_office,Millbrae Post Office,-122.391361,37.6002135
+65,16039,368170033,2007,library,Peninsula Hospital Health Sciences Library,-122.3831222,37.5920286
+66,16040,368170035,2007,library,Millbrae Branch San Mateo County Library,-122.3970196,37.6022923
+67,16863,368171840,2008,town_hall,Millbrae City Hall,-122.3963612,37.6027135
+68,18586,426312751,2002,fire_station,Burlingame No 35,-122.3834708,37.5793374
+69,36909,1694452101,2002,fire_station,Fire Station No. 2,-122.3770955,37.6254614
+70,36910,1694452112,2002,fire_station,Fire Station No. 1,-122.393307,37.6241396
+71,361,267292657,2002,fire_station,Millbrae Fire Station #38,-122.4154049,37.5932962
+72,16033,368170017,2007,library,San Bruno Public Library,-122.4146948,37.6252128
+73,16867,368171849,2008,town_hall,San Bruno City Hall,-122.4141392,37.6246573
+74,25566,906945694,2002,fire_station,SBFD - Station 52,-122.4462323,37.6244573
+75,25588,911315465,2002,fire_station,SBFD - Station 51,-122.4139274,37.6242771
+76,9835,358830577,2005,post_office,Linda Mar Station Pacifica Post Office,-122.4977666,37.5987194
+77,16046,368170046,2007,library,Pacifica Sharp Park Library,-122.4919492,37.632176
+78,1856,338838916,2099,public_building,Department of Motor Vehicles,-122.324043,37.5786154
+79,1914,341582773,2008,town_hall,Hillsborough City Hall,-122.3562135,37.5775812
+80,15307,368167664,2002,fire_station,Burlingame Number 34,-122.3538678,37.583269
+81,15308,368167665,2002,fire_station,Burlingame No 36,-122.3673003,37.5909002
+82,16022,368169971,2007,library,Easton Drive Branch Burlingame Public Library,-122.3716383,37.5838249
+83,49665,2456801637,2007,library,Burlingame Public Library,-122.3493691,37.5792566
+84,55373,2854365403,2009,courthouse,San Mateo County Court,-122.3284518,37.5816344
+85,63560,3543085958,2005,post_office,Burlingame Post Office,-122.3487181,37.578116
+86,9876,358830895,2005,post_office,San Mateo Post Office,-122.3089108,37.5559943
+87,16865,368171844,2008,town_hall,San Mateo City Hall,-122.3255254,37.5663249
+88,20769,552479326,2002,fire_station,Hillsborough No 32,-122.3459285,37.5603434
+89,65060,3645412721,2007,library,San Mateo Public Library,-122.3270142,37.5619327
+90,9840,358830616,2005,post_office,Vista Grande Station Daly City Post Office,-122.4552499,37.70771
+91,16035,368170020,2007,library,Bayshore Branch Daly City Public Library,-122.4141381,37.7057652
+92,9814,358830482,2005,post_office,Westlake Station Daly City Post Office,-122.4840163,37.6972457
+93,16032,368170015,2007,library,John D Daly Branch Daly City Public Library,-122.4627813,37.7018971
+94,16034,368170019,2007,library,Westlake Branch Daly City Public Library,-122.4844172,37.6971551
+95,38055,1747594998,2005,post_office,The UPS Store,-122.4823534,37.7012515

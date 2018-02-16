@@ -35,7 +35,7 @@ function populateNavBarIndicators(){
         var cnt = line['count'];
         var aCnt = '<b> (' + cnt + ')<b>'
         // Add to the menu list
-        if (fln != 'all_sites'){
+        if (fln != 'all_sites_scored'){
             $('#'+fln + ' a').append(aCnt)
         }
   
