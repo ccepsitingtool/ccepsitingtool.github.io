@@ -1,0 +1,49 @@
+,gid,osm_id,code,fclass,name,lon,lat
+0,20507,539791918,2001,police,Upper Valley Sheriffs Regional Stn,-122.5009542,38.527906
+1,12941,358851316,2005,post_office,Imola Contact Station Post Office,-122.3038639,38.3463019
+2,15284,368167635,2002,fire_station,Napa City Fire Station 1,-122.2908857,38.2968312
+3,15286,368167639,2002,fire_station,Fire Station Number 2,-122.2999745,38.3118585
+4,16002,368169939,2007,library,Napa County Law Library,-122.285628,38.2975863
+5,20518,539833699,2002,fire_station,Carneros Vol. Fire Dept Stn 10,-122.3093683,38.2054494
+6,20524,539867038,2002,fire_station,Napa City Fire Station 2,-122.3001365,38.3118369
+7,20525,539867526,2001,police,Napa City Police Department,-122.2901298,38.296774
+8,20526,539904564,2002,fire_station,Napa City Fire Station 3,-122.3182794,38.3304518
+9,20528,539940698,2002,fire_station,Soda Canyon Vol. Fire Dept. Stn 13,-122.2952065,38.4099604
+10,10130,358832336,2005,post_office,Calistoga Post Office,-122.5777609,38.578241
+11,16000,368169937,2007,library,Calistoga Public Library,-122.5798099,38.5760844
+12,16897,368171958,2008,town_hall,Calistoga City Hall,-122.5797054,38.5793521
+13,20506,539762294,2001,police,Calistoga Police Department,-122.5799142,38.5786319
+14,20510,539801432,2002,fire_station,Co. St Helena Fire Station 26,-122.512211,38.5478356
+15,20523,539838166,2002,fire_station,Caneros. Vol. Fire Dept Satelite Stn,-122.336341,38.2548432
+16,10128,358832331,2005,post_office,Angwin Post Office,-122.4434504,38.5703222
+17,10136,358832369,2005,post_office,Saint Helena Post Office,-122.4715319,38.5057754
+18,12938,358851309,2005,post_office,Rutherford Post Office,-122.4227568,38.4590766
+19,12939,358851310,2005,post_office,Pope Valley Post Office,-122.4288681,38.6154615
+20,12940,358851312,2005,post_office,Oakville Post Office,-122.4031273,38.4374886
+21,12942,358851319,2005,post_office,Deer Park Post Office,-122.4758134,38.5418522
+22,12943,358851320,2005,post_office,Veterans Home Post Office,-122.3638661,38.391292
+23,16003,368169941,2007,library,Saint Helena Public Library,-122.4695657,38.5078554
+24,16004,368169944,2007,library,W E Nelson Memorial Library,-122.4399849,38.5695001
+25,16898,368171963,2008,town_hall,Saint Helena City Hall,-122.4716468,38.5062976
+26,20500,539595057,2002,fire_station,Dry Creek/Lokoya Vol. Fire Station 16,-122.433831,38.4073899
+27,20503,539633563,2002,fire_station,Co. Yountville Fire Station 12,-122.3573674,38.3949812
+28,20504,539718471,2002,fire_station,Rutherford Vol. Fire Dept. Station 15,-122.423535,38.4589049
+29,20505,539730838,2002,fire_station,Rutherford Vol. Fire Dept. Equip Barn,-122.3825327,38.470918
+30,20508,539795203,2002,fire_station,St. Helena Fire Department,-122.4713004,38.5069233
+31,20509,539795215,2001,police,St. Helena Police Department,-122.4712962,38.5062911
+32,20511,539803679,2002,fire_station,Deer Park Volunteer Fire Department,-122.4756328,38.5446041
+33,20512,539810508,2001,police,Upper Valley Sheriffs Regional Stn,-122.4417932,38.5723256
+34,20513,539810531,2002,fire_station,Angwin Volunteer Fire Department,-122.4447006,38.5755888
+35,20514,539821820,2002,fire_station,Co. Las Posadas Fire Station,-122.4187397,38.5632578
+36,20517,539832105,2002,fire_station,Pope Valley Vol. Fire Dept. Stn 20,-122.4288596,38.6156085
+37,20529,539946377,2002,fire_station,Capell Valley Volunteer Fire Dept,-122.2056451,38.4539471
+38,20530,539946534,2002,fire_station,Co. Gordon Valley Fire Station 22,-122.1211347,38.3357773
+39,20531,539946535,2002,fire_station,Gordon Valley Volunteer Fire Dept,-122.1210566,38.3357762
+40,20532,539952302,2002,fire_station,Co. Spanish Flat Fire Station 24,-122.2330199,38.5379898
+41,20533,539952304,2001,police,Napa County Sheriff Marine Unit,-122.2291404,38.5507412
+42,20519,539834652,2001,police,Napa County Sheriff's Department,-122.2662769,38.2204575
+43,20520,539834653,2002,fire_station,Co. Greenwood Ranch Fire Station 27,-122.2670977,38.2200192
+44,20521,539834679,2002,fire_station,American Canyon Fire Department,-122.2481224,38.1714628
+45,20527,539912229,2002,fire_station,Co. Napa Fire Station 25,-122.2639521,38.338329
+46,20522,539834682,2001,police,American Canyon Police Department,-122.2484056,38.1718505
+47,84101,4650632311,2008,town_hall,American Canyon City Hall,-122.2561124,38.1839126
