@@ -95,8 +95,8 @@ rankPointLegend.onAdd = function(map) {
 }
 
 function styleCircle(fileName, line){
-  var voteSiteWeight = .5;
-  var voteSiteOpacity = .6;
+  var voteSiteWeight = 2;
+  var voteSiteOpacity = .8;
 
 
   var circleStyleLookup = {
@@ -413,7 +413,7 @@ pointLegend.onAdd = function(map) {
 
   // div.innerHTML += '<span class="legendTitle">Characteristics of Suggested Area (ID:' + pointData['idnum'] + ')</span>'
   // div.innerHTML += '<span><b><i>Weighted Score: ' + (+(pointData['wtd_center_score'])).toFixed(2) + '</i></b></span><br>'
-  console.log('Weighted Score=',pointData['center_score']) //Keep for reference
+  console.log('Weighted Score=',pointData['center_score'], 'ID=', pointData) //Keep for reference
   // Then iterate through the fields and add all the values data
   for  (var i = 0; i < fields.length; i++) {
     var valAsFloat = Number(pointData[fields[i]]).toFixed(2);

@@ -1,4 +1,3 @@
-console.log(countyMapInitInfo[targetSiteId])
 function processCSV(data) {
   var allTextLines = data.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
