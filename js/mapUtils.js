@@ -325,7 +325,7 @@ function populateMapWithPoints(fileName) {
        var searchVal = ['four_day_sites.csv',
                         'eleven_day_sites.csv',
                         'dropbox_sites.csv',
-                        'all_sites.csv',
+                        'all_sites_scored.csv',
                         'additional_sites_model.csv',
                         'additional_sites_distance.csv'].indexOf(layer) > -1;
        voteSiteSearch += searchVal 
@@ -426,7 +426,7 @@ pointLegend.onAdd = function(map) {
                      cleanFields[fields[i]] + '<br>';
   }
   div.innerHTML += '<span class="legendLinkSpan" onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
-  div.innerHTML += '<span style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;"><a style="color:black" href="methodology.html">Methodology</a></span>'
+  div.innerHTML += '<span class="legendLinkSpan" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;"><a style="color:black" href="methodology.html">Methodology</a></span>'
   return div;
 }
 
