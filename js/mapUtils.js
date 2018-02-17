@@ -426,7 +426,7 @@ pointLegend.onAdd = function(map) {
                      cleanFields[fields[i]] + '<br>';
   }
   div.innerHTML += '<span class="legendLinkSpan" onclick="closePointLegend()" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;">Close Legend </span>' + "| "
-  div.innerHTML += '<span class="legendLinkSpan" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;"><a style="color:black" href="methodology.html">Methodology</a></span>'
+  div.innerHTML += '<span class="legendLinkSpan" style="font-weight:bold;color:black;cursor:pointer;margin-top:2px;"><a style="color:black" target="blank" href="methodology.html">Methodology</a></span>'
   return div;
 }
 
