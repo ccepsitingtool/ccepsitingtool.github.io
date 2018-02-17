@@ -187,7 +187,8 @@ $.ajax({
                     'prc.youth.std',
                     'rate.vbm.std',
                     'dens.poll.std',
-                    'center_score'];
+                    'center_score',
+                    'droppoff_score'];
     var coords = [];
 
       pointCols.forEach(function(col){
@@ -204,7 +205,7 @@ $.ajax({
       });
 
       Object.keys(siteWeightValues).forEach(function(k) {
-        if (['center_score'].indexOf(k) > -1){
+        if (['center_score','droppoff_score'].indexOf(k) > -1){
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 5)
         } else {
           siteWeightClasses[k] = chloroQuantile(siteWeightValues[k], 3)

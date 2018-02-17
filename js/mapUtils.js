@@ -147,7 +147,7 @@ function styleCircle(fileName, line){
     'dropbox_sites.csv':{
         color: 'red',
         weight: 1.5,
-        fillColor: quantilePointWeights(+line['center_score']),
+        fillColor: quantilePointWeights(+line['droppoff_score']),
         fillOpacity: voteSiteOpacity,
         opacity: 1,
         radius: 400
