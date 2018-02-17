@@ -2,7 +2,7 @@ var countyMapInitInfo = {
 	'081': {coord_center:[37.43,-122.340356],
 			initZoom: 10
 			},
-	'067': {coord_center:[38.37,-121.447258],
+	'067': {coord_center:[38.45,-121.447258],
 			initZoom: 10
 			},
 	'039': {coord_center:[37.12, -119.780410],

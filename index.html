@@ -51,21 +51,33 @@
         </span>
       </h1>
       <p>
-        The Vote Center Siting Tool is designed to help county election officials identify optimal sites for potential Vote Center and Vote-by-Mail drop boxes. The tool uses a facility allocation model that incorporates the siting criteria included in the California Voter's Choice Act. The resulting interactive web maps are intended to supplement what election officials and stakeholders already know about their counties' profiles and needs.
+      The <a href="http://ccep.ucdavis.edu/about/">California Civic Engagement Project (CCEP)</a> developed a new mapping tool designed to provide assistance to California county election offices seeking to implement the Voter's Choice Act in the June and November 2018 elections. The goal of this tool is to help election officials identify optimal sites for potential Vote Center and Vote-by-Mail drop boxes. The tool uses a facility allocation model that incorporates the siting criteria included in the California Voter's Choice Act. The resulting interactive web maps are intended to supplement what election officials and stakeholders already know about their counties' profiles and needs.
+      The Voter Center Siting Tool was made available at the end of February 2018. Some counties adopting the Voter’s Choice Act may have already made their vote center and drop box siting choices for the June 2018 election.
+
       </p>
 
       <h2>County Selection</h2>
       <p>
-        Go to the map, or to the link below, and click on a county.  This will take you to the interactive web-based tool for the county you have selected. The five counties available here have all chosen to implement the Voter's Choice Act in time for the 2018 election cycle.
+       Go to the map, or to the link below, and click on a county. This will take you to the interactive web-based tool for the county you have selected. The five counties available here have all chosen to implement the Voter's Choice Act in time for the 2018 election cycle.
       </p>
 
       <h3>
         Currently Available Counties
       </h3>
       
+      <div style="margin-bottom: 40px">
       <!-- This is auto populated on page load -->
       <ul id='countyList'>
       </ul>
+    </div>
+
+
+      <h3>
+        What is the Voter's Choice Act?
+      </h3>
+      <p>
+        In 2016, Governor Jerry Brown signed Senate Bill 450 which allows counties to chose to adopt a new voting system. Known as the Voter's Choice Act, this new model enables counties to mail every registered voter a vote-by-mail ballot which the voter can mail in, drop off at a secure ballot box, or drop off at a newly established Vote Center. At Vote Centers, voters can cast their ballots in person, drop off their vote-by-mail ballots, access same-day voter registration, receive replacement ballots, and access additional services. Of California’s 58 counties, 14 counties are eligible to opt in during the 2018 election, while the remaining counties are eligible to adopt the model in 2020.
+      </p>
 
     </div>
   </div>
@@ -119,6 +131,8 @@
     var targetHeight = wdh - nbh - bottomBarH;
     $('#mainContentWrapper').height(targetHeight);
     $('#countyLeafletMap').height(targetHeight)
+    $('#countyContext').height(targetHeight-bottomBarH+10)
+
   }
 
   // First call it once on page load
