@@ -414,8 +414,9 @@ L.Control.Search = L.Control.extend({
 
 		//TODO use .filter or .map
 		for(var key in records) {
-			if( regSearch.test(key) )
-				frecords[key]= records[key];
+			frecords[key]= records[key]
+			// if( regSearch.test(key) )
+			// 	frecords[key]= records[key];
 		}
 		
 		return frecords;
@@ -751,8 +752,9 @@ L.Control.Search = L.Control.extend({
 		}
 		else
 		{
-			if(this.options.sourceData)
-				this._retrieveData = this.options.sourceData;
+			if(this.options.sourceData){
+							// console.log(this.options.sourceData)
+							this._retrieveData = this.options.sourceData;}
 
 			else if(this.options.url)	//jsonp or ajax
 				this._retrieveData = this.options.jsonpParam ? this._recordsFromJsonp : this._recordsFromAjax;
@@ -760,10 +762,14 @@ L.Control.Search = L.Control.extend({
 			this._curReq = this._retrieveData.call(this, inputText, function(data) {
 				
 				self._recordsCache = self._formatData.call(self, data);
-
 				//TODO refact!
-				if(self.options.sourceData)
+				if(self.options.sourceData){
+					// console.log(self.options.sourceData,self._recordsCache)
+
 					records = self._filterData( self._input.value, self._recordsCache );
+					// console.log(records)
+
+				}
 				else
 					records = self._recordsCache;
 
