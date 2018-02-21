@@ -73,9 +73,9 @@ function addCountyToMap(map) {
 
 //     return ([rad2degr(lat), rad2degr(lng)]);
 // }
-// We will need to replace the accessToken before releasing (since
-// you are just using mine right now)
-var mbAccessToken = 'pk.eyJ1Ijoia3VhbmIiLCJhIjoidXdWUVZ2USJ9.qNKXXP6z9_fKA8qrmpOi6Q';
+
+
+var mbAccessToken = 'pk.eyJ1IjoiZGF0YWtpbmQiLCJhIjoiY2pkeG94d2g3MDF1NzJ3cWZyODVpeng1aCJ9.ZQtsFRL8ZroMrlUrmyGM9g';
 var leafletAccessURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mbAccessToken;
 var mapAttr = ('Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
