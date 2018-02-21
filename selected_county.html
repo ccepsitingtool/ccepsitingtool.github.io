@@ -404,7 +404,24 @@
     </ul>
 
     </div>
-        <br><br>
+  </div>
+
+    <div class="card">
+    <div class="card-header" id="headingFour">
+      <h5 class="mb-0">
+        <div class="nav nav-pills nav-stacked h5 collapsed extradata" data-toggle="collapse" data-target="#collapseContext" aria-expanded="false" aria-controls="collapseContext" onclick="downArrow('context_arrow')" >
+         <i id="context_arrow" class="arrow"></i>   Contextual Data
+        </div>
+      </h5>
+    </div>
+    <div id="collapseContext" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+    <ul class="nav nav-pills nav-stacked layer-toggle-menu context-menu points-menu">
+
+      <!-- These get added via the indicator_menu_fields.csv -->
+    </ul>
+
+    </div>
+    <br><br>
   </div>
 
 </div>
@@ -536,7 +553,7 @@
     $("#" + divId).toggleClass('down');
 
     // Now check if we toggled it open
-    var isOpen = $('#indicator_arrow').hasClass('down');
+    var isOpen = $('#context_arrow').hasClass('down');
     if (isOpen) {
       // If we did, we want to simulate some scrolling to get contents in
       // at least partial view

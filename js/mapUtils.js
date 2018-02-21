@@ -488,7 +488,6 @@ function populateMapWithChoropleth(fieldName) {
   }
   $('#'+fieldName).toggleClass('selected')
 
-
   var loc = 'data/' + targetSiteId + '/indicator_files/' + fieldName + '.csv';
   // We need to create a local variable of fieldName to keep and
   // be able to access in the success callback function

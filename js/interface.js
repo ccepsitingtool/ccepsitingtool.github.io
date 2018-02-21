@@ -14,8 +14,19 @@ function populateNavBarIndicators(){
                  '"populateMapWithChoropleth(\'' +
                  bn + '\')">' + cn + '</a></li>';
         
-        // Add to the menu list
-        $('.indicator-menu').append(li)
+        // Hacky solution but last minute request - it works
+        if (['prc_asian','prc_black','prc_white','prc_latino'].indexOf(bn) > -1) {
+              $('.context-menu').append(li)
+        
+        } else {
+              // Add to the menu list
+              $('.indicator-menu').append(li)
+        };
+
+
+        // if (bn == 'prc_poplatino_final') 
+        //       $('.indicator-menu').append(li)
+
    
         var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
         // $('.fullDownloadModalList').append(fdlLi);
