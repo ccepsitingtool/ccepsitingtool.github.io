@@ -93,103 +93,11 @@
 
     <h3>Data</h3>
     <p>
-      The following are the indicators we have included in the siting tool model. These data address the criteria referenced in Senate Bill 450. We have also noted the limitations of each data set. For more information on the source and calculation of these variables, please see the section below called Detailed Explanation of Data. For definitions of variables in the downloadable files please see the 
+      For more information on the data source and calculation of these variables see below. These data address the criteria for siting referenced in the Voter’s Choice Act. For definitions of variables in the downloadable files please see the 
       <a target="_blank" href="https://static1.squarespace.com/static/57b8c7ce15d5dbf599fb46ab/t/5a83d1d9c83025363e36b4ad/1518588377642/Metadata-crosswalk.pdf">Metadata</a> document.
     </p>
 
-    <ul>
-      <li>
-        <b>Transit Stops</b>
-              : Transit points indicate the location of transit stops in the county and are sourced from regional GTFS data feeds. Transit stops have been ranked from low to high use based on the frequency of service to the individual stop.
-      </li>
-      <li>
-        <b>Percent of Population with Vehicle Access</b>
-              : The percentage of the population with access to a vehicle. Data source: American Community Survey 5-Year Estimate (2012-2016).
-      </li>
-      <li>
-        <b>County Percentage of Voting Age Citizens</b>
-            : The number of citizens in this tract who are voting age, divided by the county's total number of voting age citizens. Data source: American Community Survey 5-Year Estimate (2011-2015).
-      </li>
-      <li>
-        <b>Percent Disabled Population</b>
-            : The percentage of the population that is disabled. Data source: American Community Survey 5-Year Estimate (2012-2016).
-
-      </li>
-      <li>
-        <b>Eligible Non-Registered Voter Rate</b>
-          : The percentage of voting age citizens who are not registered to vote. Data sources: Statewide Database voter registration data (2012 General Election, 2014 General Election); American Community Survey 5-Year Estimate (2011-2015); Census 2010.
-      </li>
-      <li>
-        <b>County Worker Percentage</b>
-          : The percent of employed county residents in a tract out of the total employed county residents in the county. Data source: Census LEHD Origin-Destination Employment Statistics (LODES) 2015.
-        </li>
-      <li>
-        <b>Percent Latino Population</b>
-          : The percentage of the population that is Hispanic or Latino. Data source: American Community Survey 5-Year Estimate (2012-2016).
-      </li>
-      <li>
-        <b>Percent Limited English Proficient Population</b>
-          : The percentage of the population that has limited English proficiency. Data source: American Community Survey 5-Year Estimate (2011-2015).
-      </li>
-      <li>
-        <b>Polling Place Voter Percentage</b>
-          : The number of voters who voted at a polling place divided by the total number of voters who voted at a polling place in the county. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
-      </li>
-      <li>
-        <b> Population Density</b>
-          :  The total population density per square kilometer. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Census 2010.
-      </li>
-      <li>
-       <b> Percent of the Population in Poverty</b>
-        : The percentage of the population with income below the poverty level. Data source: American Community Survey 5-Year Estimate (2012-2016).
-      </li>
-      <li>
-        <b> Vote by Mail Rate (Asian)</b>
-          :  The percentage of Asian American voters who voted by mail out of total Asian American voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
-      </li>
-      <li>
-        <b> Vote by Mail Rate (Latino)</b>
-          : The percentage of Latino voters who voted by mail out of total Latino voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
-      </li>
-      <li>
-       <b> Vote by Mail Rate (Total)</b>
-          : The percentage of voters who voted by mail out of total voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.  Data source: Statewide Database  (2016 General Election).
-      </li>
-      <li>
-        <b> Vote by Mail Rate (Youth)</b>
-          : The percentage of voters between the age of 18 and 24 years old who voted by mail out of total youth voters. Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. Data source: Statewide Database  (2016 General Election).
-      </li>
-      <li>
-        <b> Percent of the Youth Population</b>
-        : The percentage of the population between the age of 18 and 24 years old. Data source: American Community Survey 5-Year Estimate (2012-2016).
-      </li>
-    </ul>
-
-
-    <h3>Variable weights</h3>
-    <p>
-      In this prototype version variables were weighted equally with the exception of several variables that will receive additional weight due to being flagged as high priority by VCA. The variables that received higher weighting were voters with disabilities, voters with limited English proficiency, and areas with high populations of eligible non registered voters, areas with low VBM use for Latino and Youth voters and areas with relatively high worker density. The variables that received the highest weight were areas with low total VBM use, areas close to public transit stops and areas with relatively high population density.
-    </p>
-    <p>
-      The same weighting system was used for modeling optimal ballot drop box areas, with the exception of areas with eligible non registered voters, which received no extra weight.  
-    </p>
-    <p>
-    As creating variable weights is more of an art than a science, we welcome feedback on what users feel are high value indicator variables for potential iterations in the prototype weighting process.
-  </p>
-
-
-  <h3>Assessing Gaps in Vote Center Coverage</h3>
-  <p>
-    After the model selects optimal areas for vote centers, we identify areas for additional siting coverage either by geographic distance or by additional need. We might consider these areas to be service gaps.  As the number of vote centers required by VCA is a minimum and not a maximum, we are interested in seeing where additional vote centers could be placed to minimize the number of people that are more than 20 minutes travel time distance from a vote center, or to minimize the overall travel cost of all voters. The number of additional suggested areas is 10% of the total minimum required facilities. 
-  </p>
-
-  <h3> Reliability of Estimates</h3>
-  <p>
-    Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol. The uncertain estimates were interpolated to improved the standard error by pooling estimates with the tract’s contiguous neighbors and calculating a population-weighted mean of the estimate and margin of error were calculated. The CV was recalculated based on the pooled and averaged estimates.
-   </p>
-
-   <h3>Detailed Explanation of Data</h3>
-   <p>More information on the calculations and limitations of the data:</p>
+    
 
    <p class="dk-data-details" ><b>Transit Stops:</b> Transit points indicate the location of transit stops in the county and are sourced from regional General Transit Feeds (GTFS). Where GTFS data is missing local transit agency data is used instead. </p>
    <ul>
@@ -221,7 +129,7 @@
       <li><i>Calculation</i>: The percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
     </li>
       <li><i>Scale</i>: Census Tract</li>
-      <li><i>Rationale</i>:VCA stipulates vote center/drop off to be proximal to population centers.</li>
+      <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to population centers.</li>
       <li><i>Limitations</i>:
          Estimates can have high margins of error for small samples. Assumes people spread evenly across census tract.
     </li>
@@ -236,7 +144,7 @@
       <li><i>Calculation</i>: The percent of residents with disabilities in a census tract out of the total population in the census tract.
     </li>
       <li><i>Scale</i>: Census Tract</li>
-      <li><i>Rationale</i>:VCA stipulates vote center/drop off to be proximal to voters with disabilities.</li>
+      <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to voters with disabilities.</li>
       <li><i>Limitations</i>:
          Data shows where people live, not where they work. Data shows disabled population, not voters.
     </li>
@@ -251,7 +159,7 @@
       <li><i>Calculation</i>: Convert voter data to the tract level and average voter registration totals for 2012 and 2014. Subtract the average number of registered voters from the citizen voting age population (CVAP). Divide by the total CVAP estimate in the tract. Where the incarcerated population is over 25% of the CVAP, use the 2010 Census estimate for non-institutionalized populations instead of CVAP.
     </li>
       <li><i>Scale</i>: Census Tract</li>
-      <li><i>Rationale</i>:VCA stipulates vote center/drop off to be proximal to communities of eligible voters who aren’t registered to vote.</li>
+      <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to communities of eligible voters who aren’t registered to vote.</li>
       <li><i>Limitations</i>:
          Imperfect conversion of precinct to tract level. The 2010 Census is the most recent estimate for incarcerated and non-institutionalized populations at the tract level.
     </li>
@@ -263,12 +171,14 @@
   </p>
    <ul >
       <li><i>Data sources</i>: Census LEHD Origin-Destination Employment Statistics (LODES) 2015, workplace area characteristics. </li>
-      <li><i>Calculation</i>: TThe percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
+      <li><i>Calculation</i>: The percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
     </li>
       <li><i>Scale</i>: Census Tract</li>
-      <li><i>Rationale</i>:VCA stipulates vote center/drop off to be proximal to communities with low rates of household vehicle ownership.</li>
+      <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to communities with low rates of household vehicle ownership.</li>
       <li><i>Limitations</i>:
          Data shows where people live, not where they work.
+    </li>
+    <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
    </ul>
 
@@ -277,10 +187,10 @@
   </p>
    <ul >
       <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B03002.</li>
-      <li><i>Calculation</i>: TThe percent of residents that are Hispanic or Latino in a tract out of the total tract population.
+      <li><i>Calculation</i>: The percent of residents that are Hispanic or Latino in a tract out of the total tract population.
     </li>
       <li><i>Scale</i>: Census Tract</li>
-      <li><i>Rationale</i>VCA stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds Latino voters have lower VBM use.
+      <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds Latino voters have lower VBM use.
       </li>
       <li><i>Limitations</i>:
         Data shows where people live, not where they work. Assumes people spread evenly across census tract.
@@ -301,7 +211,7 @@
       <li><i>Scale</i>: 
       Census Tract
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
         VCA stipulates vote center/drop off to be proximal to language minority communities.
       </li>
       <li><i>Limitations</i>:
@@ -326,11 +236,13 @@
       Census Tract -  Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. 
 
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds Latino voters have lower VBM use.
       </li>
       <li><i>Limitations</i>:
        Data shows where people live, not where they work. Assumes people spread evenly across census tract.
+    </li>
+        <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
    </ul>
 
@@ -351,13 +263,15 @@
       Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level. 
 
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to population centers.
 
       </li>
       <li><i>Limitations</i>:
       Data shows where people live, not where they work. Most recent block level population estimate is from 2010.   
        </li>
+           <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
    </ul>
 
 
@@ -375,7 +289,7 @@
       <li><i>Scale</i>: 
       Census Tract
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to low-income communities.
 
       </li>
@@ -399,12 +313,14 @@
       <li><i>Scale</i>: 
       Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with low VBM usage. CCEP research shows that VBM use varies throughout the Asian American community.
       </li>
       <li><i>Limitations</i>:
       Imperfect conversion of precinct to block.
       </li>
+          <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
    </ul>
 
 
@@ -422,12 +338,14 @@
       <li><i>Scale</i>: 
       Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with low VBM usage. 
       </li>
       <li><i>Limitations</i>:
       Imperfect conversion of precinct to block.
       </li>
+          <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
    </ul>
 
 
@@ -445,12 +363,14 @@
       <li><i>Scale</i>: 
       Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with low VBM usage. 
       </li>
       <li><i>Limitations</i>:
       Imperfect conversion of precinct to block.
       </li>
+          <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
    </ul>
 
 
@@ -467,12 +387,14 @@
       <li><i>Scale</i>: 
       Census Tract - Note that although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with low VBM usage. 
       </li>
       <li><i>Limitations</i>:
       Imperfect conversion of precinct to block.
       </li>
+          <li><i>Note</i>: Although this variable is displayed on the web map at the census tract level, the model input was at the census block level.
+    </li>
    </ul>
 
         <p class="dk-data-details"><b>
@@ -489,11 +411,12 @@
       <li><i>Scale</i>: 
       Census Tract 
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off to be proximal to communities with historically low VBM. CCEP research finds youth have lower VBM use.
       </li>
       <li><i>Limitations</i>:
         Data shows where people live, not where they work. Assume people spread evenly across census tract.      </li>
+       
    </ul>
 
            <p class="dk-data-details"><b>
@@ -509,7 +432,7 @@
       <li><i>Scale</i>: 
       NA
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
       VCA stipulates vote center/drop off boxes to be proximal to geographically isolated communities. 
       </li>
       <li><i>Limitations</i>:
@@ -532,7 +455,7 @@
       <li><i>Scale</i>: 
       NA
     </li>
-      <li><i>Rationale</i>
+      <li><i>Rationale</i>:
 VCA stipulates the distance/time voter must travel by car to vote center/drop off.
       </li>
       <li><i>Limitations</i>:
@@ -540,6 +463,69 @@ VCA stipulates the distance/time voter must travel by car to vote center/drop of
   </li>
    </ul>
 
+
+   <p class="dk-data-details"><b>Percent Asian Population:</b> 
+    The percentage of the population that is Asian alone, not Hispanic or Latino.
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B03002.</li>
+      <li><i>Calculation</i>: The percent of residents that are Asian alone, not Hispanic or Latino in a tract out of the total tract population. The categories for Asian alone and Native Hawaiian and Other Pacific Islander alone were summed in order to get a total Asian American population total.
+
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Note</i>: This data is included as contextual population information only, it was not included in the model or in the scoring of the potential areas.
+      </li>
+   </ul>
+
+
+   <p class="dk-data-details"><b>Percent Black Population:</b> 
+  The percentage of the population that is Black alone, not Hispanic or Latino.
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B03002.</li>
+      <li><i>Calculation</i>: The percent of residents that are Black alone, not Hispanic or Latino in a tract out of the total tract population.
+
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Note</i>: This data is included as contextual population information only, it was not included in the model or in the scoring of the potential areas.
+      </li>
+   </ul>
+
+   <p class="dk-data-details"><b>Percent White Population:</b> 
+  The percentage of the population that is White alone, not Hispanic or Latino.
+  </p>
+   <ul >
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016), Table B03002.</li>
+      <li><i>Calculation</i>: The percent of residents that are White alone, not Hispanic or Latino in a tract out of the total tract population.
+
+    </li>
+      <li><i>Scale</i>: Census Tract</li>
+      <li><i>Note</i>: This data is included as contextual population information only, it was not included in the model or in the scoring of the potential areas.
+      </li>
+   </ul>
+
+
+    <h3>Variable weights</h3>
+    <p>
+      In this prototype version variables were weighted equally with the exception of several variables that will receive additional weight due to being flagged as high priority by VCA. The variables that received higher weighting were voters with disabilities, voters with limited English proficiency, and areas with high populations of eligible non registered voters, areas with low VBM use for Latino and Youth voters and areas with relatively high worker density. The variables that received the highest weight were areas with low total VBM use, areas close to public transit stops and areas with relatively high population density.
+    </p>
+    <p>
+      The same weighting system was used for modeling optimal ballot drop box areas, with the exception of areas with eligible non registered voters, which received no extra weight.  
+    </p>
+    <p>
+    As creating variable weights is more of an art than a science, we welcome feedback on what users feel are high value indicator variables for potential iterations in the prototype weighting process.
+  </p>
+
+
+  <h3>Assessing Gaps in Vote Center Coverage</h3>
+  <p>
+    After the model selects optimal areas for vote centers, we identify areas for additional siting coverage either by geographic distance or by additional need. We might consider these areas to be service gaps.  As the number of vote centers required by VCA is a minimum and not a maximum, we are interested in seeing where additional vote centers could be placed to minimize the number of people that are more than 20 minutes travel time distance from a vote center, or to minimize the overall travel cost of all voters. The number of additional suggested areas is 10% of the total minimum required facilities. 
+  </p>
+
+  <h3> Reliability of Estimates</h3>
+  <p>
+    Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol. The uncertain estimates were interpolated to improved the standard error by pooling estimates with the tract’s contiguous neighbors and calculating a population-weighted mean of the estimate and margin of error were calculated. The CV was recalculated based on the pooled and averaged estimates.
+   </p>
 
 
 

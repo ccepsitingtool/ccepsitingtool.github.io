@@ -14,13 +14,17 @@ function populateNavBarIndicators(){
                  '"populateMapWithChoropleth(\'' +
                  bn + '\')">' + cn + '</a></li>';
         
+        var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
+
         // Hacky solution but last minute request - it works
         if (['prc_asian','prc_black','prc_white','prc_latino'].indexOf(bn) > -1) {
               $('.context-menu').append(li)
+              $('.contextDataDescriptionModalList').append(dataDesclLi);
         
         } else {
               // Add to the menu list
               $('.indicator-menu').append(li)
+              $('.fullDataDescriptionModalList').append(dataDesclLi);
         };
 
 
@@ -28,9 +32,7 @@ function populateNavBarIndicators(){
         //       $('.indicator-menu').append(li)
 
    
-        var dataDesclLi = '<li><b>' + cn + '</b>:  ' + desc + '</li>';
-        // $('.fullDownloadModalList').append(fdlLi);
-        $('.fullDataDescriptionModalList').append(dataDesclLi);
+        
 
       });
     }
