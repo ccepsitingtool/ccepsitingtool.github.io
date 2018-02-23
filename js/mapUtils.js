@@ -77,7 +77,7 @@ rankPointLegend.onAdd = function(map) {
   var classes = siteWeightClasses['center_score']
   
   // First, add the title of the new points data legend
-  div.innerHTML += '<span class="legendTitle"> Site Scores </span>'
+  div.innerHTML += '<span class="legendTitle"> <a target="blank" href="methodology.html#scoringModel">Site Scores </a></span>'
 
   // Now add other legend headers
   div.innerHTML += '<span style="float:left; margin-right:5px; padding-top: 5px;"><b>Low</b></span>'
