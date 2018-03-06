@@ -9,11 +9,11 @@ prc_nonengprof_final,Percent Limited English Proficient Population,The percentag
 pollvoter_dens,Polling Place Voter Percentage,The number of voters who voted at a polling place divided by the total number of voters who voted at a polling place in the county.
 popdens,Population Density,The total population density per square kilometer.
 prc_pov_final,Percent of the Population in Poverty,The percentage of the population with income below the poverty level.
-prc_asian,Percent Asian Population,Percent of the tract population that is Asian alone&#x002C not Hispanic or Latino.
-prc_black,Percent Black Population,Percent of the tract population that is Black alone&#x002C not Hispanic or Latino.
+prc_asian,Percent Asian-American Population,Percent of the tract population that is Asian-American alone&#x002C not Hispanic or Latino.
+prc_black,Percent African-American Population,Percent of the tract population that is African-American alone&#x002C not Hispanic or Latino.
 prc_latino,Percent Latino Population,The percentage of the population that is Hispanic or Latino.
 prc_white,Percent White Population,Percent of the tract population that is White alone&#x002C not Hispanic or Latino.
-vbm_rate_asn,Vote by Mail Rate (Asian),The percentage of Asian American voters who voted by mail.
+vbm_rate_asn,Vote by Mail Rate (Asian),The percentage of Asian-American voters who voted by mail.
 vbm_rate_lat,Vote by Mail Rate (Latino),The percentage of Latino voters who voted by mail.
 vbm_rate_tot,Vote by Mail Rate (Total),The percentage of voters who voted by mail.
 vbm_rate_youth,Vote by Mail Rate (Youth),The percentage of voters between the age of 18 and 24 years old who voted by mail.
