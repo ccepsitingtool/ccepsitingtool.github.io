@@ -307,6 +307,15 @@ function populateMapWithPoints(fileName) {
 
         });
 
+        keys.forEach(function(layer) {
+          if (['poi.csv',
+              'poi_govish.csv',
+              'poi_misc.csv'].indexOf(layer) > -1) {
+            layerManager[layer].forEach(function(d) {d.bringToFront()})
+          }
+
+        });
+
     }
 
     // Finally Check if Any Points Are Currently Active 
