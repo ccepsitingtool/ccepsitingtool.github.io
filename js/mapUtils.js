@@ -626,7 +626,7 @@ function populateMapWithChoropleth(fieldName) {
             weight: 1.2,
             opacity: .25,
             color: 'black',
-            fillOpacity: .90
+            fillOpacity: .75
 
           }
         },
