@@ -262,6 +262,18 @@ p {
   margin-bottom: 3px;
   margin-top: 20px;
 }
+
+
+ul.makedashed {
+  list-style-type: none;
+}
+ul.makedashed > li {
+  text-indent: -5px;
+}
+ul.makedashed > li:before {
+  content: "-";
+  text-indent: -5px;
+}
 /* Stuff from before - that might still be used*/
 
 body, h1, h2, h3, h4, h5 {
