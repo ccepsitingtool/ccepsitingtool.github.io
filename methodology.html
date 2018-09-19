@@ -125,7 +125,7 @@
    <p class="dk-data-details"><b>County Percentage of Voting Age Citizens:</b> The number of citizens in this tract who are voting age, divided by the county's total number of voting age citizens. 
   </p>
    <ul >
-      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2011-2015). </li>
+      <li><i>Data sources</i>: American Community Survey 5-Year Estimate (2012-2016). </li>
       <li><i>Calculation</i>: The percent of the population in the tract that is eligible to vote (voting age citizen) out of the total tract citizen population.
     </li>
       <li><i>Scale</i>: Census Tract</li>
@@ -154,9 +154,9 @@
   The percentage of voting age citizens who are not registered to vote. 
   </p>
    <ul >
-      <li><i>Data sources</i>: Statewide Database voter registration data (2012 General Election, 2014 General Election); American Community Survey 5-Year Estimate (2011-2015); Census 2010.
+      <li><i>Data sources</i>: Statewide Database voter registration data (2012 General Election, 2014 General Election, 2016 General Election); American Community Survey 5-Year Estimate (2012-2016); Census 2010.
        </li>
-      <li><i>Calculation</i>: Convert voter data to the tract level and average voter registration totals for 2012 and 2014. Subtract the average number of registered voters from the citizen voting age population (CVAP). Divide by the total CVAP estimate in the tract. Where the incarcerated population is over 25% of the CVAP, use the 2010 Census estimate for non-institutionalized populations instead of CVAP.
+      <li><i>Calculation</i>: Convert voter data to the tract level and average voter registration totals for 2012-2016. Subtract the average number of registered voters from the citizen voting age population (CVAP). Divide by the total CVAP estimate in the tract. Where the incarcerated population is over 25% of the CVAP, use the 2010 Census estimate for non-institutionalized populations instead of CVAP.
     </li>
       <li><i>Scale</i>: Census Tract</li>
       <li><i>Rationale</i>: VCA stipulates vote center/drop off to be proximal to communities of eligible voters who aren’t registered to vote.</li>
@@ -524,7 +524,7 @@ VCA stipulates the distance/time voter must travel by car to vote center/drop of
 
   <h3> Reliability of Estimates</h3>
   <p>
-    Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol. The uncertain estimates were interpolated to improved the standard error by pooling estimates with the tract’s contiguous neighbors and calculating a population-weighted mean of the estimate and margin of error were calculated. The CV was recalculated based on the pooled and averaged estimates.
+    Some data published by the American Community Survey (ACS) rely on small sample sizes, meaning that the resulting estimates can have a high degree of uncertainty. The coefficient of variation (CV) was calculated for every ACS-based variable, where the CV is equal to the standard error (associated with 90% confidence interval) divided by the estimate (see <a href="https://www.census.gov/content/dam/Census/library/publications/2008/acs/ACSGeneralHandbook.pdf">ACS documentation, Appendix 1</a>). Tract estimates with a CV over 40% were considered to have a high degree of uncertainty and are flagged visually on the web map with a gray square symbol.
    </p>
 
     </div> <!-- End Methodology HMTL -->
